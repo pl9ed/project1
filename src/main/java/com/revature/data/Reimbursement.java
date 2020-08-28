@@ -4,21 +4,25 @@ import java.io.FileInputStream;
 import java.sql.Date;
 
 public class Reimbursement {
-	private int REIMB_ID;
+	private int REIMB_ID=0;
 	private double AMOUNT;
 	private Date SUBMITTED;
 	private Date RESOLVED;
 	private String DESCRIPTION;
 	private FileInputStream RECEIPT;
-	private int AUTHOR;
-	private int RESOLVER;
-	private int TYPE_ID;
-	private int STATUS_ID;
+	private int AUTHOR=0;
+	private int RESOLVER=0;
+	private int TYPE_ID=0;
+	private String type;
+	private int STATUS_ID=0;
+	private String status;
+	private int SET_ID=0;
 	
 	public Reimbursement() {};
 	
 	public Reimbursement(int rEIMB_ID, double aMOUNT, Date sUBMITTED, Date rESOLVED, String dESCRIPTION,
-			FileInputStream rECEIPT, int aUTHOR, int rESOLVER, int tYPE_ID, int sTATUS_ID) {
+			FileInputStream rECEIPT, int aUTHOR, int rESOLVER, int tYPE_ID, String type, int sTATUS_ID, String status,
+			int SET_ID) {
 		super();
 		REIMB_ID = rEIMB_ID;
 		AMOUNT = aMOUNT;
@@ -29,8 +33,13 @@ public class Reimbursement {
 		AUTHOR = aUTHOR;
 		RESOLVER = rESOLVER;
 		TYPE_ID = tYPE_ID;
+		this.type = type;
 		STATUS_ID = sTATUS_ID;
+		this.status = status;
+		this.setSET_ID(SET_ID);
 	}
+
+
 
 	public int getREIMB_ID() {
 		return REIMB_ID;
@@ -112,73 +121,30 @@ public class Reimbursement {
 		STATUS_ID = sTATUS_ID;
 	}
 
-	@Override
-	public String toString() {
-		return "[REIMB_ID=" + REIMB_ID + ", AMOUNT=" + AMOUNT + ", SUBMITTED=" + SUBMITTED + ", RESOLVED="
-				+ RESOLVED + ", DESCRIPTION=" + DESCRIPTION + ", RECEIPT=" + RECEIPT + ", AUTHOR=" + AUTHOR
-				+ ", RESOLVER=" + RESOLVER + ", TYPE_ID=" + TYPE_ID + ", STATUS_ID=" + STATUS_ID + "]";
+	public String getType() {
+		return type;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(AMOUNT);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + AUTHOR;
-		result = prime * result + ((DESCRIPTION == null) ? 0 : DESCRIPTION.hashCode());
-		result = prime * result + ((RECEIPT == null) ? 0 : RECEIPT.hashCode());
-		result = prime * result + REIMB_ID;
-		result = prime * result + ((RESOLVED == null) ? 0 : RESOLVED.hashCode());
-		result = prime * result + RESOLVER;
-		result = prime * result + STATUS_ID;
-		result = prime * result + ((SUBMITTED == null) ? 0 : SUBMITTED.hashCode());
-		result = prime * result + TYPE_ID;
-		return result;
+	public void setType(String type) {
+		this.type = type;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Reimbursement other = (Reimbursement) obj;
-		if (Double.doubleToLongBits(AMOUNT) != Double.doubleToLongBits(other.AMOUNT))
-			return false;
-		if (AUTHOR != other.AUTHOR)
-			return false;
-		if (DESCRIPTION == null) {
-			if (other.DESCRIPTION != null)
-				return false;
-		} else if (!DESCRIPTION.equals(other.DESCRIPTION))
-			return false;
-		if (RECEIPT == null) {
-			if (other.RECEIPT != null)
-				return false;
-		}
-		if (REIMB_ID != other.REIMB_ID)
-			return false;
-		if (RESOLVED == null) {
-			if (other.RESOLVED != null)
-				return false;
-		} else if (!RESOLVED.equals(other.RESOLVED))
-			return false;
-		if (RESOLVER != other.RESOLVER)
-			return false;
-		if (STATUS_ID != other.STATUS_ID)
-			return false;
-		if (SUBMITTED == null) {
-			if (other.SUBMITTED != null)
-				return false;
-		} else if (!SUBMITTED.equals(other.SUBMITTED))
-			return false;
-		if (TYPE_ID != other.TYPE_ID)
-			return false;
-		return true;
+	public String getStatus() {
+		return status;
 	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public int getSET_ID() {
+		return SET_ID;
+	}
+
+	public void setSET_ID(int sET_ID) {
+		SET_ID = sET_ID;
+	}
+
+	
 	
 }

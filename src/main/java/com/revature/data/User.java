@@ -3,13 +3,13 @@ package com.revature.data;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class User {
-	private int USER_ID;
+	private int USER_ID=0;
 	private String USERNAME;
 	private String PASSHASH;
 	private String FIRST_NAME;
 	private String LAST_NAME;
 	private String EMAIL;
-	private int ROLE_ID;
+	private int ROLE_ID=-1;
 	
 	public User() {
 		super();
