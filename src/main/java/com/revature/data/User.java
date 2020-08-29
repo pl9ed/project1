@@ -10,21 +10,23 @@ public class User {
 	private String LAST_NAME;
 	private String EMAIL;
 	private int ROLE_ID=-1;
+	private String USER_ROLE;
 	
 	public User() {
 		super();
 	}
 
 	public User(int uSER_ID, String uSERNAME, String password, String fIRST_NAME, String lAST_NAME, String eMAIL,
-			int rOLE_ID) {
+			int rOLE_ID, String USER_ROLE) {
 		super();
 		USER_ID = uSER_ID;
 		USERNAME = uSERNAME;
-		setPASSHASH(password);
+		setPASSWORD(password);
 		FIRST_NAME = fIRST_NAME;
 		LAST_NAME = lAST_NAME;
 		EMAIL = eMAIL;
 		ROLE_ID = rOLE_ID;
+		this.setUSER_ROLE(USER_ROLE);
 	}
 
 	public int getUSER_ID() {
@@ -46,8 +48,12 @@ public class User {
 	public String getPASSHASH() {
 		return PASSHASH;
 	}
+	
+	public void setPASSHASH(String passhash) {
+		this.PASSHASH = passhash;
+	}
 
-	public void setPASSHASH(String password) {
+	public void setPASSWORD(String password) {
 		PASSHASH = BCrypt.hashpw(password,BCrypt.gensalt());
 	}
 
@@ -81,6 +87,14 @@ public class User {
 
 	public void setROLE_ID(int rOLE_ID) {
 		ROLE_ID = rOLE_ID;
+	}
+	
+	public String getUSER_ROLE() {
+		return USER_ROLE;
+	}
+
+	public void setUSER_ROLE(String uSER_ROLE) {
+		USER_ROLE = uSER_ROLE;
 	}
 
 	@Override
@@ -142,5 +156,7 @@ public class User {
 			return false;
 		return true;
 	}
+
+
 
 }

@@ -13,7 +13,7 @@ public interface ReimbDAOI {
 	public User getUser(User u);
 	
 	public Set<User> getAllUsers();
-	public Set<User> getAllReimbursements();
+	public Set<Reimbursement> getAllReimbursements();
 	
 	public boolean updateUser(User u);
 	public boolean updateReimbursement(Reimbursement r);
