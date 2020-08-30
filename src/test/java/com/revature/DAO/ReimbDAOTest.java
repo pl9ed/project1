@@ -208,7 +208,7 @@ public class ReimbDAOTest {
 	}
 	
 	@Test
-	public void processReimbursementTestApprove() {
+	public void testprocessReimbursementApprove() {
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -219,7 +219,7 @@ public class ReimbDAOTest {
 	}
 	
 	@Test
-	public void processReimbursementTestDeny() {
+	public void testprocessReimbursementDeny() {
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -228,6 +228,87 @@ public class ReimbDAOTest {
 		Reimbursement r = dao.getReimbursement(td.r1.getREIMB_ID());
 		assertTrue(r.getSTATUS_ID() == -1);
 	}
+	
+//	@Test
+//	public void testFilterExactString() {
+//		assertTrue(dao.createUser(td.employee));
+//		assertTrue(dao.createUser(td.fm));
+//		assertTrue(dao.createReimbursement(td.r1));
+//		assertTrue(dao.createReimbursement(td.r2));
+//		
+//		Set<Reimbursement> r = dao.filterByExactStringField("John", "employee");
+//		
+//		assertTrue(r.size() == 2);
+//	}
+	
+//	@Test
+//	public void testFilterString() {
+//		
+//	}
+	
+	@Test
+	public void testFilterInt() {
+		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.createUser(td.fm));
+		assertTrue(dao.createReimbursement(td.r1));
+		assertTrue(dao.createReimbursement(td.r2));
+		
+		Set<Reimbursement> r = dao.filterByIntField("AUTHOR", 1);
+		Set<Reimbursement> r2 = dao.filterByIntField("AUTHOR", 2);
+		
+		assertTrue(r.size() == 2);
+		assertTrue(r2.size() == 0);
+		
+		r= dao.filterByIntField("TYPE_ID", 1);
+		r2 = dao.filterByIntField("STATUS_ID", 0);
+		
+		assertTrue(r.size() == 1);
+		assertTrue(r2.size() == 1);
 
+	}
 
+	@Test
+	public void testFilterExactDouble() {
+		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.createUser(td.fm));
+		assertTrue(dao.createReimbursement(td.r1));
+		assertTrue(dao.createReimbursement(td.r2));
+		
+		Set<Reimbursement> r = dao.filterByExactDoubleField("AMOUNT", td.r1.getAMOUNT());
+		assertTrue(r.contains(td.r1));
+		
+		r = dao.filterByExactDoubleField("AMOUNT", td.r2.getAMOUNT());
+		assertTrue(r.contains(td.r2));
+	}
+	
+	@Test
+	public void testFilterGreaterThanDouble() {
+		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.createUser(td.fm));
+		assertTrue(dao.createReimbursement(td.r1));
+		assertTrue(dao.createReimbursement(td.r2));
+		
+		Set<Reimbursement> r = dao.filterByGreaterThanDoubleField("AMOUNT", 5.00);
+		assertTrue(r.size() == 2);
+		
+		r = dao.filterByGreaterThanDoubleField("AMOUNT", 50);
+		assertTrue(r.size() == 1);
+		assertTrue(r.contains(td.r2));
+	}
+	
+	
+	@Test
+	public void testFilterLessThanDouble() {
+		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.createUser(td.fm));
+		assertTrue(dao.createReimbursement(td.r1));
+		assertTrue(dao.createReimbursement(td.r2));
+		
+		Set<Reimbursement> r = dao.filterByLessThanDoubleField("AMOUNT", 5.00);
+		assertTrue(r.size() == 0);
+		
+		r = dao.filterByLessThanDoubleField("AMOUNT", 50);
+		assertTrue(r.size() == 1);
+		assertTrue(r.contains(td.r1));
+	}
 }

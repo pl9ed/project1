@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import com.revature.data.Reimbursement;
 import com.revature.data.User;
+import com.revature.exceptions.SQLSecurityException;
 
 public class ReimbDAO implements ReimbDAOI {
 	private static Logger devlog = Logger.getLogger(ReimbDAO.class);
@@ -45,13 +46,12 @@ public class ReimbDAO implements ReimbDAOI {
 		}
 	};
 
-	
 	public ReimbDAO(String schema, String ip) {
 		this.ip = ip;
 		this.schema = schema;
 
 	};
-	
+
 	public ReimbDAO(String ip) {
 		this.ip = ip;
 	}
@@ -132,7 +132,7 @@ public class ReimbDAO implements ReimbDAOI {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public User getUser(int id) {
 		PreparedStatement stmt;
@@ -236,8 +236,7 @@ public class ReimbDAO implements ReimbDAOI {
 		PreparedStatement stmt;
 
 		sql = "UPDATE " + schema + ".ERS_USERS SET "
-				+ "USERNAME=?, PASSHASH=?, FIRST_NAME=?, LAST_NAME=?,EMAIL=?,ROLE_ID=? "
-				+ "WHERE USER_ID=?";
+				+ "USERNAME=?, PASSHASH=?, FIRST_NAME=?, LAST_NAME=?,EMAIL=?,ROLE_ID=? " + "WHERE USER_ID=?";
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			stmt = conn.prepareStatement(sql);
@@ -249,7 +248,6 @@ public class ReimbDAO implements ReimbDAOI {
 			stmt.setInt(6, u.getROLE_ID());
 			stmt.setInt(7, u.getUSER_ID());
 
-			
 			devlog.info("[" + ip + "] Query: " + stmt);
 
 			int rowcount = stmt.executeUpdate();
@@ -262,7 +260,8 @@ public class ReimbDAO implements ReimbDAOI {
 			} else {
 				infolog.info("[" + ip + "] FAILURE - COULD NOT UPDATE USER WITH ID: " + u.getUSER_ID() + ", USERNAME: "
 						+ u.getUSERNAME());
-				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt + " with 1 expected.");
+				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
+						+ " with 1 expected.");
 				return false;
 			}
 
@@ -278,15 +277,15 @@ public class ReimbDAO implements ReimbDAOI {
 	@Override
 	public boolean updateReimbursement(Reimbursement r) {
 		try (Connection conn = DAOUtilities.getConnection()) {
-			
+
 			PreparedStatement stmt;
-			
+
 			if (r.getRESOLVED() == null) {
 				String sql = "UPDATE " + schema + ".ERS_REIMBURSEMENT SET "
 						+ "AMOUNT=?, SUBMITTED=?, DESCRIPTION=?,RECEIPT=?,AUTHOR=?,"
 						+ "TYPE_ID=?,STATUS_ID=? WHERE REIMB_ID=?";
 				stmt = conn.prepareStatement(sql);
-				
+
 				stmt.setDouble(1, r.getAMOUNT());
 				stmt.setDate(2, Date.valueOf(r.getSUBMITTED()));
 				stmt.setString(3, r.getDESCRIPTION());
@@ -295,13 +294,13 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setInt(6, r.getTYPE_ID());
 				stmt.setInt(7, r.getSTATUS_ID());
 				stmt.setInt(8, r.getREIMB_ID());
-				
+
 			} else {
 				String sql = "UPDATE " + schema + ".ERS_REIMBURSEMENT SET "
 						+ "AMOUNT=?, SUBMITTED=?, RESOLVED=?, DESCRIPTION=?,RECEIPT=?,AUTHOR=?,"
 						+ "RESOLVER=?,TYPE_ID=?,STATUS_ID=? WHERE REIMB_ID=?";
 				stmt = conn.prepareStatement(sql);
-				
+
 				stmt.setDouble(1, r.getAMOUNT());
 				stmt.setDate(2, Date.valueOf(r.getSUBMITTED()));
 				stmt.setDate(3, Date.valueOf(r.getRESOLVED()));
@@ -313,17 +312,18 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setInt(9, r.getSTATUS_ID());
 				stmt.setInt(10, r.getREIMB_ID());
 			}
-			
+
 			devlog.info("[" + ip + "] Query: " + stmt);
 			int rowcount = stmt.executeUpdate();
-			
+
 			if (rowcount == 1) {
 				infolog.info("[" + ip + "] SUCCESS - UPDATED REIMBURSEMENT WITH ID: " + r.getREIMB_ID());
 				devlog.info("[" + ip + "] SUCCESS: " + stmt);
 				return true;
 			} else {
 				infolog.info("[" + ip + "] FAILURE - COULD NOT UPDATE REIMBURSEMENT WITH ID: " + r.getREIMB_ID());
-				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt + " with 1 expected.");
+				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
+						+ " with 1 expected.");
 				return false;
 			}
 		} catch (SQLException e) {
@@ -365,7 +365,8 @@ public class ReimbDAO implements ReimbDAOI {
 			} else {
 				infolog.info("[" + ip + "] FAILURE - COULD NOT CREATE USER WITH ID: " + u.getUSER_ID() + ", USERNAME: "
 						+ u.getUSERNAME());
-				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt + " with 1 expected.");
+				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
+						+ " with 1 expected.");
 				return false;
 			}
 
@@ -398,7 +399,8 @@ public class ReimbDAO implements ReimbDAOI {
 				return true;
 			} else {
 				infolog.info("[" + ip + "] FAILURE - COULD NOT DELETE USER: " + id);
-				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt + " with 1 expected.");
+				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
+						+ " with 1 expected.");
 				return false;
 			}
 
@@ -446,14 +448,14 @@ public class ReimbDAO implements ReimbDAOI {
 					return true;
 				} else {
 					infolog.info("[" + ip + "] FAILURE - COULD NOT CREATE REIMBURSEMENT WITH ID: " + r.getREIMB_ID());
-					devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt + " with 1 expected.");
+					devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
+							+ " with 1 expected.");
 					return false;
 				}
 
 			} else {
-				sql = "INSERT INTO "+ schema +".ERS_REIMBURSEMENT(" + "REIMB_ID, " 
-						+ "AMOUNT," + "SUBMITTED," + "RESOLVED,"
-						+ "DESCRIPTION," + "RECEIPT," + "AUTHOR," + "RESOLVER," + "TYPE_ID,"
+				sql = "INSERT INTO " + schema + ".ERS_REIMBURSEMENT(" + "REIMB_ID, " + "AMOUNT," + "SUBMITTED,"
+						+ "RESOLVED," + "DESCRIPTION," + "RECEIPT," + "AUTHOR," + "RESOLVER," + "TYPE_ID,"
 						+ "STATUS_ID) VALUES(?,?,?,?,?,?,?,?,?,?)";
 
 				stmt = conn.prepareStatement(sql);
@@ -512,7 +514,8 @@ public class ReimbDAO implements ReimbDAOI {
 				return true;
 			} else {
 				infolog.info("[" + ip + "] FAILURE - COULD NOT PROCESS REIMBURSEMENT WITH ID: " + id);
-				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt + " with 1 expected.");
+				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
+						+ " with 1 expected.");
 				return false;
 			}
 
@@ -543,7 +546,8 @@ public class ReimbDAO implements ReimbDAOI {
 				return true;
 			} else {
 				infolog.info("[" + ip + "] FAILURE - COULD NOT DELETE REIMBURSEMENT WITH ID: " + id);
-				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt + " with 1 expected.");
+				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
+						+ " with 1 expected.");
 				return false;
 			}
 
@@ -555,6 +559,278 @@ public class ReimbDAO implements ReimbDAOI {
 			devlog.trace(this, e);
 		}
 		return false;
+	}
+
+	// --------------------------- FILTER METHODS ------------------------------
+
+	/**
+	 * For >/< INT comparisons, cast to double and use double methods
+	 */
+	@Override
+	public Set<Reimbursement> filterByIntField(String col_name, int n) {
+		try {
+			if (col_name.contains(";") || col_name.contains("'")) {
+				throw new SQLSecurityException("col_name contains invalid characters");
+			}
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+
+		PreparedStatement stmt;
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE "
+					+ col_name + "=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, n);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			Set<Reimbursement> ret = new HashSet<Reimbursement>();
+			int i = 0;
+			while (rs.next()) {
+				ret.add(createReimbursementObject(rs));
+				i++;
+			}
+
+			devlog.info("[" + ip + "] Returned " + i + " Reimbursements");
+			return ret;
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception during filterByIntField");
+			devlog.trace(this, e);
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+		return null;
+	}
+
+	/**
+	 * Exact matching. Returns a set of Reimbursements matching WHERE col_name=s
+	 */
+	@Override
+	public Set<Reimbursement> filterByExactStringField(String col_name, String s) {
+		try {
+			if (col_name.contains(";") || col_name.contains("'")) {
+				throw new SQLSecurityException("col_name contains invalid characters");
+			}
+		} catch (SQLSecurityException e){
+			devlog.trace(this,e);
+		}
+		
+		PreparedStatement stmt;
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE "
+					+ col_name+ "=%?%";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, col_name);
+			stmt.setString(2, s);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			Set<Reimbursement> ret = new HashSet<Reimbursement>();
+			int i = 0;
+			while (rs.next()) {
+				ret.add(createReimbursementObject(rs));
+				i++;
+			}
+
+			devlog.info("[" + ip + "] Returned " + i + " Reimbursements");
+			return ret;
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception during filterByExactStringField");
+			devlog.trace(this, e);
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+		return null;
+	}
+
+	/**
+	 * Contains matching. Returns a set of Reimbursements matching WHERE
+	 * col_name=%s%
+	 */
+	@Override
+	public Set<Reimbursement> filterByStringField(String col_name, String s) {
+		try {
+			if (col_name.contains(";") || col_name.contains("'")) {
+				throw new SQLSecurityException("col_name contains invalid characters");
+			}
+		} catch (SQLSecurityException e){
+			devlog.trace(this,e);
+		}
+		
+		PreparedStatement stmt;
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE "
+					+ col_name + "=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, s);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			Set<Reimbursement> ret = new HashSet<Reimbursement>();
+			int i = 0;
+			while (rs.next()) {
+				ret.add(createReimbursementObject(rs));
+				i++;
+			}
+
+			devlog.info("[" + ip + "] Returned " + i + " Reimbursements");
+			return ret;
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception during filterByStringField");
+			devlog.trace(this, e);
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+		return null;
+	}
+
+	@Override
+	public Set<Reimbursement> filterByExactDoubleField(String col_name, double n) {
+		try {
+			if (col_name.contains(";") || col_name.contains("'")) {
+				throw new SQLSecurityException("col_name contains invalid characters");
+			}
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+
+		PreparedStatement stmt;
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, n);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			Set<Reimbursement> ret = new HashSet<Reimbursement>();
+			int i = 0;
+			while (rs.next()) {
+				ret.add(createReimbursementObject(rs));
+				i++;
+			}
+
+			devlog.info("[" + ip + "] Returned " + i + " Reimbursements");
+			return ret;
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception during filterByExactDoubleField");
+			devlog.trace(this, e);
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+		return null;
+	}
+
+	/**
+	 * Actually tests for values >= n
+	 */
+	@Override
+	public Set<Reimbursement> filterByGreaterThanDoubleField(String col_name, double n) {
+		try {
+			if (col_name.contains(";") || col_name.contains("'")) {
+				throw new SQLSecurityException("col_name contains invalid characters");
+			}
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+
+		PreparedStatement stmt;
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + ">=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, n);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			Set<Reimbursement> ret = new HashSet<Reimbursement>();
+			int i = 0;
+			while (rs.next()) {
+				ret.add(createReimbursementObject(rs));
+				i++;
+			}
+
+			devlog.info("[" + ip + "] Returned " + i + " Reimbursements");
+			return ret;
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception during filterByGreaterThanDoubleField");
+			devlog.trace(this, e);
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+		return null;
+	}
+
+	/**
+	 * Actually tests for values <= n
+	 */
+	@Override
+	public Set<Reimbursement> filterByLessThanDoubleField(String col_name, double n) {
+		PreparedStatement stmt;
+
+		try {
+			if (col_name.contains(";") || col_name.contains("'")) {
+				throw new SQLSecurityException("col_name contains invalid characters");
+			}
+		} catch (SQLSecurityException e) {
+			devlog.trace(this, e);
+		}
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "<=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setDouble(1, n);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			Set<Reimbursement> ret = new HashSet<Reimbursement>();
+			int i = 0;
+			while (rs.next()) {
+				ret.add(createReimbursementObject(rs));
+				i++;
+			}
+
+			devlog.info("[" + ip + "] Returned " + i + " Reimbursements");
+			return ret;
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception during filterByLessThanDoubleField");
+			devlog.trace(this, e);
+		}
+		return null;
 	}
 
 	// ----------------- STATIC METHODS FOR CREATING OBJECT FROM RESULTSET

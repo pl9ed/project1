@@ -22,5 +22,14 @@ public interface ReimbDAOI {
 	
 	public boolean createUser(User u);
 	public boolean createReimbursement(Reimbursement r);
+	
+	public Set<Reimbursement> filterByIntField(String col_name, int n);
+	public Set<Reimbursement> filterByExactStringField(String col_name, String s);
+	public Set<Reimbursement> filterByStringField(String col_name, String s);
+	
+	public Set<Reimbursement> filterByExactDoubleField(String col_name, double n);
+	public Set<Reimbursement> filterByGreaterThanDoubleField(String col_name, double n);
+	public Set<Reimbursement> filterByLessThanDoubleField(String col_name, double n);
+
 
 }
