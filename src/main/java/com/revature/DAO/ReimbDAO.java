@@ -692,7 +692,7 @@ public class ReimbDAO implements ReimbDAOI {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public Set<Reimbursement> filterByExactDoubleField(String col_name, double n) {
 		if (col_name.contains(";") || col_name.contains("'")) {
