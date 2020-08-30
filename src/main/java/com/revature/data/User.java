@@ -52,9 +52,13 @@ public class User {
 	public void setPASSHASH(String passhash) {
 		this.PASSHASH = passhash;
 	}
-
+	
 	public void setPASSWORD(String password) {
 		PASSHASH = BCrypt.hashpw(password,BCrypt.gensalt());
+	}
+	
+	public boolean passMatch(String password) {
+		return BCrypt.checkpw(password, this.PASSHASH);
 	}
 
 	public String getFIRST_NAME() {
