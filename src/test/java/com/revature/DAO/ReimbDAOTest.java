@@ -30,6 +30,7 @@ public class ReimbDAOTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
+		TestData.resetDB();
 	}
 
 	@Before

@@ -46,7 +46,7 @@ public class ReimbDAO implements ReimbDAOI {
 	};
 
 	
- ReimbDAO(String schema, String ip) {
+	public ReimbDAO(String schema, String ip) {
 		this.ip = ip;
 		this.schema = schema;
 
