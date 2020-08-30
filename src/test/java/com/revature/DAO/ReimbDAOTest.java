@@ -34,7 +34,7 @@ public class ReimbDAOTest {
 
 	@Before
 	public void setUp() throws Exception {
-		dao = new ReimbDAO("public");
+		dao = new ReimbDAO("public", "TESTIP");
 		resetDB();
 		td = new TestData();
 	}
@@ -124,6 +124,14 @@ public class ReimbDAOTest {
 	@Test
 	public void testGetUserFail() {
 		assertTrue(dao.getUser(-1) == null);
+	}
+	
+	@Test
+	public void testGetUserByUsername() {
+		assertTrue(dao.getUser("employee") == null);
+		
+		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.getUser("employee").equals(td.employee));
 	}
 	
 	@Test

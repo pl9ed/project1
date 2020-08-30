@@ -3,6 +3,9 @@ package com.revature.DAO;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 import com.revature.data.Reimbursement;
@@ -65,6 +68,17 @@ public class TestData {
 		r2.setRESOLVED(LocalDate.now());
 		r2.setRESOLVER(fm.getUSER_ID());
 		
+	}
+	
+	public static void resetDB() {
+		String sql = "CALL p1_db_setup()";
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			CallableStatement stmt = conn.prepareCall(sql);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

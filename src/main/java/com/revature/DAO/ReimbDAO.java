@@ -45,28 +45,16 @@ public class ReimbDAO implements ReimbDAOI {
 		}
 	};
 
-	public ReimbDAO(String schema) {
+	
+ ReimbDAO(String schema, String ip) {
+		this.ip = ip;
 		this.schema = schema;
-		try {
-			URL whatismyip = new URL("http://checkip.amazonaws.com");
-			BufferedReader in = null;
-			try {
-				in = new BufferedReader(new InputStreamReader(whatismyip.openStream()));
-				String ip = in.readLine();
-				this.ip = ip;
-			} finally {
-				if (in != null) {
-					try {
-						in.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+
 	};
+	
+	public ReimbDAO(String ip) {
+		this.ip = ip;
+	}
 
 	public String getIP() {
 		return this.ip;
@@ -115,6 +103,36 @@ public class ReimbDAO implements ReimbDAOI {
 		return getReimbursement(r.getREIMB_ID());
 	}
 
+	@Override
+	public User getUser(String username) {
+		PreparedStatement stmt;
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT * FROM " + schema + ".ERS_USERS_FULL WHERE USERNAME=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, username);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				devlog.info("[" + ip + "] SUCCESS - Got User with USERNAME: " + username);
+				return createUserObject(rs);
+			} else {
+				devlog.error("[" + ip + "] FAILURE - No User found for USERNAME: " + username);
+				return null;
+			}
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception when getting user by username");
+			devlog.trace(this, e);
+		}
+		return null;
+	}
+	
 	@Override
 	public User getUser(int id) {
 		PreparedStatement stmt;

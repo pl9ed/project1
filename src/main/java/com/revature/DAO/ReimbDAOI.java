@@ -11,6 +11,7 @@ public interface ReimbDAOI {
 	
 	public User getUser(int id);
 	public User getUser(User u);
+	public User getUser(String username);
 	
 	public Set<User> getAllUsers();
 	public Set<Reimbursement> getAllReimbursements();
@@ -21,4 +22,5 @@ public interface ReimbDAOI {
 	
 	public boolean createUser(User u);
 	public boolean createReimbursement(Reimbursement r);
+
 }
