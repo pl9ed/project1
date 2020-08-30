@@ -3,6 +3,7 @@ package com.revature.DAO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -17,6 +18,7 @@ import org.junit.Test;
 
 import com.revature.data.Reimbursement;
 import com.revature.data.User;
+import com.revature.exceptions.SQLSecurityException;
 
 
 public class ReimbDAOTest {
@@ -229,22 +231,51 @@ public class ReimbDAOTest {
 		assertTrue(r.getSTATUS_ID() == -1);
 	}
 	
-//	@Test
-//	public void testFilterExactString() {
-//		assertTrue(dao.createUser(td.employee));
-//		assertTrue(dao.createUser(td.fm));
-//		assertTrue(dao.createReimbursement(td.r1));
-//		assertTrue(dao.createReimbursement(td.r2));
-//		
-//		Set<Reimbursement> r = dao.filterByExactStringField("John", "employee");
-//		
-//		assertTrue(r.size() == 2);
-//	}
+	// ------------------ FILTER TESTS -----------------------
 	
-//	@Test
-//	public void testFilterString() {
-//		
-//	}
+	@Test
+	public void testFilterExactString() {
+		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.createUser(td.fm));
+		assertTrue(dao.createReimbursement(td.r1));
+		assertTrue(dao.createReimbursement(td.r2));
+		
+		Set<Reimbursement> r = dao.filterByExactStringField("USERNAME", "employee");
+		assertTrue(r.size() == 2);
+		
+		r = dao.filterByExactStringField("DESCRIPTION", td.r1.getDESCRIPTION());
+		assertTrue(r.contains(td.r1));
+	}
+	
+	@Test(expected=SQLSecurityException.class)
+	public void testFilterExactStringInjection() {
+		dao.filterByExactStringField("; DROP TABLES public.ERS_USERS CASCADE;", "");
+	}
+	
+	@Test
+	public void testFilterString() {
+		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.createUser(td.fm));
+		assertTrue(dao.createReimbursement(td.r1));
+		assertTrue(dao.createReimbursement(td.r2));
+		
+		// middle
+		Set<Reimbursement> r = dao.filterByStringField("USERNAME", "ploy");
+		assertTrue(r.size() == 2);
+		
+		// start
+		r = dao.filterByStringField("DESCRIPTION", "DESCRIPTION");
+		assertTrue(r.contains(td.r1));
+		
+		// end
+		r = dao.filterByStringField("EMAIL", "@mail.com");
+		assertTrue(r.size() == 2);
+	}
+	
+	@Test(expected = SQLSecurityException.class) 
+	public void testFilterStringInj() {
+		dao.filterByExactStringField("; DROP TABLES public.ERS_USERS CASCADE;", "");
+	}
 	
 	@Test
 	public void testFilterInt() {
@@ -264,7 +295,11 @@ public class ReimbDAOTest {
 		
 		assertTrue(r.size() == 1);
 		assertTrue(r2.size() == 1);
-
+	}
+	
+	@Test(expected = SQLSecurityException.class)
+	public void testFilterIntInj() {
+		dao.filterByIntField("; DROP TABLES public.ERS_USERS CASCADE;", 0);
 	}
 
 	@Test
@@ -279,6 +314,11 @@ public class ReimbDAOTest {
 		
 		r = dao.filterByExactDoubleField("AMOUNT", td.r2.getAMOUNT());
 		assertTrue(r.contains(td.r2));
+	}
+	
+	@Test(expected = SQLSecurityException.class)
+	public void testFilterExactDoubleInj() {
+		dao.filterByExactDoubleField("; DROP TABLES public.ERS_USERS CASCADE;", 0);
 	}
 	
 	@Test
@@ -296,6 +336,11 @@ public class ReimbDAOTest {
 		assertTrue(r.contains(td.r2));
 	}
 	
+	@Test(expected = SQLSecurityException.class)
+	public void testFilterGreaterThanDoubleInj() {
+		dao.filterByGreaterThanDoubleField("; DROP TABLES public.ERS_USERS CASCADE;", 0);
+	}
+	
 	
 	@Test
 	public void testFilterLessThanDouble() {
@@ -310,5 +355,10 @@ public class ReimbDAOTest {
 		r = dao.filterByLessThanDoubleField("AMOUNT", 50);
 		assertTrue(r.size() == 1);
 		assertTrue(r.contains(td.r1));
+	}
+	
+	@Test(expected = SQLSecurityException.class)
+	public void testFilterLessThanDoubleInj() {
+		dao.filterByLessThanDoubleField("; DROP TABLES public.ERS_USERS CASCADE;", 0);
 	}
 }

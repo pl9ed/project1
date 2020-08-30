@@ -568,19 +568,15 @@ public class ReimbDAO implements ReimbDAOI {
 	 */
 	@Override
 	public Set<Reimbursement> filterByIntField(String col_name, int n) {
-		try {
-			if (col_name.contains(";") || col_name.contains("'")) {
-				throw new SQLSecurityException("col_name contains invalid characters");
-			}
-		} catch (SQLSecurityException e) {
-			devlog.trace(this, e);
+
+		if (col_name.contains(";") || col_name.contains("'")) {
+			throw new SQLSecurityException("col_name contains invalid characters");
 		}
 
 		PreparedStatement stmt;
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE "
-					+ col_name + "=?";
+			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, n);
 
@@ -611,25 +607,22 @@ public class ReimbDAO implements ReimbDAOI {
 
 	/**
 	 * Exact matching. Returns a set of Reimbursements matching WHERE col_name=s
+	 * from an INNER JOIN of Reimbursements and Users
 	 */
 	@Override
 	public Set<Reimbursement> filterByExactStringField(String col_name, String s) {
-		try {
-			if (col_name.contains(";") || col_name.contains("'")) {
-				throw new SQLSecurityException("col_name contains invalid characters");
-			}
-		} catch (SQLSecurityException e){
-			devlog.trace(this,e);
+
+		if (col_name.contains(";") || col_name.contains("'")) {
+			throw new SQLSecurityException("col_name contains invalid characters");
 		}
-		
+
 		PreparedStatement stmt;
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE "
-					+ col_name+ "=%?%";
+			String sql = "SELECT * FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
+					+ ".ERS_USERS_FULL ON AUTHOR=USER_ID" + ") WHERE " + col_name + "=?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, col_name);
-			stmt.setString(2, s);
+			stmt.setString(1, s);
 
 			devlog.info("[" + ip + "] Query: " + stmt);
 
@@ -657,26 +650,23 @@ public class ReimbDAO implements ReimbDAOI {
 	}
 
 	/**
-	 * Contains matching. Returns a set of Reimbursements matching WHERE
-	 * col_name=%s%
+	 * Contains matching. Returns a set of Reimbursements matching WHERE col_name=%s%
+	 * from an INNER JOIN of Reimbursements and Users
 	 */
 	@Override
 	public Set<Reimbursement> filterByStringField(String col_name, String s) {
-		try {
-			if (col_name.contains(";") || col_name.contains("'")) {
-				throw new SQLSecurityException("col_name contains invalid characters");
-			}
-		} catch (SQLSecurityException e){
-			devlog.trace(this,e);
+
+		if (col_name.contains(";") || col_name.contains("'")) {
+			throw new SQLSecurityException("col_name contains invalid characters");
 		}
-		
+
 		PreparedStatement stmt;
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE "
-					+ col_name + "=?";
+			String sql = "SELECT * FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
+					+ ".ERS_USERS_FULL ON AUTHOR=USER_ID" + ") WHERE " + col_name + " LIKE ?";
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, s);
+			stmt.setString(1, "%" + s + "%");
 
 			devlog.info("[" + ip + "] Query: " + stmt);
 
@@ -705,12 +695,8 @@ public class ReimbDAO implements ReimbDAOI {
 
 	@Override
 	public Set<Reimbursement> filterByExactDoubleField(String col_name, double n) {
-		try {
-			if (col_name.contains(";") || col_name.contains("'")) {
-				throw new SQLSecurityException("col_name contains invalid characters");
-			}
-		} catch (SQLSecurityException e) {
-			devlog.trace(this, e);
+		if (col_name.contains(";") || col_name.contains("'")) {
+			throw new SQLSecurityException("col_name contains invalid characters");
 		}
 
 		PreparedStatement stmt;
@@ -750,12 +736,8 @@ public class ReimbDAO implements ReimbDAOI {
 	 */
 	@Override
 	public Set<Reimbursement> filterByGreaterThanDoubleField(String col_name, double n) {
-		try {
-			if (col_name.contains(";") || col_name.contains("'")) {
-				throw new SQLSecurityException("col_name contains invalid characters");
-			}
-		} catch (SQLSecurityException e) {
-			devlog.trace(this, e);
+		if (col_name.contains(";") || col_name.contains("'")) {
+			throw new SQLSecurityException("col_name contains invalid characters");
 		}
 
 		PreparedStatement stmt;
@@ -797,12 +779,8 @@ public class ReimbDAO implements ReimbDAOI {
 	public Set<Reimbursement> filterByLessThanDoubleField(String col_name, double n) {
 		PreparedStatement stmt;
 
-		try {
-			if (col_name.contains(";") || col_name.contains("'")) {
-				throw new SQLSecurityException("col_name contains invalid characters");
-			}
-		} catch (SQLSecurityException e) {
-			devlog.trace(this, e);
+		if (col_name.contains(";") || col_name.contains("'")) {
+			throw new SQLSecurityException("col_name contains invalid characters");
 		}
 
 		try (Connection conn = DAOUtilities.getConnection()) {
