@@ -1,0 +1,68 @@
+package com.revature.services;
+
+import static org.junit.Assert.assertTrue;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.revature.DAO.ReimbDAO;
+import com.revature.DAO.TestData;
+
+public class LoginServiceTest {
+	private LoginService ls;
+	private TestData td;
+	private String username;
+	private String password;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		TestData.resetDB();
+	}
+
+	@Before
+	public void setUp() throws Exception {
+		td = new TestData();
+		TestData.resetDB();
+		
+		ReimbDAO dao = new ReimbDAO("public", "TESTIP");
+		dao.createUser(td.employee);
+		
+		ls = new LoginService(dao);
+		username = "employee";
+		password = "hunter2";
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void testSuccessfulLogin() {
+		System.out.println(ls.login(username,password));
+		assertTrue(ls.login(username,password) == 1);
+	}
+	
+	@Test
+	public void testWrongPassword() {
+		username = "employee";
+		password = "hunter";
+		assertTrue(ls.login(username, password) == 0);
+		
+	}
+	
+	@Test
+	public void testNoUsername() {
+		username = "nosuchusername";
+		password = "";
+		
+		assertTrue(ls.login(username, password) == -1);
+	}
+
+}
