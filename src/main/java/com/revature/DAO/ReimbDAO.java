@@ -9,7 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
+import java.util.TreeSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -171,6 +171,7 @@ public class ReimbDAO implements ReimbDAOI {
 	@Override
 	public Set<User> getAllUsers() {
 		PreparedStatement stmt;
+		Set<User> ret = new TreeSet<User>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT * FROM " + schema + ".ERS_USERS_FULL";
@@ -180,7 +181,6 @@ public class ReimbDAO implements ReimbDAOI {
 
 			ResultSet rs = stmt.executeQuery();
 
-			Set<User> ret = new HashSet<User>();
 			int i = 0;
 			while (rs.next()) {
 				ret.add(createUserObject(rs));
@@ -196,12 +196,13 @@ public class ReimbDAO implements ReimbDAOI {
 			devlog.error("Null pointer exception when getting all users");
 			devlog.trace(this, e);
 		}
-		return null;
+		return ret;
 	}
 
 	@Override
 	public Set<Reimbursement> getAllReimbursements() {
 		PreparedStatement stmt;
+		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL";
@@ -211,7 +212,6 @@ public class ReimbDAO implements ReimbDAOI {
 
 			ResultSet rs = stmt.executeQuery();
 
-			Set<Reimbursement> ret = new HashSet<Reimbursement>();
 			int i = 0;
 			while (rs.next()) {
 				ret.add(createReimbursementObject(rs));
@@ -227,7 +227,7 @@ public class ReimbDAO implements ReimbDAOI {
 			devlog.error("Null pointer exception when getting all reimbursements");
 			devlog.trace(this, e);
 		}
-		return null;
+		return ret;
 	}
 
 	@Override
@@ -568,7 +568,8 @@ public class ReimbDAO implements ReimbDAOI {
 	 */
 	@Override
 	public Set<Reimbursement> filterByIntField(String col_name, int n) {
-
+		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
+		
 		if (col_name.contains(";") || col_name.contains("'")) {
 			throw new SQLSecurityException("col_name contains invalid characters");
 		}
@@ -584,7 +585,6 @@ public class ReimbDAO implements ReimbDAOI {
 
 			ResultSet rs = stmt.executeQuery();
 
-			Set<Reimbursement> ret = new HashSet<Reimbursement>();
 			int i = 0;
 			while (rs.next()) {
 				ret.add(createReimbursementObject(rs));
@@ -602,7 +602,7 @@ public class ReimbDAO implements ReimbDAOI {
 		} catch (SQLSecurityException e) {
 			devlog.trace(this, e);
 		}
-		return null;
+		return ret;
 	}
 
 	/**
@@ -617,6 +617,7 @@ public class ReimbDAO implements ReimbDAOI {
 		}
 
 		PreparedStatement stmt;
+		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT * FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
@@ -628,7 +629,6 @@ public class ReimbDAO implements ReimbDAOI {
 
 			ResultSet rs = stmt.executeQuery();
 
-			Set<Reimbursement> ret = new HashSet<Reimbursement>();
 			int i = 0;
 			while (rs.next()) {
 				ret.add(createReimbursementObject(rs));
@@ -646,7 +646,7 @@ public class ReimbDAO implements ReimbDAOI {
 		} catch (SQLSecurityException e) {
 			devlog.trace(this, e);
 		}
-		return null;
+		return ret;
 	}
 
 	/**
@@ -661,6 +661,7 @@ public class ReimbDAO implements ReimbDAOI {
 		}
 
 		PreparedStatement stmt;
+		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT * FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
@@ -672,7 +673,6 @@ public class ReimbDAO implements ReimbDAOI {
 
 			ResultSet rs = stmt.executeQuery();
 
-			Set<Reimbursement> ret = new HashSet<Reimbursement>();
 			int i = 0;
 			while (rs.next()) {
 				ret.add(createReimbursementObject(rs));
@@ -690,7 +690,7 @@ public class ReimbDAO implements ReimbDAOI {
 		} catch (SQLSecurityException e) {
 			devlog.trace(this, e);
 		}
-		return null;
+		return ret;
 	}
 	
 	@Override
@@ -700,6 +700,7 @@ public class ReimbDAO implements ReimbDAOI {
 		}
 
 		PreparedStatement stmt;
+		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "=?";
@@ -710,7 +711,6 @@ public class ReimbDAO implements ReimbDAOI {
 
 			ResultSet rs = stmt.executeQuery();
 
-			Set<Reimbursement> ret = new HashSet<Reimbursement>();
 			int i = 0;
 			while (rs.next()) {
 				ret.add(createReimbursementObject(rs));
@@ -728,7 +728,7 @@ public class ReimbDAO implements ReimbDAOI {
 		} catch (SQLSecurityException e) {
 			devlog.trace(this, e);
 		}
-		return null;
+		return ret;
 	}
 
 	/**
@@ -741,6 +741,7 @@ public class ReimbDAO implements ReimbDAOI {
 		}
 
 		PreparedStatement stmt;
+		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + ">=?";
@@ -751,7 +752,6 @@ public class ReimbDAO implements ReimbDAOI {
 
 			ResultSet rs = stmt.executeQuery();
 
-			Set<Reimbursement> ret = new HashSet<Reimbursement>();
 			int i = 0;
 			while (rs.next()) {
 				ret.add(createReimbursementObject(rs));
@@ -769,7 +769,7 @@ public class ReimbDAO implements ReimbDAOI {
 		} catch (SQLSecurityException e) {
 			devlog.trace(this, e);
 		}
-		return null;
+		return ret;
 	}
 
 	/**
@@ -782,6 +782,8 @@ public class ReimbDAO implements ReimbDAOI {
 		if (col_name.contains(";") || col_name.contains("'")) {
 			throw new SQLSecurityException("col_name contains invalid characters");
 		}
+		
+		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "<=?";
@@ -792,7 +794,6 @@ public class ReimbDAO implements ReimbDAOI {
 
 			ResultSet rs = stmt.executeQuery();
 
-			Set<Reimbursement> ret = new HashSet<Reimbursement>();
 			int i = 0;
 			while (rs.next()) {
 				ret.add(createReimbursementObject(rs));
@@ -808,7 +809,7 @@ public class ReimbDAO implements ReimbDAOI {
 			devlog.error("Null pointer exception during filterByLessThanDoubleField");
 			devlog.trace(this, e);
 		}
-		return null;
+		return ret;
 	}
 
 	// ----------------- STATIC METHODS FOR CREATING OBJECT FROM RESULTSET
