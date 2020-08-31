@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 import com.revature.data.Reimbursement;
@@ -71,11 +72,12 @@ public class TestData {
 	}
 	
 	public static void resetDB() {
-		String sql = "CALL p1_db_setup()";
-
+		String sql = "CALL p1_db_reset()";
+		
 		try (Connection conn = DAOUtilities.getConnection()) {
 			CallableStatement stmt = conn.prepareCall(sql);
 			stmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
