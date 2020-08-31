@@ -38,23 +38,12 @@ public class ReimbDAOTest {
 	@Before
 	public void setUp() throws Exception {
 		dao = new ReimbDAO("public", "TESTIP");
-		resetDB();
+		TestData.resetDB();
 		td = new TestData();
 	}
 
 	@After
 	public void tearDown() throws Exception {
-	}
-	
-	public static void resetDB() {
-		String sql = "CALL p1_db_setup()";
-
-		try (Connection conn = DAOUtilities.getConnection()) {
-			CallableStatement stmt = conn.prepareCall(sql);
-			stmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	// ----------------------------------------------------------------------
@@ -295,6 +284,9 @@ public class ReimbDAOTest {
 		
 		assertTrue(r.size() == 1);
 		assertTrue(r2.size() == 1);
+		
+		r = dao.filterByIntField("TYPE_ID", -99);
+		assertTrue(r.size() == 0);
 	}
 	
 	@Test(expected = SQLSecurityException.class)

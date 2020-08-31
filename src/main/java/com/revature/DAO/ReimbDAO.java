@@ -346,11 +346,11 @@ public class ReimbDAO implements ReimbDAOI {
 		try (Connection conn = DAOUtilities.getConnection()) {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, u.getUSER_ID());
-			stmt.setString(2, u.getUSERNAME());
+			stmt.setString(2, u.getUSERNAME().toUpperCase());
 			stmt.setString(3, u.getPASSHASH());
-			stmt.setString(4, u.getFIRST_NAME());
-			stmt.setString(5, u.getLAST_NAME());
-			stmt.setString(6, u.getEMAIL());
+			stmt.setString(4, u.getFIRST_NAME().toUpperCase());
+			stmt.setString(5, u.getLAST_NAME().toUpperCase());
+			stmt.setString(6, u.getEMAIL().toUpperCase());
 			stmt.setInt(7, u.getROLE_ID());
 
 			devlog.info("[" + ip + "] Query: " + stmt);
