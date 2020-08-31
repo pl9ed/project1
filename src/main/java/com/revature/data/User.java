@@ -2,7 +2,7 @@ package com.revature.data;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class User {
+public class User implements Comparable<User> {
 	private int USER_ID=0;
 	private String USERNAME;
 	private String PASSHASH;
@@ -159,6 +159,11 @@ public class User {
 		if (USER_ID != other.USER_ID)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(User u) {
+		return this.USER_ID - u.USER_ID;
 	}
 
 

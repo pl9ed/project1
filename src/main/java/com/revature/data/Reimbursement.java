@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.sql.Date;
 import java.time.LocalDate;
 
-public class Reimbursement {
+public class Reimbursement implements Comparable<Reimbursement> {
 	private int REIMB_ID=0;
 	private double AMOUNT;
 	private LocalDate SUBMITTED;
@@ -203,6 +203,11 @@ public class Reimbursement {
 		return "[REIMB_ID=" + REIMB_ID + ", AMOUNT=" + AMOUNT + ", SUBMITTED=" + SUBMITTED + ", RESOLVED="
 				+ RESOLVED + ", DESCRIPTION=" + DESCRIPTION + ", AUTHOR=" + AUTHOR + ", RESOLVER=" + RESOLVER
 				+ ", TYPE_ID=" + TYPE_ID  + ", STATUS_ID=" + STATUS_ID + ", status=" + status + "]";
+	}
+
+	@Override
+	public int compareTo(Reimbursement r) {
+		return this.REIMB_ID - r.REIMB_ID;
 	}
 
 	
