@@ -68,14 +68,21 @@ public class LoginService {
 	 * @return Returns the ID of the login if successful, 0 if password is incorrect, -1 if no account with username found
 	 */
 	public int login(String username, String password) {
-		User u = dao.getUser(username);
+		User u = dao.getUser(username.toUpperCase());
 		
 		if (u == null) {
 			return -1;
 		}
 		
-		return u.passMatch(password) ? u.getUSER_ID() : 0;
+		boolean success = u.passMatch(password);
 		
+		if(success) {
+			log.info("[" + ip + "] SUCCESSFUL LOGIN TO " + username);
+			return u.getUSER_ID();
+		} else {
+			log.info("[" + ip + "] ATTEMPTED LOGIN TO " + username);
+			return 0;
+		}
 	}
 	
 }

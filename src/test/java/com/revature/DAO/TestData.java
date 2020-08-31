@@ -15,6 +15,7 @@ import com.revature.data.User;
 public class TestData {
 	public User employee;
 	public User fm;
+	public static User dummy;
 	public Reimbursement r1;
 	public Reimbursement r2;
 	
@@ -23,6 +24,8 @@ public class TestData {
 		fm = new User(2,"fm","hunter1","Bob","Smith","bsmith@mail.com",0, "FINANCE MANAGER");
 		r1 = new Reimbursement();
 		r2 = new Reimbursement();
+		
+		dummy = new User(100,"pl","password","Pai","Li","pl@email.com",0,"FINANCE MANAGER");
 
 		File f;
 		f = new File("placeholder.jpg");
@@ -81,6 +84,9 @@ public class TestData {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		ReimbDAO dao = new ReimbDAO("public","TEST IP");
+		dao.createUser(dummy);
 	}
 
 }
