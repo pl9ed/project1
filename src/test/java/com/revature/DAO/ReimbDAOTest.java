@@ -72,7 +72,8 @@ public class ReimbDAOTest {
 	public void testCreateReimbursement() {
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createReimbursement(td.r1));
-		assertFalse(dao.createReimbursement(td.r1));
+		// no longer applies after moving to SERIAL for id
+		//assertFalse(dao.createReimbursement(td.r1));
 	}
 	
 	@Test
@@ -123,7 +124,7 @@ public class ReimbDAOTest {
 		assertTrue(dao.getUser("employee") == null);
 		
 		assertTrue(dao.createUser(td.employee));
-		assertTrue(dao.getUser("employee").equals(td.employee));
+		assertTrue(dao.getUser("EMPLOYEE").equals(td.employee));
 	}
 	
 	@Test
@@ -229,7 +230,7 @@ public class ReimbDAOTest {
 		assertTrue(dao.createReimbursement(td.r1));
 		assertTrue(dao.createReimbursement(td.r2));
 		
-		Set<Reimbursement> r = dao.filterByExactStringField("USERNAME", "employee");
+		Set<Reimbursement> r = dao.filterByExactStringField("USERNAME", "EMPLOYEE");
 		assertTrue(r.size() == 2);
 		
 		r = dao.filterByExactStringField("DESCRIPTION", td.r1.getDESCRIPTION());
@@ -249,7 +250,7 @@ public class ReimbDAOTest {
 		assertTrue(dao.createReimbursement(td.r2));
 		
 		// middle
-		Set<Reimbursement> r = dao.filterByStringField("USERNAME", "ploy");
+		Set<Reimbursement> r = dao.filterByStringField("USERNAME", "PLOY");
 		assertTrue(r.size() == 2);
 		
 		// start
@@ -257,7 +258,7 @@ public class ReimbDAOTest {
 		assertTrue(r.contains(td.r1));
 		
 		// end
-		r = dao.filterByStringField("EMAIL", "@mail.com");
+		r = dao.filterByStringField("EMAIL", "@MAIL.COM");
 		assertTrue(r.size() == 2);
 	}
 	

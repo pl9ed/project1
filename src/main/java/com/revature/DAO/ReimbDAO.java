@@ -340,18 +340,18 @@ public class ReimbDAO implements ReimbDAOI {
 		String sql;
 		PreparedStatement stmt;
 
-		sql = "INSERT INTO ".concat(schema).concat(".ERS_USERS(" + "USER_ID," + "USERNAME," + "PASSHASH,"
-				+ "FIRST_NAME," + "LAST_NAME," + "EMAIL," + "ROLE_ID) VALUES(?,?,?,?,?,?,?)");
+		sql = "INSERT INTO ".concat(schema).concat(".ERS_USERS(" + "USERNAME," + "PASSHASH,"
+				+ "FIRST_NAME," + "LAST_NAME," + "EMAIL," + "ROLE_ID) VALUES(?,?,?,?,?,?)");
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			stmt = conn.prepareStatement(sql);
-			stmt.setInt(1, u.getUSER_ID());
-			stmt.setString(2, u.getUSERNAME().toUpperCase());
-			stmt.setString(3, u.getPASSHASH());
-			stmt.setString(4, u.getFIRST_NAME().toUpperCase());
-			stmt.setString(5, u.getLAST_NAME().toUpperCase());
-			stmt.setString(6, u.getEMAIL().toUpperCase());
-			stmt.setInt(7, u.getROLE_ID());
+//			stmt.setInt(1, u.getUSER_ID());
+			stmt.setString(1, u.getUSERNAME().toUpperCase());
+			stmt.setString(2, u.getPASSHASH());
+			stmt.setString(3, u.getFIRST_NAME().toUpperCase());
+			stmt.setString(4, u.getLAST_NAME().toUpperCase());
+			stmt.setString(5, u.getEMAIL().toUpperCase());
+			stmt.setInt(6, u.getROLE_ID());
 
 			devlog.info("[" + ip + "] Query: " + stmt);
 
@@ -425,18 +425,18 @@ public class ReimbDAO implements ReimbDAOI {
 
 			if (r.getRESOLVED() == null || r.getRESOLVER() == 0) {
 				sql = "INSERT INTO ".concat(schema)
-						.concat(".ERS_REIMBURSEMENT(" + "REIMB_ID, " + "AMOUNT," + "SUBMITTED," + "DESCRIPTION,"
-								+ "RECEIPT," + "AUTHOR," + "TYPE_ID," + "STATUS_ID) VALUES(?,?,?,?,?,?,?,?)");
+						.concat(".ERS_REIMBURSEMENT(" + "AMOUNT," + "SUBMITTED," + "DESCRIPTION,"
+								+ "RECEIPT," + "AUTHOR," + "TYPE_ID," + "STATUS_ID) VALUES(?,?,?,?,?,?,?)");
 
 				stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, r.getREIMB_ID());
-				stmt.setDouble(2, r.getAMOUNT());
-				stmt.setDate(3, Date.valueOf(r.getSUBMITTED()));
-				stmt.setString(4, r.getDESCRIPTION());
-				stmt.setBinaryStream(5, r.getRECEIPT());
-				stmt.setInt(6, r.getAUTHOR());
-				stmt.setInt(7, r.getTYPE_ID());
-				stmt.setInt(8, r.getSTATUS_ID());
+//				stmt.setInt(1, r.getREIMB_ID());
+				stmt.setDouble(1, r.getAMOUNT());
+				stmt.setDate(2, Date.valueOf(r.getSUBMITTED()));
+				stmt.setString(3, r.getDESCRIPTION());
+				stmt.setBinaryStream(4, r.getRECEIPT());
+				stmt.setInt(5, r.getAUTHOR());
+				stmt.setInt(6, r.getTYPE_ID());
+				stmt.setInt(7, r.getSTATUS_ID());
 
 				devlog.info("[" + ip + "] Query: " + stmt);
 
