@@ -18,14 +18,15 @@ public class TestData {
 	public User employee;
 	public User fm;
 	public static User dummy;
-	public Reimbursement r1;
-	public Reimbursement r2;
+	public Reimbursement r1, r2, r3;
+
 	
 	public TestData() {
 		employee = new User(1,"EMPLOYEE","hunter2","John","Doe","jdoe@mail.com",-1, "EMPLOYEE");
 		fm = new User(2,"FM","hunter1","Bob","Smith","bsmith@mail.com",0, "FINANCE MANAGER");
 		r1 = new Reimbursement();
 		r2 = new Reimbursement();
+		r3 = new Reimbursement();
 		
 		dummy = new User(3,"pl","password","Pai","Li","pl@email.com",0,"FINANCE MANAGER");
 
@@ -73,6 +74,13 @@ public class TestData {
 		r2.setStatus("APPROVED");
 		r2.setRESOLVED(LocalDate.now());
 		r2.setRESOLVER(fm.getUSER_ID());
+		
+		r3.setAMOUNT(50);
+		r3.setAUTHOR(1);
+		r3.setDESCRIPTION("test");
+		r3.setSUBMITTED(LocalDate.now());
+		r3.setTYPE_ID(2);
+		r3.setSTATUS_ID(0);
 		
 	}
 	

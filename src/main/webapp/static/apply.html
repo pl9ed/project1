@@ -91,7 +91,10 @@
             let amount = document.getElementById("amount").value;
             let type_id = document.getElementById("type_id").value;
             let description = document.getElementById("description").value;
-            let receipt = document.getElementById("receipt").value;
+            let receipt = document.getElementById("receipt").files[0];
+
+            let r_file = new FormData();
+            r_file.append("receipt", receipt);
 
             // null check
             if (amount && type_id && receipt) {
@@ -123,7 +126,7 @@
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
-                        body: receipt
+                        body: r_file
                     });
                     // 
 

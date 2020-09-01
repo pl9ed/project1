@@ -13,6 +13,7 @@ public class Main {
 		dao.createUser(td.dummy);
 		dao.createReimbursement(td.r1);
 		dao.createReimbursement(td.r2);
+		dao.createReimbursement(td.r3);
 		System.out.println("Done with setup!");
 	}
 
