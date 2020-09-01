@@ -18,7 +18,6 @@ public class EmployeeServices {
 	public EmployeeServices(int user, ReimbDAO dao) {
 		this.user = user;
 		this.dao = dao;
-		
 	}
 	
 	public boolean submitReimb(Reimbursement r) {

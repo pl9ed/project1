@@ -29,7 +29,7 @@
 
             </div>
             <div class="col-2 text-right">
-                <button id="logout_btn" class="btn btn-primary" style="margin:10px">
+                <button id="logout_btn" class="btn btn-info" style="margin:10px" onclick="goHome()">
                     Logout
                 </button>
             </div>
@@ -65,11 +65,17 @@
                             </div>
                         </div>
                         <div class="form-row" style="margin-left:10px">
-                            <label class="col text-left">Upload Receipt</label>
-                            <input id="receipt" type="file" class="form-control-file text-right" accept=".png, .bmp, .jpg, .gif, .pdf">
+                            <div class="col"> 
+                            <label class="custom-file-label text-left" for="receipt">Upload Receipt</label>
+                            <div class="custom-file">
+                            <input id="receipt" type="file" class="custom-file-input text-right"
+                                accept=".png, .bmp, .jpg, .gif, .pdf">
+                            </div>
+                        </div>
                         </div>
                         <div class="form-row" style="margin-top:20px">
-                            <button class="btn btn-primary btn-block" onclick="createReimbursement(); return false;">Submit</button>
+                            <button class="btn btn-primary btn-block"
+                                onclick="createReimbursement(); return false;">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -78,11 +84,8 @@
     </div>
 
     <script>
+        let user_id = sessionStorage.getItem("user_id");
         let today = new Date().getTime();
-        
-        // need reimb_id/number of reimbursements from previous page?
-        // then parse to int and +1
-        let REIMB_ID = sessionStorage.getItem("n_reimbursements");
 
         async function createReimbursement() {
             let amount = document.getElementById("amount").value;
@@ -90,12 +93,52 @@
             let description = document.getElementById("description").value;
             let receipt = document.getElementById("receipt").value;
 
-            // console.log(amount);
-            // console.log(type_id);
-            // console.log(description);
-            // console.log(receipt);
+            // null check
+            if (amount && type_id && receipt) {
 
-            // setTimeout(5000);
+                // console.log(amount);
+                // console.log(type_id);
+                // console.log(description);
+                // console.log(receipt);
+
+                // setTimeout(5000);
+
+                let r = {
+                    amount: amount,
+                    type_ID: type_id,
+                    description: description,
+                    author: user_id,
+                };
+
+                console.log(JSON.stringify(r));
+
+                try {
+                    let response = await fetch("http://localhost:8006/project1/apply", {
+                        method: 'PUT',
+                        body: JSON.stringify(r)
+                    });
+
+                    response = await fetch("http://localhost:8006/project1/apply", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+                        body: receipt
+                    });
+                    // 
+
+                } catch (error) {
+                    alert("Error submitting your reimbursement. Please try again.")
+                    console.log(error);
+                }
+            } else {
+                alert("Missing required fields!");
+            }
+        }
+
+        async function goHome() {
+            sessionStorage.clear();
+            window.location.href = "http://localhost:8006/project1/index";
         }
 
     </script>

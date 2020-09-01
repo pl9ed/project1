@@ -54,7 +54,9 @@ public class EmployeeServicesTest {
 	@Test
 	public void testSubmitReimbRepeat() {
 		assertTrue(es.submitReimb(td.r1));
-		assertFalse(es.submitReimb(td.r1));
+		assertTrue(es.submitReimb(td.r3));
+		// no longer applicable after SERIAL id
+		// assertFalse(es.submitReimb(td.r1));
 	}
 	
 	@Test

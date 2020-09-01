@@ -12,13 +12,17 @@
 <body>
     <div class="container-fluid">
         <div class="row" style="background-color:#f0f7ff">
-            <div class="col-2"></div>
+            <div class="col-2 my-auto align-middle">
+                <button id="new_btn" class="btn btn-info" style="margin:10px" onclick="newReimb()">
+                    New Reimbursement
+                </button>
+            </div>
             <div class="col text-center">
                 <h2 id="title" style="margin:5px"></h2>
 
             </div>
-            <div class="col-2 text-right">
-                <button id="logout_btn" class="btn btn-primary" style="margin:10px">
+            <div class="col-2 my-auto text-right">
+                <button id="logout_btn" class="btn btn-info" style="margin:10px" onclick="goHome()">
                     Logout
                 </button>
             </div>
@@ -39,59 +43,112 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="reimb" items="${reimbursements}">
-                            <tr>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                </td>
-                                <td>
-                                    <form action="ViewReimb?id=$[reimb.id}" method="get">
-                                        <input type="hidden" name=reimbid value="{reimb.id}">
-                                        <button class="btn btn-primary">View Details</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </c:forEach>
+                        <!-- empty row needed for table-hover to work properly -->
+                        <tr></tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
+    <!-- <script src="${pageContext.request.contextPath}/emp_portal.js"></script> -->
 
     <script>
-        var user;
         let username = sessionStorage.getItem("username");
-        console.log(username);
-
         getUser(username);
-        getReimb(user.user_ID)
 
         async function getUser(username) {
             console.log(username);
-            let response = await fetch("http://localhost:8006/project1/login?username=" + username);
-            user = await response.json();
-            console.log(JSON.stringify(user));
+
+            try {
+                let response = await fetch("http://localhost:8006/project1/login?username=" + username);
+                user = await response.json();
+                console.log(typeof (user));
+            } catch (error) {
+                alert("Error getting user data!");
+                console.log(error);
+            }
             let title = document.getElementById("title");
             console.log(user.first_NAME);
             title.innerHTML = "WELCOME, " + user.first_NAME + "!";
+
+            sessionStorage.setItem("user_id",user.user_ID);
+            
+            getReimbFor(user.user_ID);
+
         }
 
+        async function goHome() {
+            sessionStorage.clear();
+            window.location.href = "http://localhost:8006/project1/index";
+        }
 
-        async function getReimb(id) {
-            let response = await fetch("/ReimbursementsFor?"+id);
-            let list = await response.json();
+        async function getReimbFor(id) {
+            try {
+                let response = await fetch("http://localhost:8006/project1/EmployeePortal?id=" + user.user_ID);
+                let list = await response.text();
+                list = list.trim().split("@@@");
 
-            // for each element in the list: 
-            let table = document.getElementById("reimb_table");
+                // remove last element
+                // split includes empty final element since the string ends with @@@
+                list.pop();
 
-            list.forEach(addToTable());
-            let tr = table.insertRow(-1);
+                // add row for each reimb
+                for (let reimb of list) {
+                    reimb = JSON.parse(reimb);
+                    console.log(reimb)
+                    document.getElementById
+
+                    let table = document.getElementById("reimb_table");
+                    let tr = table.insertRow(-1);
+
+                    let id_col = tr.insertCell(0);
+                    let amount_col = tr.insertCell(1);
+                    let submit_col = tr.insertCell(2);
+                    let status_col = tr.insertCell(3);
+                    let but_col = tr.insertCell(4);
+
+                    let id = document.createTextNode(reimb.REIMB_ID);
+                    let amount = document.createTextNode(reimb.AMOUNT);
+                    let submit = document.createTextNode(reimb.SUBMITTED);
+                    let status = document.createTextNode(reimb.STATUS);
+                    let but = document.createElement("button");
+
+                    // color code status
+                    if (reimb.STATUS == "APPROVED") {
+                        status_col.style.color = "green";
+                    } else if (reimb.STATUS == "DENIED") {
+                        status_col.style.color = "red";
+                    }
+
+                    status_col.style.fontWeight = "bold";
+
+                    // button settings
+                    but.setAttribute("class", "btn btn-info");
+                    but.setAttribute("onclick", "viewReimb()");
+                    but.setAttribute("id", "${reimb.REIMB_ID}");
+                    but.textContent = "View Details";
+
+                    id_col.appendChild(id);
+                    amount_col.appendChild(amount);
+                    submit_col.appendChild(submit);
+                    status_col.appendChild(status);
+                    but_col.appendChild(but);
+                }
+
+            } catch (error) {
+                alert("Error getting user data!");
+                console.log(error);
+            }
+
+            $("td").each(function () {
+                $(this).addClass("align-middle");
+            })
+
+        }
+
+        async function newReimb() {
+            window.location.href="http://localhost:8006/project1/apply"
         }
 
     </script>

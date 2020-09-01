@@ -1,5 +1,7 @@
 package com.revature.data;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.Date;
@@ -10,8 +12,8 @@ public class Reimbursement implements Comparable<Reimbursement> {
 	private double AMOUNT;
 	private LocalDate SUBMITTED;
 	private LocalDate RESOLVED;
-	private String DESCRIPTION;
-	private InputStream RECEIPT;
+	private String DESCRIPTION = "Missing description!";
+	private InputStream RECEIPT = new ByteArrayInputStream(new byte[0]);
 	private int AUTHOR=0;
 	private int RESOLVER=0;
 	private int TYPE_ID=0;

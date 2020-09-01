@@ -133,17 +133,17 @@ public class User implements Comparable<User> {
 		if (EMAIL == null) {
 			if (other.EMAIL != null)
 				return false;
-		} else if (!EMAIL.equals(other.EMAIL))
+		} else if (!EMAIL.equalsIgnoreCase(other.EMAIL))
 			return false;
 		if (FIRST_NAME == null) {
 			if (other.FIRST_NAME != null)
 				return false;
-		} else if (!FIRST_NAME.equals(other.FIRST_NAME))
+		} else if (!FIRST_NAME.equalsIgnoreCase(other.FIRST_NAME))
 			return false;
 		if (LAST_NAME == null) {
 			if (other.LAST_NAME != null)
 				return false;
-		} else if (!LAST_NAME.equals(other.LAST_NAME))
+		} else if (!LAST_NAME.equalsIgnoreCase(other.LAST_NAME))
 			return false;
 		if (PASSHASH == null) {
 			if (other.PASSHASH != null)
@@ -154,7 +154,7 @@ public class User implements Comparable<User> {
 		if (USERNAME == null) {
 			if (other.USERNAME != null)
 				return false;
-		} else if (!USERNAME.equals(other.USERNAME))
+		} else if (!USERNAME.equalsIgnoreCase(other.USERNAME))
 			return false;
 		if (USER_ID != other.USER_ID)
 			return false;

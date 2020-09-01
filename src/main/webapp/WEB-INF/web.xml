@@ -8,6 +8,16 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
+	<!--<servlet> 
+		<servlet-class></servlet-class> 
+		<servlet-name></servlet-name> 
+		</servlet> 
+		
+		<servlet-mapping> 
+		<servlet-name></servlet-name>
+		<url-pattern></url-pattern> 
+		</servlet-mapping> -->
+
 	<servlet>
 		<servlet-class>com.revature.web.IndexServlet</servlet-class>
 		<servlet-name>IndexServlet</servlet-name>
@@ -25,7 +35,7 @@
 		<servlet-name>EmployeePortalServlet</servlet-name>
 		<url-pattern>/EmployeePortal</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-class>com.revature.web.InvalidLoginServlet</servlet-class>
 		<servlet-name>InvalidLoginServlet</servlet-name>
@@ -33,6 +43,21 @@
 	<servlet-mapping>
 		<servlet-name>InvalidLoginServlet</servlet-name>
 		<url-pattern>/InvalidLogin</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/static/*</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-class>com.revature.web.ApplyServlet</servlet-class>
+		<servlet-name>ApplyServlet</servlet-name>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ApplyServlet</servlet-name>
+		<url-pattern>/apply</url-pattern>
 	</servlet-mapping>
 
 	<filter>
@@ -44,6 +69,25 @@
 		<url-pattern>/*</url-pattern>
 		<!-- All requests should go through our CORS filter -->
 	</filter-mapping>
+
+	<servlet>
+		<servlet-class>com.revature.web.Status401Servlet</servlet-class>
+		<servlet-name>401Servlet</servlet-name>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>401Servlet</servlet-name>
+		<url-pattern>/401</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-class>com.revature.web.Status404Servlet</servlet-class>
+		<servlet-name>404Servlet</servlet-name>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>404Servlet</servlet-name>
+		<url-pattern>/404</url-pattern>
+	</servlet-mapping>
+
 
 	<error-page>
 		<error-code>404</error-code>

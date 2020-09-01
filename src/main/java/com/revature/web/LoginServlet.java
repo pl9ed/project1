@@ -22,7 +22,7 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
-		String username = (String) request.getParameter("username");
+		String username = (String) request.getParameter("username").toUpperCase();
 		ReimbDAO dao = new ReimbDAO("public","TEST IP");
 		User u = dao.getUser(username);
 		
