@@ -24,41 +24,32 @@ public class IndexServlet extends HttpServlet {
 		request.getRequestDispatcher("/static/index.html").forward(request, resp);
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException, ServletException {
-		String username = req.getParameter("username_input");
-		String password = req.getParameter("password_input");
-		
+//	@Override
+//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+//		String username = request.getParameter("username");
+//		String password = request.getParameter("password");
+//		
 //		if(username == null || password == null || username.equals("") || password.equals("")) {
-//			resp.setStatus(400);
+//			response.setStatus(400);
 //			// Bad Request
 //			return;
 //		}
-		
-		LoginService ls = new LoginService(new ReimbDAO("public","TEST IP"));
-		int id = ls.login(username, password);
-		
-		PrintWriter pw = response.getWriter();
-		
-		switch (id) {
-		case (-1) :
-			pw.write("<script> alert('Username not found'); </script>");
-			break;
-		case (0) :
-			break;
-		default :
-			HttpSession session = req.getSession();
-			session.setAttribute("currentUser", id);
-			ReimbDAO dao = new ReimbDAO("public", "TEST IP");
-			//ReimbDAO dao = new ReimbDAO();
-			User u = dao.getUser(id);
-			
-			pw.println(om.writeValueAsString(u));
-			
-			response.setContentType("application/json");
-			response.setStatus(200);
-			response.sendRedirect("/EmployeePortal");
-			break;
-		}
-	}
+//		
+//		LoginService ls = new LoginService(new ReimbDAO("public","TEST IP"));
+//		int id = ls.login(username, password);
+//		
+//		PrintWriter pw = response.getWriter();
+//		
+//		// test 
+//		HttpSession session = request.getSession();
+//		session.setAttribute("currentUser", id);
+//		ReimbDAO dao = new ReimbDAO("public", "TEST IP");
+//		//ReimbDAO dao = new ReimbDAO();
+//		User u = dao.getUser(id);
+//		
+//		pw.println(om.writeValueAsString(u));
+//		response.setStatus(200);
+////		response.sendRedirect("/EmployeePortal.html");
+//		request.getRequestDispatcher("/EmployeePortal").forward(request, response);
+//	}
 }

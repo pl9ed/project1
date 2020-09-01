@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_4_0.xsd"
+	version="4.0">
 	<display-name>project1-paili</display-name>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+
+	<servlet>
+		<servlet-class>com.revature.web.IndexServlet</servlet-class>
+		<servlet-name>IndexServlet</servlet-name>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>IndexServlet</servlet-name>
+		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-class>com.revature.web.EmployeePortalServlet</servlet-class>
+		<servlet-name>EmployeePortalServlet</servlet-name>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EmployeePortalServlet</servlet-name>
+		<url-pattern>/EmployeePortal</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-class>com.revature.web.InvalidLoginServlet</servlet-class>
+		<servlet-name>InvalidLoginServlet</servlet-name>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InvalidLoginServlet</servlet-name>
+		<url-pattern>/InvalidLogin</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>Cors</filter-name>
+		<filter-class>com.revature.web.filters.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>Cors</filter-name>
+		<url-pattern>/*</url-pattern>
+		<!-- All requests should go through our CORS filter -->
+	</filter-mapping>
+
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404</location>
+	</error-page>
 
 </web-app>
