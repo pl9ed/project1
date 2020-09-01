@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
     <div class="container-fluid">
         <div class="row" style="background-color:#f0f7ff">
             <div class="col-2"></div>
@@ -66,15 +65,17 @@
 
 
     <script>
+        var user;
         let username = sessionStorage.getItem("username");
         console.log(username);
 
         getUser(username);
+        getReimb(user.user_ID)
 
         async function getUser(username) {
             console.log(username);
             let response = await fetch("http://localhost:8006/project1/login?username=" + username);
-            let user = await response.json();
+            user = await response.json();
             console.log(JSON.stringify(user));
             let title = document.getElementById("title");
             console.log(user.first_NAME);

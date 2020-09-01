@@ -19,7 +19,9 @@ public class EmployeePortalServlet extends HttpServlet {
 	private static final long serialVersionUID = 6154472678247648982L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		
+		response.setStatus(401);
+		request.getRequestDispatcher("/static/401.html").forward(request, response);
+
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
