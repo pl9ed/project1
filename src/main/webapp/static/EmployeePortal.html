@@ -51,6 +51,24 @@
         </div>
     </div>
 
+    <div class="modal fade" id="reimb_modal" tabindex="-1" role="dialog" aria-labelledby="reimb_modal_title" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="reimb_modal_title"></h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <!-- <script src="${pageContext.request.contextPath}/emp_portal.js"></script> -->
 
     <script>
@@ -125,8 +143,10 @@
 
                     // button settings
                     but.setAttribute("class", "btn btn-info");
-                    but.setAttribute("onclick", "viewReimb()");
-                    but.setAttribute("id", "${reimb.REIMB_ID}");
+                    but.setAttribute("onclick", "viewReimb(" + `"${reimb.REIMB_ID}"` + ")");
+                    but.setAttribute("id", `"${reimb.REIMB_ID}"`);
+                    but.setAttribute("data-toggle", "modal");
+                    but.setAttribute("data-target", "#reimb_modal")
                     but.textContent = "View Details";
 
                     id_col.appendChild(id);
@@ -144,6 +164,19 @@
             $("td").each(function () {
                 $(this).addClass("align-middle");
             })
+
+        }
+
+        async function viewReimb(reimb_ID) {
+            let response = await fetch("http://localhost:8006/project1/view?reimb_ID=" + reimb_ID);
+            let r = await response.json();
+
+            let view = document.getElementById("reimb_modal_title");
+            view.innerHTML = "Reimbursement ID: " + reimb_ID;
+
+            let d = document.getElementsByClassName("modal-body");
+            console.log(JSON.stringify(r));
+            d.innerHTML = JSON.stringify(r);
 
         }
 

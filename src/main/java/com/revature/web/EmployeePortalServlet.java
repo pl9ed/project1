@@ -27,7 +27,7 @@ public class EmployeePortalServlet extends HttpServlet {
 //		request.getRequestDispatcher("/401").forward(request, response);
 		
 		int id = Integer.parseInt(request.getParameter("id"));
-		ReimbDAO dao = new ReimbDAO("public", "TEST IP");
+		ReimbDAO dao = new ReimbDAO();
 		EmployeeServices es = new EmployeeServices(id, dao);
 		Set<Reimbursement> ret = es.myReimbursements();
 		
@@ -44,7 +44,6 @@ public class EmployeePortalServlet extends HttpServlet {
 		}
 		
 		pw.print(json);
-
 		
 	}
 	

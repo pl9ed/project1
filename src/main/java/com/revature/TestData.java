@@ -61,6 +61,7 @@ public class TestData {
 		r1.setREIMB_TYPE("LODGING");
 		r1.setSTATUS_ID(0);
 		r1.setStatus("PENDING");
+		r1.setFileName("r1.png");
 		
 		// r2: approved
 		r2.setREIMB_ID(2);
@@ -74,6 +75,7 @@ public class TestData {
 		r2.setStatus("APPROVED");
 		r2.setRESOLVED(LocalDate.now());
 		r2.setRESOLVER(fm.getUSER_ID());
+		r2.setFileName("r2.png");
 		
 		r3.setAMOUNT(50);
 		r3.setAUTHOR(1);
@@ -95,7 +97,7 @@ public class TestData {
 			e.printStackTrace();
 		}
 		
-		ReimbDAO dao = new ReimbDAO("public","TEST IP");
+		ReimbDAO dao = new ReimbDAO();
 		//dao.createUser(dummy);
 		
 		sql = "CREATE TRIGGER PENDING_TRIGGER BEFORE UPDATE OF status_id ON ERS_REIMBURSEMENT \r\n" + 

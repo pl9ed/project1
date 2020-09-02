@@ -71,7 +71,9 @@ public class ReimbDAOTest {
 	@Test
 	public void testCreateReimbursement() {
 		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
+		assertTrue(dao.createReimbursement(td.r2));
 		// no longer applies after moving to SERIAL for id
 		//assertFalse(dao.createReimbursement(td.r1));
 	}

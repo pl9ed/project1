@@ -23,7 +23,7 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
 		String username = (String) request.getParameter("username").toUpperCase();
-		ReimbDAO dao = new ReimbDAO("public","TEST IP");
+		ReimbDAO dao = new ReimbDAO();
 		User u = dao.getUser(username);
 		
 		PrintWriter pw = response.getWriter();
@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
 			request.getRequestDispatcher("/InvalidLogin").forward(request, response);
 		}
 		
-		LoginService ls = new LoginService(new ReimbDAO("public","TEST IP"));
+		LoginService ls = new LoginService(new ReimbDAO());
 		int id = ls.login(username, password);
 		
 		if (id > 0) {

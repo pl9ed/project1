@@ -14,6 +14,7 @@ public class Reimbursement implements Comparable<Reimbursement> {
 	private LocalDate RESOLVED;
 	private String DESCRIPTION = "Missing description!";
 	private InputStream RECEIPT = new ByteArrayInputStream(new byte[0]);
+	private String fileName = "";
 	private int AUTHOR=0;
 	private int RESOLVER=0;
 	private int TYPE_ID=0;
@@ -90,6 +91,14 @@ public class Reimbursement implements Comparable<Reimbursement> {
 
 	public void setRECEIPT(InputStream rECEIPT) {
 		RECEIPT = rECEIPT;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 	public int getAUTHOR() {

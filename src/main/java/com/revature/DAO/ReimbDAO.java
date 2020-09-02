@@ -283,7 +283,7 @@ public class ReimbDAO implements ReimbDAOI {
 			if (r.getRESOLVED() == null) {
 				String sql = "UPDATE " + schema + ".ERS_REIMBURSEMENT SET "
 						+ "AMOUNT=?, SUBMITTED=?, DESCRIPTION=?,RECEIPT=?,AUTHOR=?,"
-						+ "TYPE_ID=?,STATUS_ID=? WHERE REIMB_ID=?";
+						+ "TYPE_ID=?,STATUS_ID=?,FILE_NAME=? WHERE REIMB_ID=?";
 				stmt = conn.prepareStatement(sql);
 
 				stmt.setDouble(1, r.getAMOUNT());
@@ -293,12 +293,13 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setInt(5, r.getAUTHOR());
 				stmt.setInt(6, r.getTYPE_ID());
 				stmt.setInt(7, r.getSTATUS_ID());
-				stmt.setInt(8, r.getREIMB_ID());
+				stmt.setString(8, r.getFileName());
+				stmt.setInt(9, r.getREIMB_ID());
 
 			} else {
 				String sql = "UPDATE " + schema + ".ERS_REIMBURSEMENT SET "
 						+ "AMOUNT=?, SUBMITTED=?, RESOLVED=?, DESCRIPTION=?,RECEIPT=?,AUTHOR=?,"
-						+ "RESOLVER=?,TYPE_ID=?,STATUS_ID=? WHERE REIMB_ID=?";
+						+ "RESOLVER=?,TYPE_ID=?,STATUS_ID=?, FILE_NAME=? WHERE REIMB_ID=?";
 				stmt = conn.prepareStatement(sql);
 
 				stmt.setDouble(1, r.getAMOUNT());
@@ -310,7 +311,8 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setInt(7, r.getRESOLVER());
 				stmt.setInt(8, r.getTYPE_ID());
 				stmt.setInt(9, r.getSTATUS_ID());
-				stmt.setInt(10, r.getREIMB_ID());
+				stmt.setString(10, r.getFileName());
+				stmt.setInt(11, r.getREIMB_ID());
 			}
 
 			devlog.info("[" + ip + "] Query: " + stmt);
@@ -424,9 +426,15 @@ public class ReimbDAO implements ReimbDAOI {
 			PreparedStatement stmt;
 
 			if (r.getRESOLVED() == null || r.getRESOLVER() == 0) {
-				sql = "INSERT INTO ".concat(schema)
-						.concat(".ERS_REIMBURSEMENT(" + "AMOUNT," + "SUBMITTED," + "DESCRIPTION,"
-								+ "RECEIPT," + "AUTHOR," + "TYPE_ID," + "STATUS_ID) VALUES(?,?,?,?,?,?,?)");
+				sql = "INSERT INTO " + schema +".ERS_REIMBURSEMENT(" 
+						+ "AMOUNT," 
+						+ "SUBMITTED," 
+						+ "DESCRIPTION,"
+						+ "RECEIPT," 
+						+ "AUTHOR," 
+						+ "TYPE_ID," 
+						+ "STATUS_ID,"
+						+ "FILE_NAME) VALUES(?,?,?,?,?,?,?,?)";
 
 				stmt = conn.prepareStatement(sql);
 //				stmt.setInt(1, r.getREIMB_ID());
@@ -437,6 +445,7 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setInt(5, r.getAUTHOR());
 				stmt.setInt(6, r.getTYPE_ID());
 				stmt.setInt(7, r.getSTATUS_ID());
+				stmt.setString(8, r.getFileName());
 
 				devlog.info("[" + ip + "] Query: " + stmt);
 
@@ -456,7 +465,7 @@ public class ReimbDAO implements ReimbDAOI {
 			} else {
 				sql = "INSERT INTO " + schema + ".ERS_REIMBURSEMENT(" + "REIMB_ID, " + "AMOUNT," + "SUBMITTED,"
 						+ "RESOLVED," + "DESCRIPTION," + "RECEIPT," + "AUTHOR," + "RESOLVER," + "TYPE_ID,"
-						+ "STATUS_ID) VALUES(?,?,?,?,?,?,?,?,?,?)";
+						+ "STATUS_ID, FILE_NAME) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
 				stmt = conn.prepareStatement(sql);
 				stmt.setInt(1, r.getREIMB_ID());
@@ -469,6 +478,7 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setInt(8, r.getRESOLVER());
 				stmt.setInt(9, r.getTYPE_ID());
 				stmt.setInt(10, r.getSTATUS_ID());
+				stmt.setString(11, r.getFileName());
 
 				devlog.info("[" + ip + "] Query: " + stmt);
 

@@ -7,7 +7,7 @@ public class Main {
 	public static void main(String[] args) {
 		TestData td = new TestData();
 		TestData.resetDB();
-		ReimbDAO dao = new ReimbDAO("public","0.0.0.0");
+		ReimbDAO dao = new ReimbDAO();
 		dao.createUser(td.employee);
 		dao.createUser(td.fm);
 		dao.createUser(td.dummy);

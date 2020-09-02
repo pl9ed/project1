@@ -123,9 +123,6 @@
 
                     response = await fetch("http://localhost:8006/project1/apply", {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        },
                         body: r_file
                     });
                     // 
@@ -137,6 +134,8 @@
             } else {
                 alert("Missing required fields!");
             }
+
+            // window.location.href = "http://localhost:8006/project1/EmployeePortal";
         }
 
         async function goHome() {
