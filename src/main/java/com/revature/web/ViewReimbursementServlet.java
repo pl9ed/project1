@@ -38,7 +38,7 @@ public class ViewReimbursementServlet extends HttpServlet {
 			
 			// write to file for view in JS
 			try (FileOutputStream fos = new FileOutputStream(f)) {
-				IOUtils.copy(r.getRECEIPT(), fos);
+				//IOUtils.copy(r.getRECEIPT(), fos);
 			} catch (IOException e) {
 				devlog.trace(this,e);
 			}
@@ -51,7 +51,5 @@ public class ViewReimbursementServlet extends HttpServlet {
 			System.out.println("error");
 			devlog.error(request.getParameter("reimb_ID") + " could not be parsed to an integer");
 		}
-
-		
 	}
 }

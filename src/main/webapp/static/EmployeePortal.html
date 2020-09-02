@@ -103,7 +103,7 @@
 
         async function getReimbFor(id) {
             try {
-                let response = await fetch("http://localhost:8006/project1/EmployeePortal?id=" + user.user_ID);
+                let response = await fetch("http://localhost:8006/project1/EmployeePortal?id=" + sessionStorage.getItem("user_id"));
                 let list = await response.text();
                 list = list.trim().split("@@@");
 

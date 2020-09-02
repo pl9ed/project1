@@ -13,7 +13,7 @@ public class Reimbursement implements Comparable<Reimbursement> {
 	private LocalDate SUBMITTED;
 	private LocalDate RESOLVED;
 	private String DESCRIPTION = "Missing description!";
-	private InputStream RECEIPT = new ByteArrayInputStream(new byte[0]);
+	private byte[] RECEIPT = new byte[0];
 	private String fileName = "";
 	private int AUTHOR=0;
 	private int RESOLVER=0;
@@ -25,7 +25,7 @@ public class Reimbursement implements Comparable<Reimbursement> {
 	public Reimbursement() {};
 
 	public Reimbursement(int rEIMB_ID, double aMOUNT, LocalDate sUBMITTED, LocalDate rESOLVED, String dESCRIPTION,
-			FileInputStream rECEIPT, int aUTHOR, int rESOLVER, int tYPE_ID, String rEIMB_TYPE,
+			byte[] rECEIPT, int aUTHOR, int rESOLVER, int tYPE_ID, String rEIMB_TYPE,
 			int sTATUS_ID, String status) {
 		super();
 		REIMB_ID = rEIMB_ID;
@@ -85,11 +85,11 @@ public class Reimbursement implements Comparable<Reimbursement> {
 		DESCRIPTION = dESCRIPTION;
 	}
 
-	public InputStream getRECEIPT() {
+	public byte[] getRECEIPT() {
 		return RECEIPT;
 	}
 
-	public void setRECEIPT(InputStream rECEIPT) {
+	public void setRECEIPT(byte[] rECEIPT) {
 		RECEIPT = rECEIPT;
 	}
 

@@ -289,7 +289,7 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setDouble(1, r.getAMOUNT());
 				stmt.setDate(2, Date.valueOf(r.getSUBMITTED()));
 				stmt.setString(3, r.getDESCRIPTION());
-				stmt.setBinaryStream(4, r.getRECEIPT());
+				stmt.setBytes(4, r.getRECEIPT());
 				stmt.setInt(5, r.getAUTHOR());
 				stmt.setInt(6, r.getTYPE_ID());
 				stmt.setInt(7, r.getSTATUS_ID());
@@ -306,7 +306,7 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setDate(2, Date.valueOf(r.getSUBMITTED()));
 				stmt.setDate(3, Date.valueOf(r.getRESOLVED()));
 				stmt.setString(4, r.getDESCRIPTION());
-				stmt.setBinaryStream(5, r.getRECEIPT());
+				stmt.setBytes(5, r.getRECEIPT());
 				stmt.setInt(6, r.getAUTHOR());
 				stmt.setInt(7, r.getRESOLVER());
 				stmt.setInt(8, r.getTYPE_ID());
@@ -441,7 +441,7 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setDouble(1, r.getAMOUNT());
 				stmt.setDate(2, Date.valueOf(r.getSUBMITTED()));
 				stmt.setString(3, r.getDESCRIPTION());
-				stmt.setBinaryStream(4, r.getRECEIPT());
+				stmt.setBytes(4, r.getRECEIPT());
 				stmt.setInt(5, r.getAUTHOR());
 				stmt.setInt(6, r.getTYPE_ID());
 				stmt.setInt(7, r.getSTATUS_ID());
@@ -473,7 +473,7 @@ public class ReimbDAO implements ReimbDAOI {
 				stmt.setDate(3, Date.valueOf(r.getSUBMITTED()));
 				stmt.setDate(4, Date.valueOf(r.getRESOLVED()));
 				stmt.setString(5, r.getDESCRIPTION());
-				stmt.setBinaryStream(6, r.getRECEIPT());
+				stmt.setBytes(6, r.getRECEIPT());
 				stmt.setInt(7, r.getAUTHOR());
 				stmt.setInt(8, r.getRESOLVER());
 				stmt.setInt(9, r.getTYPE_ID());
@@ -847,7 +847,7 @@ public class ReimbDAO implements ReimbDAOI {
 		r.setAMOUNT(rs.getDouble("AMOUNT"));
 		r.setSUBMITTED(rs.getDate("SUBMITTED").toLocalDate());
 		r.setDESCRIPTION(rs.getString("DESCRIPTION"));
-		r.setRECEIPT(rs.getBinaryStream("RECEIPT"));
+		r.setRECEIPT(rs.getBytes("RECEIPT"));
 		r.setAUTHOR(rs.getInt("AUTHOR"));
 		r.setTYPE_ID(rs.getInt("TYPE_ID"));
 		r.setREIMB_TYPE(rs.getString("REIMB_TYPE"));

@@ -3,11 +3,14 @@ package com.revature;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+
+import org.apache.commons.io.IOUtils;
 
 import com.revature.DAO.DAOUtilities;
 import com.revature.DAO.ReimbDAO;
@@ -37,19 +40,23 @@ public class TestData {
 		try {
 			//System.out.println(System.getProperty("user.dir"));
 			FileInputStream fis = new FileInputStream(f);
-			r1.setRECEIPT(fis);
+			r1.setRECEIPT(IOUtils.toByteArray(fis));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		try {
 			//System.out.println(System.getProperty("user.dir"));
 			FileInputStream fis = new FileInputStream(f);
-			r2.setRECEIPT(fis);
+			r2.setRECEIPT(IOUtils.toByteArray(fis));
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		// r1: pending, 
 		r1.setREIMB_ID(1);

@@ -98,4 +98,8 @@ BYTEA in postgres, no BLOB
 https://www.postgresql.org/docs/9.0/datatype-binary.html
 https://www.postgresql.org/docs/7.3/jdbc-binary-data.html
 
-LOOK INTO SESSIONS FOR LOGIN/LOGOUT
+
+https://commons.apache.org/proper/commons-fileupload/using.html
+
+
+https://stackoverflow.com/questions/2422468/how-to-upload-files-to-server-using-jsp-servlet/2424824#2424824
