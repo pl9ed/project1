@@ -84,7 +84,7 @@ public class ReimbDAO implements ReimbDAOI {
 			if (rs.next()) {
 				devlog.info("[" + ip + "] SUCCESS - Got Reimbursement with ID: " + id);
 				
-				return createReimbursementObject(rs);
+				return createReimbursementObjectIncludeReceipt(rs);
 			} else {
 				devlog.error("[" + ip + "] FAILURE - No Reimbursement found for ID: " + id);
 				return null;
@@ -207,6 +207,37 @@ public class ReimbDAO implements ReimbDAOI {
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL";
+			stmt = conn.prepareStatement(sql);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			int i = 0;
+			while (rs.next()) {
+				ret.add(createReimbursementObject(rs));
+				i++;
+			}
+
+			devlog.info("[" + ip + "] Returned " + i + " Reimbursements");
+			return ret;
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception when getting all reimbursements");
+			devlog.trace(this, e);
+		}
+		return ret;
+	}
+	
+	public Set<Reimbursement> getAllReimbursementsNoReceipt() {
+		PreparedStatement stmt;
+		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, "
+					+ "STATUS_ID FROM " + schema + ".ERS_REIMBURSEMENT_FULL";
 			stmt = conn.prepareStatement(sql);
 
 			devlog.info("[" + ip + "] Query: " + stmt);
@@ -582,13 +613,14 @@ public class ReimbDAO implements ReimbDAOI {
 		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 		
 		if (col_name.contains(";") || col_name.contains("'")) {
-			throw new SQLSecurityException("col_name contains invalid characters");
+			throw new SQLSecurityException(col_name + " contains invalid characters");
 		}
 
 		PreparedStatement stmt;
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "=?";
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
+					+ "STATUS_ID, STATUS, FILE_NAME FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, n);
 
@@ -631,7 +663,8 @@ public class ReimbDAO implements ReimbDAOI {
 		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
+					+ "STATUS_ID, STATUS, FILE_NAME FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
 					+ ".ERS_USERS_FULL ON AUTHOR=USER_ID" + ") WHERE " + col_name + "=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, s);
@@ -675,7 +708,8 @@ public class ReimbDAO implements ReimbDAOI {
 		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
+					+ "STATUS_ID, STATUS, FILE_NAME FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
 					+ ".ERS_USERS_FULL ON AUTHOR=USER_ID" + ") WHERE " + col_name + " LIKE ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%" + s + "%");
@@ -714,7 +748,8 @@ public class ReimbDAO implements ReimbDAOI {
 		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "=?";
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
+					+ "STATUS_ID, STATUS, FILE_NAME FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setDouble(1, n);
 
@@ -755,7 +790,8 @@ public class ReimbDAO implements ReimbDAOI {
 		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + ">=?";
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
+					+ "STATUS_ID, STATUS, FILE_NAME FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + ">=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setDouble(1, n);
 
@@ -797,7 +833,8 @@ public class ReimbDAO implements ReimbDAOI {
 		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT * FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "<=?";
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
+					+ "STATUS_ID, STATUS, FILE_NAME FROM " + schema + ".ERS_REIMBURSEMENT_FULL WHERE " + col_name + "<=?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setDouble(1, n);
 
@@ -841,7 +878,7 @@ public class ReimbDAO implements ReimbDAOI {
 		return u;
 	}
 
-	private static Reimbursement createReimbursementObject(ResultSet rs) throws SQLException, NullPointerException {
+	private static Reimbursement createReimbursementObjectIncludeReceipt(ResultSet rs) throws SQLException, NullPointerException {
 		Reimbursement r = new Reimbursement();
 
 		r.setREIMB_ID(rs.getInt("REIMB_ID"));
@@ -849,6 +886,28 @@ public class ReimbDAO implements ReimbDAOI {
 		r.setSUBMITTED(rs.getDate("SUBMITTED").toLocalDate());
 		r.setDESCRIPTION(rs.getString("DESCRIPTION"));
 		r.setRECEIPT(rs.getBytes("RECEIPT"));
+		r.setAUTHOR(rs.getInt("AUTHOR"));
+		r.setTYPE_ID(rs.getInt("TYPE_ID"));
+		r.setREIMB_TYPE(rs.getString("REIMB_TYPE"));
+		r.setSTATUS_ID(rs.getInt("STATUS_ID"));
+		r.setStatus(rs.getString("STATUS"));
+		r.setFileName(rs.getString("FILE_NAME"));
+
+		if (rs.getDate("RESOLVED") != null) {
+			r.setRESOLVED(rs.getDate("RESOLVED").toLocalDate());
+			r.setRESOLVER(rs.getInt("RESOLVER"));
+		}
+
+		return r;
+	}
+	
+	private static Reimbursement createReimbursementObject(ResultSet rs) throws SQLException, NullPointerException {
+		Reimbursement r = new Reimbursement();
+
+		r.setREIMB_ID(rs.getInt("REIMB_ID"));
+		r.setAMOUNT(rs.getDouble("AMOUNT"));
+		r.setSUBMITTED(rs.getDate("SUBMITTED").toLocalDate());
+		r.setDESCRIPTION(rs.getString("DESCRIPTION"));
 		r.setAUTHOR(rs.getInt("AUTHOR"));
 		r.setTYPE_ID(rs.getInt("TYPE_ID"));
 		r.setREIMB_TYPE(rs.getString("REIMB_TYPE"));

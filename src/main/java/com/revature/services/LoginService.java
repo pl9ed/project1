@@ -85,4 +85,32 @@ public class LoginService {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param username
+	 * @param password
+	 * @return Returns the ID of the login if successful, 0 if password is incorrect, -1 if no account with username,
+	 * -2 if user is not authorized
+	 */
+	public int FMlogin(String username, String password) {
+		User u = dao.getUser(username.toUpperCase());
+		
+		if (u == null) {
+			return -1;
+		}
+		
+		boolean success = u.passMatch(password);
+		
+		if(success) {
+			if (u.getROLE_ID() < 0) {
+				return -2;
+			}	
+			log.info("[" + ip + "] SUCCESSFUL LOGIN TO " + username);
+			return u.getUSER_ID();
+		} else {
+			log.info("[" + ip + "] ATTEMPTED LOGIN TO " + username);
+			return 0;
+		}
+	}
+	
 }

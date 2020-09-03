@@ -8,14 +8,8 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
-	<!--<servlet> 
-		<servlet-class></servlet-class> 
-		<servlet-name></servlet-name> 
-		</servlet> 
-		
-		<servlet-mapping> 
-		<servlet-name></servlet-name>
-		<url-pattern></url-pattern> 
+	<!--<servlet> <servlet-class></servlet-class> <servlet-name></servlet-name> 
+		</servlet> <servlet-mapping> <servlet-name></servlet-name> <url-pattern></url-pattern> 
 		</servlet-mapping> -->
 
 	<servlet>
@@ -28,7 +22,8 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-class>com.revature.web.employee.EmployeePortalServlet</servlet-class>
+		<servlet-class>com.revature.web.employee.EmployeePortalServlet
+		</servlet-class>
 		<servlet-name>EmployeePortalServlet</servlet-name>
 	</servlet>
 	<servlet-mapping>
@@ -58,6 +53,16 @@
 	<servlet-mapping>
 		<servlet-name>ApplyServlet</servlet-name>
 		<url-pattern>/apply</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-class>com.revature.web.FM.FMLoginServlet</servlet-class>
+		<servlet-name>FMLogin</servlet-name>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>FMLogin</servlet-name>
+		<url-pattern>/FMLogin</url-pattern>
 	</servlet-mapping>
 
 	<filter>

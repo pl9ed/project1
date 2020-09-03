@@ -50,7 +50,7 @@ public class FMServices {
 	}
 
 	public Set<Reimbursement> getAllReimbursements() {
-		return dao.getAllReimbursements();
+		return dao.getAllReimbursementsNoReceipt();
 	}
 
 	public Set<Reimbursement> amountGreaterThan(double amt) {

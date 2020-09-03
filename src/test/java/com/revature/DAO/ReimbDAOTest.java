@@ -156,6 +156,20 @@ public class ReimbDAOTest {
 		assertTrue(s.contains(td.r2)); 
 	}
 	
+	@Test
+	public void testGetAllReimbursementsNoReceipt() {
+		assertTrue(dao.getAllReimbursementsNoReceipt().size() == 0);
+		assertTrue(dao.createUser(td.employee));
+		assertTrue(dao.createUser(td.fm));
+		assertTrue(dao.createReimbursement(td.r1));
+		assertTrue(dao.createReimbursement(td.r2));
+		
+		Set<Reimbursement> s = dao.getAllReimbursements();
+		assertTrue(s.size() == 2);
+		assertTrue(s.contains(td.r1));
+		assertTrue(s.contains(td.r2)); 
+	}
+	
 
 	@Test
 	public void testUpdateUser() {
