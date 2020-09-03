@@ -25,6 +25,7 @@ public class ViewReimbursementServlet extends HttpServlet {
 	private Reimbursement r;
 	private ReimbDAO dao;
 	private static Logger devlog = Logger.getLogger(ViewReimbursementServlet.class);
+	private String imgPath = "C:\\Users\\pl9ed\\scoop\\apps\\sts\\current";
 	private static final long serialVersionUID = 604233471689635408L;
 
 	@Override
@@ -34,18 +35,17 @@ public class ViewReimbursementServlet extends HttpServlet {
 			dao = new ReimbDAO();
 			r = dao.getReimbursement(reimb_ID);
 			
-			File f = new File("/reimbursement");
+			File f = new File(r.getFileName());
 			
 			// write to file for view in JS
-			try (FileOutputStream fos = new FileOutputStream(f)) {
-				//IOUtils.copy(r.getRECEIPT(), fos);
-			} catch (IOException e) {
-				devlog.trace(this,e);
-			}
+//			try (FileOutputStream fos = new FileOutputStream(f)) {
+//				fos.write(r.getRECEIPT());
+//				System.out.println("Wrote to " + System.getProperty("user.dir"));
+//			} catch (IOException e) {
+//				devlog.trace(this,e);
+//			}
 			
 			PrintWriter pw = response.getWriter();
-			r.setRECEIPT(null);
-			System.out.println(om.writeValueAsString(r));
 			pw.println(om.writeValueAsString(r));
 		} catch (NumberFormatException e) {
 			System.out.println("error");

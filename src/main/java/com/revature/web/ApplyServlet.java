@@ -31,8 +31,8 @@ import com.revature.services.EmployeeServices;
 public class ApplyServlet extends HttpServlet {
 	private static Logger log = Logger.getLogger(ApplyServlet.class);
 	private ObjectMapper om = new ObjectMapper();
-	private Reimbursement r;
-	private EmployeeServices es;
+	private static Reimbursement r;
+	private static EmployeeServices es;
 
 	private static final long serialVersionUID = -5106547048754670654L;
 
@@ -58,23 +58,17 @@ public class ApplyServlet extends HttpServlet {
 		r.setSTATUS_ID(0);// new reimbursements always pending
 
 		es = new EmployeeServices(r.getAUTHOR(), new ReimbDAO());
-		System.out.println(r);
+
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
-//		Part filePart = request.getPart("file");
-//		String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-//		
-//		r.setRECEIPT(filePart.getInputStream());
-//		r.setFileName(fileName);
-//		
-//		//BufferedReader reader = request.getReader();
-//
-//		System.out.println(es.submitReimb(r));
 
-		System.out.println(ServletFileUpload.isMultipartContent(request));
+		if(!ServletFileUpload.isMultipartContent(request)) {
+			response.setStatus(400);
+			request.getRequestDispatcher("/static/EmployeePortal.html").forward(request, response);
+		}
 
 		// Create a factory for disk-based file items
 		DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -110,12 +104,10 @@ public class ApplyServlet extends HttpServlet {
 
 				r.setRECEIPT(buffer.toByteArray());
 				buffer.close();
+				es.submitReimb(r);
 			}
 		} catch (FileUploadException e) {
 			log.trace(this, e);
 		}
-
-		System.out.println(es.submitReimb(r));
-
 	}
 }

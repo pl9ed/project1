@@ -23,7 +23,11 @@
 <body>
     <div class="container-fluid">
         <div class="row" style="background-color:#f0f7ff">
-            <div class="col-2"></div>
+            <div class="col-2">
+                <button id="return_btn" class="btn btn-info" style="margin:10px" onclick="goBack()">
+                    Employee Portal
+                </button>
+            </div>
             <div class="col text-center">
                 <h2 id="title" style="margin:5px"></h2>
 
@@ -69,12 +73,12 @@
                             <label class="custom-file-label text-left" for="receipt">Upload Receipt</label>
                             <div class="custom-file">
                             <input id="receipt" type="file" class="custom-file-input text-right"
-                                accept=".png, .bmp, .jpg, .gif, .pdf">
+                                accept=".png, .bmp, .jpg, .gif">
                             </div>
                         </div>
                         </div>
                         <div class="form-row" style="margin-top:20px">
-                            <button class="btn btn-primary btn-block"
+                            <button class="btn btn-info btn-block"
                                 onclick="createReimbursement(); return false;">Submit</button>
                         </div>
                     </form>
@@ -84,7 +88,9 @@
     </div>
 
     <script>
-        let user_id = sessionStorage.getItem("user_id");
+        let user = JSON.parse(sessionStorage.getItem("user_obj"));
+        console.log(JSON.stringify(user));
+        let user_id = user.user_ID;
         let today = new Date().getTime();
 
         async function createReimbursement() {
@@ -110,22 +116,33 @@
                     amount: amount,
                     type_ID: type_id,
                     description: description,
-                    author: user_id,
+                    author: user_id
                 };
 
-                console.log(JSON.stringify(r));
+                // let wrapper = {
+                //     reimbursement: r,
+                //     image: r_file
+                // }
 
                 try {
+                    // Wrapper object
+                    console.log(r);
+                    //console.log(wrapper);
+                    console.log(r_file);
                     let response = await fetch("http://localhost:8006/project1/apply", {
                         method: 'PUT',
-                        body: JSON.stringify(r)
+                        body: JSON.stringify(r),
+                        withCredentials:true
                     });
 
+                    // Image
                     response = await fetch("http://localhost:8006/project1/apply", {
                         method: 'POST',
-                        body: r_file
+                        body: r_file,
+                        withCredentials:true
                     });
-                    // 
+                    
+                    window.location.href = "http://localhost:8006/project1/EmployeeHome";
 
                 } catch (error) {
                     alert("Error submitting your reimbursement. Please try again.")
@@ -135,12 +152,15 @@
                 alert("Missing required fields!");
             }
 
-            window.location.href = "http://localhost:8006/project1/EmployeeHome";
         }
 
         async function goHome() {
             sessionStorage.clear();
             window.location.href = "http://localhost:8006/project1/index";
+        }
+
+        async function goBack() {
+            window.location.href = "http://localhost:8006/project1/EmployeeHome";
         }
 
     </script>

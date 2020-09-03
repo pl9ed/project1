@@ -51,48 +51,88 @@
         </div>
     </div>
 
-    <div class="modal fade" id="reimb_modal" tabindex="-1" role="dialog" aria-labelledby="reimb_modal_title" aria-hidden="true">
+    <div class="modal fade" id="reimb_modal" tabindex="-1" role="dialog" aria-labelledby="reimb_modal_title"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="reimb_modal_title"></h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reimb_modal_title"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table id="view_reimb_table" class="table table-borderless">
+                        <style>
+                            th {
+                                text-align: right;
+                            }
+                        </style>
+                        <tbody>
+                            <tr>
+                                <th>Author</th>
+                                <td id="view_author"></td>
+                            </tr>
+                            <tr>
+                                <th>Amount</th>
+                                <td id="view_amount"></td>
+                            </tr>
+                            <tr>
+                                <th>Submit Date</th>
+                                <td id="view_submitted"></td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td id="view_type"></td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td id="view_status"></td>
+                            </tr>
+                            <tr>
+                                <th>Resolver</th>
+                                <td id="view_resolver"></td>
+                            </tr>
+                            <tr>
+                                <th>Resolve Date</th>
+                                <td id="view_resolved"></td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td id="view_description" class="text-break">
+                                    WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="container text-center">
+                        <img id="view_receipt"></img>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
 
     <!-- <script src="${pageContext.request.contextPath}/emp_portal.js"></script> -->
 
     <script>
         let username = sessionStorage.getItem("username");
+        var user;
         getUser(username);
 
         async function getUser(username) {
-            console.log(username);
-
             try {
                 let response = await fetch("http://localhost:8006/project1/login?username=" + username);
                 user = await response.json();
-                console.log(typeof (user));
+                sessionStorage.setItem("user_obj", JSON.stringify(user));
             } catch (error) {
                 alert("Error getting user data!");
                 console.log(error);
             }
             let title = document.getElementById("title");
-            console.log(user.first_NAME);
             title.innerHTML = "WELCOME, " + user.first_NAME + "!";
 
-            sessionStorage.setItem("user_id",user.user_ID);
-            
-            getReimbFor(user.user_ID);
+            getAllReimbFor(user.user_ID);
 
         }
 
@@ -101,9 +141,11 @@
             window.location.href = "http://localhost:8006/project1/index";
         }
 
-        async function getReimbFor(id) {
+        async function getAllReimbFor(id) {
             try {
-                let response = await fetch("http://localhost:8006/project1/EmployeePortal?id=" + sessionStorage.getItem("user_id"));
+                let response = await fetch("http://localhost:8006/project1/EmployeePortal?id=" + user.user_ID, {
+                    withCredentials: true
+                });
                 let list = await response.text();
                 list = list.trim().split("@@@");
 
@@ -114,8 +156,6 @@
                 // add row for each reimb
                 for (let reimb of list) {
                     reimb = JSON.parse(reimb);
-                    console.log(reimb)
-                    document.getElementById
 
                     let table = document.getElementById("reimb_table");
                     let tr = table.insertRow(-1);
@@ -168,21 +208,60 @@
         }
 
         async function viewReimb(reimb_ID) {
-            let response = await fetch("http://localhost:8006/project1/view?reimb_ID=" + reimb_ID);
+            let response = await fetch("http://localhost:8006/project1/view?reimb_ID=" + reimb_ID, {
+                withCredentials: true
+            });
             let r = await response.json();
 
             let view = document.getElementById("reimb_modal_title");
             view.innerHTML = "Reimbursement ID: " + reimb_ID;
 
-            let d = document.getElementsByClassName("modal-body");
-            console.log(JSON.stringify(r));
-            d.innerHTML = JSON.stringify(r);
+            // <td id="view_author"></td>
+            let v_a = document.getElementById("view_author");
+            let v_amt = document.getElementById("view_amount");
+            let v_sub = document.getElementById("view_submitted");
+            let v_t = document.getElementById("view_type");
+            let v_s = document.getElementById("view_status");
+            let v_resolver = document.getElementById("view_resolver");
+            let v_resolved = document.getElementById("view_resolved");
+            let v_i = document.getElementById("view_receipt");
+
+            v_a.innerHTML = user.first_NAME + " " + user.last_NAME;
+            v_amt.innerHTML = r.amount;
+
+            let submit_date = r.submitted;
+            let submit_string = submit_date.month + " " + submit_date.dayOfMonth + ", " + submit_date.year;
+            v_sub.innerHTML = submit_string;
+            
+            v_t.innerHTML = r.reimb_TYPE;
+            v_s.innerHTML = r.status;
+
+
+            console.log(r);
+            if (r.resolver) {
+                let resolve_date = r.resolved;
+                let resolve_string = resolve_date.month + " " + resolve_date.dayOfMonth + ", " + resolve_date.year;
+                v_resolved.innerHTML = resolve_string;
+                v_resolver.innerHTML = r.resolver;
+            } else {
+                v_resolved.innerHTML = "";
+                v_resolver.innerHTML = "";
+            }
+
+
+            // parse filetype
+            let filetype = r.fileName.split(".");
+
+           v_i.setAttribute("src", "data:image/" + filetype[1] + ";base64," + r.receipt);
+           console.log(v_i);
 
         }
 
         async function newReimb() {
-            window.location.href="http://localhost:8006/project1/apply"
+            window.location.href = "http://localhost:8006/project1/apply"
         }
+
+
 
     </script>
 

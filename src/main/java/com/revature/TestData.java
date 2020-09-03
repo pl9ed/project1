@@ -20,7 +20,7 @@ import com.revature.data.User;
 public class TestData {
 	public User employee;
 	public User fm;
-	public static User dummy;
+	public User dummy;
 	public Reimbursement r1, r2, r3;
 
 	
@@ -94,7 +94,7 @@ public class TestData {
 	}
 	
 	public static void resetDB() {
-		String sql = "CALL p1_db_setup()";
+		String sql = "CALL project1.p1_db_setup()";
 		
 		try (Connection conn = DAOUtilities.getConnection()) {
 			CallableStatement stmt = conn.prepareCall(sql);
@@ -103,10 +103,7 @@ public class TestData {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		ReimbDAO dao = new ReimbDAO();
-		//dao.createUser(dummy);
-		
+				
 		sql = "CREATE TRIGGER PENDING_TRIGGER BEFORE UPDATE OF status_id ON ERS_REIMBURSEMENT \r\n" + 
 				"FOR EACH ROW WHEN (OLD.STATUS_ID != 0) EXECUTE PROCEDURE PENDING_CHECK();\r\n" + 
 				"\r\n" + 

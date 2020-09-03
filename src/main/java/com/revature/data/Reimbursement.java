@@ -1,10 +1,5 @@
 package com.revature.data;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class Reimbursement implements Comparable<Reimbursement> {
@@ -41,9 +36,6 @@ public class Reimbursement implements Comparable<Reimbursement> {
 		STATUS_ID = sTATUS_ID;
 		this.status = status;
 	}
-
-
-
 
 	public int getREIMB_ID() {
 		return REIMB_ID;

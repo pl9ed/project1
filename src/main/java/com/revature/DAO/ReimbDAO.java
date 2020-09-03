@@ -853,6 +853,7 @@ public class ReimbDAO implements ReimbDAOI {
 		r.setREIMB_TYPE(rs.getString("REIMB_TYPE"));
 		r.setSTATUS_ID(rs.getInt("STATUS_ID"));
 		r.setStatus(rs.getString("STATUS"));
+		r.setFileName(rs.getString("FILE_NAME"));
 
 		if (rs.getDate("RESOLVED") != null) {
 			r.setRESOLVED(rs.getDate("RESOLVED").toLocalDate());

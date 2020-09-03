@@ -44,6 +44,10 @@ public class LoginServlet extends HttpServlet {
 		int id = ls.login(username, password);
 		
 		if (id > 0) {
+			// make cookie
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("currentUser", username);
 			request.getRequestDispatcher("/EmployeePortal").forward(request, response);
 		} else {
 			response.setStatus(200);
