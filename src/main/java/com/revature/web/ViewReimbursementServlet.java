@@ -35,9 +35,9 @@ public class ViewReimbursementServlet extends HttpServlet {
 			dao = new ReimbDAO();
 			r = dao.getReimbursement(reimb_ID);
 			
-			File f = new File(r.getFileName());
 			
 			// write to file for view in JS
+//			File f = new File(r.getFileName());
 //			try (FileOutputStream fos = new FileOutputStream(f)) {
 //				fos.write(r.getRECEIPT());
 //				System.out.println("Wrote to " + System.getProperty("user.dir"));

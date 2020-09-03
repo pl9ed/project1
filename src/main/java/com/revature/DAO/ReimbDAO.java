@@ -83,6 +83,7 @@ public class ReimbDAO implements ReimbDAOI {
 
 			if (rs.next()) {
 				devlog.info("[" + ip + "] SUCCESS - Got Reimbursement with ID: " + id);
+				
 				return createReimbursementObject(rs);
 			} else {
 				devlog.error("[" + ip + "] FAILURE - No Reimbursement found for ID: " + id);
@@ -463,22 +464,22 @@ public class ReimbDAO implements ReimbDAOI {
 				}
 
 			} else {
-				sql = "INSERT INTO " + schema + ".ERS_REIMBURSEMENT(" + "REIMB_ID, " + "AMOUNT," + "SUBMITTED,"
+				sql = "INSERT INTO " + schema + ".ERS_REIMBURSEMENT(" + "AMOUNT," + "SUBMITTED,"
 						+ "RESOLVED," + "DESCRIPTION," + "RECEIPT," + "AUTHOR," + "RESOLVER," + "TYPE_ID,"
-						+ "STATUS_ID, FILE_NAME) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+						+ "STATUS_ID, FILE_NAME) VALUES(?,?,?,?,?,?,?,?,?,?)";
 
 				stmt = conn.prepareStatement(sql);
-				stmt.setInt(1, r.getREIMB_ID());
-				stmt.setDouble(2, r.getAMOUNT());
-				stmt.setDate(3, Date.valueOf(r.getSUBMITTED()));
-				stmt.setDate(4, Date.valueOf(r.getRESOLVED()));
-				stmt.setString(5, r.getDESCRIPTION());
-				stmt.setBytes(6, r.getRECEIPT());
-				stmt.setInt(7, r.getAUTHOR());
-				stmt.setInt(8, r.getRESOLVER());
-				stmt.setInt(9, r.getTYPE_ID());
-				stmt.setInt(10, r.getSTATUS_ID());
-				stmt.setString(11, r.getFileName());
+				//stmt.setInt(1, r.getREIMB_ID());
+				stmt.setDouble(1, r.getAMOUNT());
+				stmt.setDate(2, Date.valueOf(r.getSUBMITTED()));
+				stmt.setDate(3, Date.valueOf(r.getRESOLVED()));
+				stmt.setString(4, r.getDESCRIPTION());
+				stmt.setBytes(5, r.getRECEIPT());
+				stmt.setInt(6, r.getAUTHOR());
+				stmt.setInt(7, r.getRESOLVER());
+				stmt.setInt(8, r.getTYPE_ID());
+				stmt.setInt(9, r.getSTATUS_ID());
+				stmt.setString(10, r.getFileName());
 
 				devlog.info("[" + ip + "] Query: " + stmt);
 

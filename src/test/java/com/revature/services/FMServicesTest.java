@@ -90,7 +90,6 @@ public class FMServicesTest {
 	
 	@Test
 	public void testFilterByStatus() {
-		dao.createReimbursement(td.r2);
 		r = fm.findByStatus(0);
 		assertTrue(r.size() == 1);
 		r = fm.findByStatus(1);

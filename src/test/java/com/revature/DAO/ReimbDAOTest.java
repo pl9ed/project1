@@ -83,7 +83,9 @@ public class ReimbDAOTest {
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r2));
-		assertFalse(dao.createReimbursement(td.r2));
+		
+		// can now upload "duplicates" with SERIAL ids
+		//assertFalse(dao.createReimbursement(td.r2));
 	}
 	
 	@Test
