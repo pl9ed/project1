@@ -4,6 +4,7 @@ logs/
 requirements/
 
 testing_script.sql
+*.jpg
 
 # Compiled class file
 .class

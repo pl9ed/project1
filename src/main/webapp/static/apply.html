@@ -48,7 +48,7 @@
                         <div class="form-row">
                             <div class="col-2">
                                 <label class="col text-left" for="amount">Amount</label>
-                                <input id="amount" type="number" class="form-control">
+                                <input id="amount" type="number" min="0" class="form-control">
                             </div>
                         </div>
                         <div class="form-row">
@@ -65,7 +65,7 @@
                         <div class="form-row">
                             <div class="col">
                                 <label class="col text-left">Description</label>
-                                <textarea id="description" class="form-control" rows=3></textarea>
+                                <textarea id="description" class="form-control" maxlength="1500" rows=3></textarea>
                             </div>
                         </div>
                         <div class="form-row" style="margin-left:10px">
@@ -102,8 +102,11 @@
             let r_file = new FormData();
             r_file.append("receipt", receipt);
 
+            if (amount < 0) {
+                alert("Cannot have negative reimbursements!");
+            }
             // null check
-            if (amount && type_id && receipt) {
+            else if (amount && type_id && receipt) {
 
                 // console.log(amount);
                 // console.log(type_id);

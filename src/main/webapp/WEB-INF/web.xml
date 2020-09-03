@@ -28,7 +28,7 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-class>com.revature.web.EmployeePortalServlet</servlet-class>
+		<servlet-class>com.revature.web.employee.EmployeePortalServlet</servlet-class>
 		<servlet-name>EmployeePortalServlet</servlet-name>
 	</servlet>
 	<servlet-mapping>
@@ -51,7 +51,7 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-class>com.revature.web.ApplyServlet</servlet-class>
+		<servlet-class>com.revature.web.employee.ApplyServlet</servlet-class>
 		<servlet-name>ApplyServlet</servlet-name>
 	</servlet>
 

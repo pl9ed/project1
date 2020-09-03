@@ -65,6 +65,7 @@ SELECT * FROM (ERS_USERS INNER JOIN ERS_ROLES
 ON ROLE_ID=USER_ROLE_ID);
 END;
 $$ LANGUAGE plpgsql;
+
 CALL p1_db_setup();
 
 -- RESETS DB
@@ -94,7 +95,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
---CALL p1_db_setup();
+--CALL project1.p1_db_setup();
 
 CALL p1_db_reset();
 

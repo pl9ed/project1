@@ -58,6 +58,18 @@ public class TestData {
 			e.printStackTrace();
 		}
 		
+		f = new File("large.jpg");
+		try {
+			//System.out.println(System.getProperty("user.dir"));
+			FileInputStream fis = new FileInputStream(f);
+			r3.setRECEIPT(IOUtils.toByteArray(fis));
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		// r1: pending, 
 		r1.setREIMB_ID(1);
 		r1.setAMOUNT(10.50);
@@ -86,7 +98,7 @@ public class TestData {
 		
 		r3.setAMOUNT(50);
 		r3.setAUTHOR(1);
-		r3.setDESCRIPTION("test");
+		r3.setDESCRIPTION("Large Image");
 		r3.setSUBMITTED(LocalDate.now());
 		r3.setTYPE_ID(2);
 		r3.setSTATUS_ID(0);
@@ -94,11 +106,12 @@ public class TestData {
 	}
 	
 	public static void resetDB() {
-		String sql = "CALL project1.p1_db_setup()";
+		String sql = "CALL project1.p1_db_setup(); CALL project1.p1_db_reset();";
 		
 		try (Connection conn = DAOUtilities.getConnection()) {
 			CallableStatement stmt = conn.prepareCall(sql);
-			stmt.executeUpdate();
+			stmt.execute();
+			stmt.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
