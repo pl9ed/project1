@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import com.revature.web.employee.page.LoginPage;
+
 public class ELoginTest {
 	private static WebDriver driver;
 	private LoginPage page;
