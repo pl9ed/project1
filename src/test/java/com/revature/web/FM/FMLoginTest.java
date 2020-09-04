@@ -62,6 +62,12 @@ public class FMLoginTest {
 	public void testLoginEnter() {
 		this.page.setUsername("pl");
 		this.page.setPassword("password\n");
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		assertEquals("FM Portal", driver.getTitle());
 
 	}

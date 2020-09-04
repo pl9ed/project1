@@ -236,8 +236,8 @@ public class ReimbDAO implements ReimbDAOI {
 		Set<Reimbursement> ret = new TreeSet<Reimbursement>();
 
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, "
-					+ "STATUS_ID FROM " + schema + ".ERS_REIMBURSEMENT_FULL";
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
+					+ "STATUS_ID, STATUS, FILE_NAME FROM " + schema + ".ERS_REIMBURSEMENT_FULL";
 			stmt = conn.prepareStatement(sql);
 
 			devlog.info("[" + ip + "] Query: " + stmt);

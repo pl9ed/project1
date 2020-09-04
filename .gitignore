@@ -2,6 +2,7 @@ target/
 bin/
 logs/
 requirements/
+backup/
 
 testing_script.sql
 *.jpg
