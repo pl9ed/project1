@@ -222,7 +222,7 @@ public class ReimbDAOTest {
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
-		assertTrue(dao.processReimbursement(td.r1.getREIMB_ID(), true));
+		assertTrue(dao.processReimbursement(td.r1.getREIMB_ID(), td.fm.getUSER_ID(), 1));
 		
 		Reimbursement r = dao.getReimbursement(td.r1.getREIMB_ID());
 		assertTrue(r.getSTATUS_ID() == 1);
@@ -233,7 +233,7 @@ public class ReimbDAOTest {
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
-		assertTrue(dao.processReimbursement(td.r1.getREIMB_ID(), false));
+		assertTrue(dao.processReimbursement(td.r1.getREIMB_ID(), td.fm.getUSER_ID(), -1));
 		
 		Reimbursement r = dao.getReimbursement(td.r1.getREIMB_ID());
 		assertTrue(r.getSTATUS_ID() == -1);

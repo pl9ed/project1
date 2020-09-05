@@ -536,22 +536,21 @@ public class ReimbDAO implements ReimbDAOI {
 	}
 
 	@Override
-	public boolean processReimbursement(int id, boolean b) {
+	public boolean processReimbursement(int id, int resolver, int decision) {
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "UPDATE " + schema + ".ERS_REIMBURSEMENT SET STATUS_ID=? WHERE REIMB_ID=?";
+			String sql = "UPDATE " + schema + ".ERS_REIMBURSEMENT SET STATUS_ID=?, RESOLVER=? WHERE REIMB_ID=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
-			int decision = b ? 1 : -1;
-
 			stmt.setInt(1, decision);
-			stmt.setInt(2, id);
+			stmt.setInt(2, resolver);
+			stmt.setInt(3, id);
 
 			devlog.info("[" + ip + "] Query: " + stmt);
 
 			int rowcount = stmt.executeUpdate();
 
 			if (rowcount == 1) {
-				infolog.info("[" + ip + "] SUCCESS - PROCESSED REIMBURSEMENT WITH ID: " + id);
+				infolog.info("[" + ip + "] SUCCESS - PROCESSED REIMBURSEMENT WITH ID: " + id + ", APPROVED = " + decision);
 				devlog.info("[" + ip + "] SUCCESS: " + stmt);
 				return true;
 			} else {

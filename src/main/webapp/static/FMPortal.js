@@ -19,6 +19,9 @@ async function loadPage(username) {
         console.log(error);
     }
 
+    console.log(user);
+    console.log(typeof (user));
+
     let list = await getAllReimb(user.user_ID);
     sessionStorage.setItem("allReimb", JSON.stringify(list));
 
@@ -57,7 +60,7 @@ async function getAllReimb(id) {
 // ---------------------- Filter Methods -----------------------------------
 
 function getBySearch(list, searchBy, searchTerm) {
-    ret = list.filter(function(item) {
+    ret = list.filter(function (item) {
         return JSON.parse(item)[searchBy] == searchTerm;
     });
 
@@ -74,8 +77,6 @@ function goHomeFM() {
 // -------------------   View Methods  ----------------------------------
 async function generateTable() {
     let list = JSON.parse(sessionStorage.getItem("allReimb"));
-    console.log(list);
-    console.log(typeof(list));
 
     let pending = document.getElementById("check_pending").checked;
     let approved = document.getElementById("check_approved").checked;
@@ -83,31 +84,26 @@ async function generateTable() {
 
     // remove unchecked
     if (!pending) {
-        list = list.filter(function(item) {
+        list = list.filter(function (item) {
             return JSON.parse(item).STATUS != "PENDING";
         })
     }
     if (!approved) {
-        list = list.filter(function(item) {
+        list = list.filter(function (item) {
             return JSON.parse(item).STATUS != "APPROVED";
         })
     }
     if (!denied) {
-        list = list.filter(function(item) {
+        list = list.filter(function (item) {
             return JSON.parse(item).STATUS != "DENIED";
         })
     }
 
-    console.log(pending);
-    console.log(approved);
-    console.log(denied);
-    console.log(list);
-
     // wipe old table
     let new_body = document.createElement('tbody');
     let old_body = document.getElementById("main_table");
-    old_body.parentNode.replaceChild(new_body,old_body);
-    new_body.setAttribute("id","main_table");
+    old_body.parentNode.replaceChild(new_body, old_body);
+    new_body.setAttribute("id", "main_table");
 
     for (let reimb of list) {
         reimb = JSON.parse(reimb);
@@ -156,27 +152,25 @@ async function generateTable() {
     })
 }
 
+let view = document.getElementById("reimb_modal_title");
+let v_a = document.getElementById("view_author");
+let v_amt = document.getElementById("view_amount");
+let v_sub = document.getElementById("view_submitted");
+let v_t = document.getElementById("view_type");
+let v_s = document.getElementById("view_status");
+let v_resolver = document.getElementById("view_resolver");
+let v_resolved = document.getElementById("view_resolved");
+let v_d = document.getElementById("view_description");
+let v_i = document.getElementById("view_receipt");
 
 async function viewReimb(reimb_ID) {
     let response = await fetch("http://localhost:8006/project1/view?reimb_ID=" + reimb_ID, {
         withCredentials: true
     });
     let r = await response.json();
+    sessionStorage.setItem("currentlyViewing", reimb_ID);
 
-    let view = document.getElementById("reimb_modal_title");
     view.innerHTML = "Reimbursement ID: " + reimb_ID;
-
-    // <td id="view_author"></td>
-    let v_a = document.getElementById("view_author");
-    let v_amt = document.getElementById("view_amount");
-    let v_sub = document.getElementById("view_submitted");
-    let v_t = document.getElementById("view_type");
-    let v_s = document.getElementById("view_status");
-    let v_resolver = document.getElementById("view_resolver");
-    let v_resolved = document.getElementById("view_resolved");
-    let v_d = document.getElementById("view_description");
-    let v_i = document.getElementById("view_receipt");
-
     v_a.innerHTML = r.author;
     v_amt.innerHTML = r.amount;
 
@@ -196,6 +190,8 @@ async function viewReimb(reimb_ID) {
     } else {
         v_resolved.innerHTML = "";
         v_resolver.innerHTML = "";
+        let footer = document.getElementById("modal_footer");
+        footer.setAttribute("style", "visibility:visible");
     }
 
     v_d.innerHTML = r.description;
@@ -204,9 +200,61 @@ async function viewReimb(reimb_ID) {
     let filetype = r.fileName.split(".");
 
     v_i.setAttribute("src", "data:image/" + filetype[1] + ";base64," + r.receipt);
+}
 
+async function processReimb(bool) {
+    let id = JSON.parse(sessionStorage.getItem("user_obj")).user_ID;
+    console.log(id);
+    let reimb_id = parseInt(sessionStorage.getItem("currentlyViewing"));
+    bool = bool ? 1 : -1
+
+    console.log("reimb_id " + typeof (reimb_id) + " " + reimb_id);
+    console.log("bool " + typeof (bool) + " " + bool);
+    console.log("id " + typeof (id) + " " + id);
+
+    let app = {
+        reimb_ID: reimb_id,
+        isApproved: bool,
+        resolver: id
+    }
+
+    console.log(app);
+    console.log(JSON.stringify(app));
+
+    let response = await fetch("http://localhost:8006/project1/FMPortal", {
+        method: 'PUT',
+        body: JSON.stringify(app)
+    });
+
+    response = await response.json();
+
+    console.log("process response: " + response);
+    console.log(typeof (response));
+
+    if (response) {
+        console.log(true);
+    } else {
+        console.log(false);
+    }
+}
+
+$("#reimb_modal").on('hidden.bs.modal', function () {
+    loadPage(username);
+});
+
+function clearModal() {
+    v_a.innerHTML = "";
+    v_amt.innerHTML = "";
+    v_sub.innerHTML = "";
+    v_t.innerHTML = "";
+    v_s.innerHTML = "";
+    v_resolver.innerHTML = "";
+    v_resolved.innerHTML = "";
+    v_d.innerHTML = "";
+    v_i.innerHTML = "";
 }
 
 async function applySearch() {
     // window.location.href = "http://localhost:8006/project1/apply"
 }
+

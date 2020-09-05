@@ -18,7 +18,7 @@ public interface ReimbDAOI {
 	
 	public boolean updateUser(User u);
 	public boolean updateReimbursement(Reimbursement r);
-	public boolean processReimbursement(int id, boolean b);
+	boolean processReimbursement(int id, int resolver, int decision);
 	
 	public boolean createUser(User u);
 	public boolean createReimbursement(Reimbursement r);

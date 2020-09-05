@@ -27,11 +27,15 @@ public class FMServices {
 	}
 
 	public boolean approveReimb(int id) {
-		return dao.processReimbursement(id, true);
+		return dao.processReimbursement(id, user, 1);
 	}
 
 	public boolean denyReimb(int id) {
-		return dao.processReimbursement(id, false);
+		return dao.processReimbursement(id, user, -1);
+	}
+	
+	public boolean processReimb(int id, int decision) {
+		return dao.processReimbursement(id, user, decision);
 	}
 
 	/**
