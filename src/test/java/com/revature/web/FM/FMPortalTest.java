@@ -1,5 +1,6 @@
 package com.revature.web.FM;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -39,11 +40,11 @@ public class FMPortalTest {
 
 	@After
 	public void tearDown() throws Exception {
+		this.page = null;
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testPage() {
+		assertEquals("FM Portal",driver.getTitle());
 	}
-
 }

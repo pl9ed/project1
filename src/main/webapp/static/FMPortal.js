@@ -1,14 +1,16 @@
+// run on page load -> default to 
+
 let username = sessionStorage.getItem("username");
-getUser(username);
+loadPage(username);
 
-
-async function getUser(username) {
+async function loadPage(username) {
+    var user;
     try {
         let response = await fetch("http://localhost:8006/project1/login?username=" + username);
         user = await response.json();
         sessionStorage.setItem("user_obj", JSON.stringify(user));
 
-        if (user.role_ID < 0) {
+        if (sessionStorage.getItem("user_obj").role_ID < 0) {
             window.location.href = "./401";
         }
 
@@ -16,97 +18,144 @@ async function getUser(username) {
         alert("Error getting user data!");
         console.log(error);
     }
-    console.log(user);
 
-    getAllReimb(user.user_ID);
+    let list = await getAllReimb(user.user_ID);
+    sessionStorage.setItem("allReimb", JSON.stringify(list));
 
-}
-user = sessionStorage.getItem("user_obj");
+    generateTable();
 
-async function goHomeFM() {
-    sessionStorage.clear();
-    window.location.href = "http://localhost:8006/project1/FMLogin";
+    // let test = getByStatus(list, "PENDING");
+    // console.log(test);
+
+    // test = getBySearch(list,"REIMB_ID", "2");
+    // console.log("Get by search")
+    // console.log(test);
 }
 
 async function getAllReimb(id) {
-    let pending = document.getElementById("check_pending").value;
-    let approved = document.getElementById("check_approved").value;
-    let denied = document.getElementById("check_denied").value;
-    let checks = {
-        get_pending: pending,
-        get_approved: approved,
-        get_denied: denied
-    }
-
     try {
-        console.log("id: " + id)
         let response = await fetch("http://localhost:8006/project1/FMPortal?id=" + id, {
             withCredentials: true
         });
         let list = await response.text();
         list = list.trim().split("@@@");
 
-        console.log(list);
-
-        // remove last element
+        // remove last element, if multiple
         // split includes empty final element since the string ends with @@@
-        list.pop();
-
-        // add row for each reimb
-        for (let reimb of list) {
-            reimb = JSON.parse(reimb);
-            console.log(reimb);
-
-            let table = document.getElementById("reimb_table");
-            let tr = table.insertRow(-1);
-
-            let id_col = tr.insertCell(0);
-            let amount_col = tr.insertCell(1);
-            let submit_col = tr.insertCell(2);
-            let status_col = tr.insertCell(3);
-            let but_col = tr.insertCell(4);
-
-            let id = document.createTextNode(reimb.REIMB_ID);
-            let amount = document.createTextNode(reimb.AMOUNT);
-            let submit = document.createTextNode(reimb.SUBMITTED);
-            let status = document.createTextNode(reimb.STATUS);
-            let but = document.createElement("button");
-
-            // color code status
-            if (reimb.STATUS == "APPROVED") {
-                status_col.style.color = "green";
-            } else if (reimb.STATUS == "DENIED") {
-                status_col.style.color = "red";
-            }
-
-            status_col.style.fontWeight = "bold";
-
-            // button settings
-            but.setAttribute("class", "btn btn-info");
-            but.setAttribute("onclick", "viewReimb(" + `"${reimb.REIMB_ID}"` + ")");
-            but.setAttribute("id", `"${reimb.REIMB_ID}"`);
-            but.setAttribute("data-toggle", "modal");
-            but.setAttribute("data-target", "#reimb_modal")
-            but.textContent = "View Details";
-
-            id_col.appendChild(id);
-            amount_col.appendChild(amount);
-            submit_col.appendChild(submit);
-            status_col.appendChild(status);
-            but_col.appendChild(but);
-
+        if (list.length > 1) {
+            list.pop();
         }
+
+        return list;
 
     } catch (error) {
         alert("Error getting user data!");
         console.log(error);
     }
+}
+
+// ---------------------- Filter Methods -----------------------------------
+
+function getBySearch(list, searchBy, searchTerm) {
+    ret = list.filter(function(item) {
+        return JSON.parse(item)[searchBy] == searchTerm;
+    });
+
+    return ret;
+}
+
+// -------------------    Logout Button     ------------------------------
+
+function goHomeFM() {
+    sessionStorage.clear();
+    window.location.href = "http://localhost:8006/project1/FMLogin";
+}
+
+// -------------------   View Methods  ----------------------------------
+async function generateTable() {
+    let list = JSON.parse(sessionStorage.getItem("allReimb"));
+    console.log(list);
+    console.log(typeof(list));
+
+    let pending = document.getElementById("check_pending").checked;
+    let approved = document.getElementById("check_approved").checked;
+    let denied = document.getElementById("check_denied").checked;
+
+    // remove unchecked
+    if (!pending) {
+        list = list.filter(function(item) {
+            return JSON.parse(item).STATUS != "PENDING";
+        })
+    }
+    if (!approved) {
+        list = list.filter(function(item) {
+            return JSON.parse(item).STATUS != "APPROVED";
+        })
+    }
+    if (!denied) {
+        list = list.filter(function(item) {
+            return JSON.parse(item).STATUS != "DENIED";
+        })
+    }
+
+    console.log(pending);
+    console.log(approved);
+    console.log(denied);
+    console.log(list);
+
+    // wipe old table
+    let new_body = document.createElement('tbody');
+    let old_body = document.getElementById("main_table");
+    old_body.parentNode.replaceChild(new_body,old_body);
+    new_body.setAttribute("id","main_table");
+
+    for (let reimb of list) {
+        reimb = JSON.parse(reimb);
+
+        let table = document.getElementById("main_table");
+        let tr = table.insertRow(-1);
+
+        let id_col = tr.insertCell(0);
+        let amount_col = tr.insertCell(1);
+        let submit_col = tr.insertCell(2);
+        let status_col = tr.insertCell(3);
+        let but_col = tr.insertCell(4);
+
+        let id = document.createTextNode(reimb.REIMB_ID);
+        let amount = document.createTextNode(reimb.AMOUNT);
+        let submit = document.createTextNode(reimb.SUBMITTED);
+        let status = document.createTextNode(reimb.STATUS);
+        let but = document.createElement("button");
+
+        // color code status
+        if (reimb.STATUS == "APPROVED") {
+            status_col.style.color = "green";
+        } else if (reimb.STATUS == "DENIED") {
+            status_col.style.color = "red";
+        }
+
+        status_col.style.fontWeight = "bold";
+
+        // button settings
+        but.setAttribute("class", "btn btn-info");
+        but.setAttribute("onclick", "viewReimb(" + `"${reimb.REIMB_ID}"` + ")");
+        but.setAttribute("id", `"${reimb.REIMB_ID}"`);
+        but.setAttribute("data-toggle", "modal");
+        but.setAttribute("data-target", "#reimb_modal")
+        but.textContent = "View Details";
+
+        id_col.appendChild(id);
+        amount_col.appendChild(amount);
+        submit_col.appendChild(submit);
+        status_col.appendChild(status);
+        but_col.appendChild(but);
+    }
 
     $("td").each(function () {
         $(this).addClass("align-middle");
     })
-
 }
+
 
 async function viewReimb(reimb_ID) {
     let response = await fetch("http://localhost:8006/project1/view?reimb_ID=" + reimb_ID, {
@@ -128,7 +177,7 @@ async function viewReimb(reimb_ID) {
     let v_d = document.getElementById("view_description");
     let v_i = document.getElementById("view_receipt");
 
-    v_a.innerHTML = user.first_NAME + " " + user.last_NAME;
+    v_a.innerHTML = r.author;
     v_amt.innerHTML = r.amount;
 
     let submit_date = r.submitted;
@@ -139,7 +188,6 @@ async function viewReimb(reimb_ID) {
     v_s.innerHTML = r.status;
 
 
-    console.log(r);
     if (r.resolver) {
         let resolve_date = r.resolved;
         let resolve_string = resolve_date.month + " " + resolve_date.dayOfMonth + ", " + resolve_date.year;
@@ -156,7 +204,6 @@ async function viewReimb(reimb_ID) {
     let filetype = r.fileName.split(".");
 
     v_i.setAttribute("src", "data:image/" + filetype[1] + ";base64," + r.receipt);
-    console.log(v_i);
 
 }
 

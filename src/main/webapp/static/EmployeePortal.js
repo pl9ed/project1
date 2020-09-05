@@ -107,7 +107,6 @@ async function viewReimb(reimb_ID) {
     let view = document.getElementById("reimb_modal_title");
     view.innerHTML = "Reimbursement ID: " + reimb_ID;
 
-    // <td id="view_author"></td>
     let v_a = document.getElementById("view_author");
     let v_amt = document.getElementById("view_amount");
     let v_sub = document.getElementById("view_submitted");

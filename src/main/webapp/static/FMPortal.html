@@ -15,24 +15,33 @@
 <body>
     <div class="container-fluid">
         <div class="row" style="background-color:#ffd5d5">
-            <div class="dropdown">
-                <!-- col-2 my-auto align-middle"> -->
-                <button id="search_btn" class="btn btn-danger" style="margin:10px" onclick="applySearch()">
-                    Search
-                </button>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" id="check_pending">
-                <label class="form-check-label" for="check_pending">Pending</label>
-            </div>
-            <div class="form-check form-check-inline" style="margin-left:10px">
-                <input class="form-check-input" type="checkbox" id="check_approved">
-                <label class="form-check-label" for="check_approved">Approved</label>
-            </div>
-            <div class="form-check form-check-inline" style="margin-left:10px">
-                <input class="form-check-input" type="checkbox" id="check_denied">
-                <label class="form-check-label" for="check_denied">Denied</label>
-            </div>
+            <div class="col my-auto">
+                <div class="input-group-append">
+                    <!-- <button class="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">
+                        Search by...
+                    </button>
+                    <div class="dropdown-menu">
+                        <button class="dropdown-item" type="button">ID</button>
+                        <button class="dropdown-item" type="button">Author</button>
+                        <button class="dropdown-item" type="button">Resolver</button>
+                        <button class="dropdown-item" type="button">Description</button>
+                    </div>
+                    <input type="text" okeyup="searchByTerm()"> -->
+                    <div class="form-check form-check-inline" style="margin-left:10px">
+                        <input class="form-check-input" type="checkbox" id="check_pending" onClick="generateTable()">
+                        <label class="form-check-label" for="check_pending">Pending</label>
+                    </div>
+                    <div class="form-check form-check-inline" style="margin-left:10px">
+                        <input class="form-check-input" type="checkbox" id="check_approved" onClick="generateTable()">
+                        <label class="form-check-label" for="check_approved">Approved</label>
+                    </div>
+                    <div class="form-check form-check-inline" style="margin-left:10px">
+                        <input class="form-check-input" type="checkbox" id="check_denied" onClick="generateTable()">
+                        <label class="form-check-label" for="check_denied">Denied</label>
+                    </div>
+                </div>
+
+                </div>
 
 
 
@@ -57,7 +66,7 @@
                             <th scope="col"></th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="main_table">
                         <!-- empty row needed for table-hover to work properly -->
                         <tr></tr>
                     </tbody>
@@ -78,42 +87,37 @@
                 </div>
                 <div class="modal-body">
                     <table id="view_reimb_table" class="table table-borderless">
-                        <style>
-                            th {
-                                text-align: right;
-                            }
-                        </style>
                         <tbody>
                             <tr>
-                                <th>Author</th>
+                                <th style="text-align: right">Author</th>
                                 <td id="view_author"></td>
                             </tr>
                             <tr>
-                                <th>Amount</th>
+                                <th style="text-align: right">Amount</th>
                                 <td id="view_amount"></td>
                             </tr>
                             <tr>
-                                <th>Submit Date</th>
+                                <th style="text-align: right">Submit Date</th>
                                 <td id="view_submitted"></td>
                             </tr>
                             <tr>
-                                <th>Type</th>
+                                <th style="text-align: right">Type</th>
                                 <td id="view_type"></td>
                             </tr>
                             <tr>
-                                <th>Status</th>
+                                <th style="text-align: right">Status</th>
                                 <td id="view_status"></td>
                             </tr>
                             <tr>
-                                <th>Resolver</th>
+                                <th style="text-align: right">Resolver</th>
                                 <td id="view_resolver"></td>
                             </tr>
                             <tr>
-                                <th>Resolve Date</th>
+                                <th style="text-align: right">Resolve Date</th>
                                 <td id="view_resolved"></td>
                             </tr>
                             <tr>
-                                <th>Description</th>
+                                <th style="text-align: right">Description</th>
                                 <td id="view_description" class="text-break">
                                 </td>
                             </tr>
@@ -132,6 +136,19 @@
     </div>
 
     <script src="static/FMPortal.js"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        crossorigin="anonymous"></script>
+
 
 </body>
 
