@@ -18,15 +18,15 @@
             <div class="col my-auto">
                 <div class="input-group-append">
                     <select id="dropdown_selection" class="custom-select col-3">
-                        <option selected>Search by...</option>
-                        <option value = "REIMB_ID" class="dropdown-item" type="button">ID</option>
-                        <option value = "AUTHOR" class="dropdown-item" type="button">Author</option>
-                        <option value = "RESOLVER" class="dropdown-item" type="button">Resolver</option>
-                        <option value = "DESCRIPTION" class="dropdown-item" type="button">Description</option>
+                        <option value = "default" selected>Search by...</option>
+                        <option value = "REIMB_ID" class="dropdown-item">ID</option>
+                        <option value = "AUTHOR" class="dropdown-item">Author</option>
+                        <option value = "RESOLVER" class="dropdown-item">Resolver</option>
+                        <option value = "DESCRIPTION" class="dropdown-item">Description</option>
                     </select>
                     <input id="search_term" type="text" onkeyup="searchByTerm()">
                     <div class="form-check form-check-inline" style="margin-left:10px">
-                        <input class="form-check-input" type="checkbox" id="check_pending" onClick="generateTable()">
+                        <input class="form-check-input" type="checkbox" id="check_pending" onClick="generateTable()" checked>
                         <label class="form-check-label" for="check_pending">Pending</label>
                     </div>
                     <div class="form-check form-check-inline" style="margin-left:10px">

@@ -38,14 +38,7 @@ public class FMPortalServlet extends HttpServlet {
 			String json = "";
 			// don't need entire object for the menu, only get entire object incl image when we request it
 			for (Reimbursement r : ret) {
-				json += "{"
-						+ "\"REIMB_ID\":" + r.getREIMB_ID()
-						+ ", \"AMOUNT\":" + r.getAMOUNT()
-						+ ", \"SUBMITTED\":\"" + r.getSUBMITTED() + "\""
-						+ ", \"STATUS\":\"" + r.getStatus() + "\""
-						+ ", \"AUTHOR\":\"" + r.getAUTHOR() + "\""
-						+ ", \"RESOLVER\":\"" + r.getRESOLVER() + "\""
-						+ ", \"DESCRIPTION\":\"" + r.getDESCRIPTION() + "\"}@@@";
+				json += r.toJSONString() + "@@@";
 			}
 			
 			pw.print(json);

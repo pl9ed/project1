@@ -19,20 +19,12 @@ async function loadPage(username) {
         console.log(error);
     }
 
-    console.log(user);
-    console.log(typeof (user));
+    console.log("loadPage user: " + user);
 
     let list = await getAllReimb(user.user_ID);
     sessionStorage.setItem("allReimb", JSON.stringify(list));
 
     generateTable();
-
-    // let test = getByStatus(list, "PENDING");
-    // console.log(test);
-
-    // test = getBySearch(list,"REIMB_ID", "2");
-    // console.log("Get by search")
-    // console.log(test);
 }
 
 async function getAllReimb(id) {
@@ -62,21 +54,24 @@ async function getAllReimb(id) {
 function searchByTerm() {
     let searchBy = document.getElementById("dropdown_selection").value;
     let searchTerm = document.getElementById("search_term").value;
-    console.log(searchBy);
-    console.log(searchTerm);
 
-    let list = JSON.parse(sessionStorage.getItem("allReimb"));
+    if (searchBy != "default") {
+        console.log(searchBy);
+        console.log(searchTerm);
     
-    list = list.filter(function(item) {
-        let temp = JSON.parse(item)[searchBy].toString();
-        temp = temp.toLowerCase();
-        searchTerm = searchTerm.toLowerCase();
+        let list = JSON.parse(sessionStorage.getItem("allReimb"));
         
-        return temp.includes(searchTerm);
-    })
-
-    console.log(list);
-    generateTable(list);
+        list = list.filter(function(item) {
+            let temp = JSON.parse(item)[searchBy].toString();
+            temp = temp.toLowerCase();
+            searchTerm = searchTerm.toLowerCase();
+            
+            return temp.includes(searchTerm);
+        })
+    
+        console.log(list);
+        generateTable(list);
+    }
 }
 
 // -------------------    Logout Button     ------------------------------
@@ -195,17 +190,18 @@ async function viewReimb(reimb_ID) {
     v_t.innerHTML = r.reimb_TYPE;
     v_s.innerHTML = r.status;
 
-
+    let footer = document.getElementById("modal_footer");
     if (r.resolver) {
         let resolve_date = r.resolved;
         let resolve_string = resolve_date.month + " " + resolve_date.dayOfMonth + ", " + resolve_date.year;
         v_resolved.innerHTML = resolve_string;
         v_resolver.innerHTML = r.resolver;
+        footer.setAttribute("style", "visibility:hidden");
     } else {
         v_resolved.innerHTML = "";
         v_resolver.innerHTML = "";
-        let footer = document.getElementById("modal_footer");
         footer.setAttribute("style", "visibility:visible");
+
     }
 
     v_d.innerHTML = r.description;
@@ -220,20 +216,13 @@ async function processReimb(bool) {
     let id = JSON.parse(sessionStorage.getItem("user_obj")).user_ID;
     console.log(id);
     let reimb_id = parseInt(sessionStorage.getItem("currentlyViewing"));
-    bool = bool ? 1 : -1
-
-    console.log("reimb_id " + typeof (reimb_id) + " " + reimb_id);
-    console.log("bool " + typeof (bool) + " " + bool);
-    console.log("id " + typeof (id) + " " + id);
+    bool = parseInt(bool) ? 1 : -1;
 
     let app = {
         reimb_ID: reimb_id,
         isApproved: bool,
         resolver: id
     }
-
-    console.log(app);
-    console.log(JSON.stringify(app));
 
     let response = await fetch("http://localhost:8006/project1/FMPortal", {
         method: 'PUT',
@@ -254,6 +243,7 @@ async function processReimb(bool) {
 
 $("#reimb_modal").on('hidden.bs.modal', function () {
     loadPage(username);
+    clearModal();
 });
 
 function clearModal() {

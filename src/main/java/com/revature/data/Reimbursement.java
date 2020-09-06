@@ -11,7 +11,9 @@ public class Reimbursement implements Comparable<Reimbursement> {
 	private byte[] RECEIPT = new byte[0];
 	private String fileName = "";
 	private int AUTHOR=0;
+	private String AUTHOR_NAME = "";
 	private int RESOLVER=0;
+	private String RESOLVER_NAME = "";
 	private int TYPE_ID=0;
 	private String REIMB_TYPE;
 	private int STATUS_ID=0;
@@ -35,6 +37,26 @@ public class Reimbursement implements Comparable<Reimbursement> {
 		REIMB_TYPE = rEIMB_TYPE;
 		STATUS_ID = sTATUS_ID;
 		this.status = status;
+	}
+	
+	public Reimbursement(int rEIMB_ID, double aMOUNT, LocalDate sUBMITTED, LocalDate rESOLVED, String dESCRIPTION,
+			byte[] rECEIPT, int aUTHOR, int rESOLVER, int tYPE_ID, String rEIMB_TYPE,
+			int sTATUS_ID, String status, String AUTHOR_NAME, String RESOLVER_NAME) {
+		super();
+		REIMB_ID = rEIMB_ID;
+		AMOUNT = aMOUNT;
+		SUBMITTED = sUBMITTED;
+		RESOLVED = rESOLVED;
+		DESCRIPTION = dESCRIPTION;
+		RECEIPT = rECEIPT;
+		AUTHOR = aUTHOR;
+		RESOLVER = rESOLVER;
+		TYPE_ID = tYPE_ID;
+		REIMB_TYPE = rEIMB_TYPE;
+		STATUS_ID = sTATUS_ID;
+		this.status = status;
+		this.AUTHOR_NAME = AUTHOR_NAME;
+		this.RESOLVER_NAME = RESOLVER_NAME;
 	}
 
 	public int getREIMB_ID() {
@@ -206,6 +228,23 @@ public class Reimbursement implements Comparable<Reimbursement> {
 		return "[REIMB_ID=" + REIMB_ID + ", AMOUNT=" + AMOUNT + ", SUBMITTED=" + SUBMITTED + ", RESOLVED="
 				+ RESOLVED + ", DESCRIPTION=" + DESCRIPTION + ", AUTHOR=" + AUTHOR + ", RESOLVER=" + RESOLVER
 				+ ", TYPE_ID=" + TYPE_ID  + ", STATUS_ID=" + STATUS_ID + ", status=" + status + "]";
+	}
+	
+	public String toJSONString() {
+		String ret = "";
+		
+		ret = "{"
+		+ "\"REIMB_ID\":" + this.getREIMB_ID()
+		+ ", \"AMOUNT\":" + this.getAMOUNT()
+		+ ", \"SUBMITTED\":\"" + this.getSUBMITTED() + "\""
+		+ ", \"REIMB_TYPE\": \"" + this.getREIMB_TYPE() + "\""
+		+ ", \"STATUS\":\"" + this.getStatus() + "\""
+		+ ", \"AUTHOR\":\"" + this.getAUTHOR() + "\""
+		+ ", \"RESOLVER\":\"" + this.getRESOLVER() + "\""
+		+ ", \"RESOLVED\":\"" + this.getRESOLVED() + "\""
+		+ ", \"DESCRIPTION\":\"" + this.getDESCRIPTION() + "\"}";
+		
+		return ret;
 	}
 
 	@Override
