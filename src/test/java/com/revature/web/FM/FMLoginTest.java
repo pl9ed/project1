@@ -47,11 +47,23 @@ public class FMLoginTest {
 	
 	@Test
 	public void testPage() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertEquals("ERS FM Portal",driver.getTitle());
 	}
 	
 	@Test
 	public void testLoginSucess() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		this.page.setUsername("pl");
 		this.page.setPassword("password");
 		this.page.loginClick();
@@ -60,6 +72,12 @@ public class FMLoginTest {
 	
 	@Test
 	public void testLoginEnter() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		this.page.setUsername("pl");
 		this.page.setPassword("password\n");
 		try {
@@ -73,7 +91,13 @@ public class FMLoginTest {
 	}
 	
 	@Test
-	public void testLogitnNoAuth() {
+	public void testLogitNoAuth() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		this.page.setUsername("employee");
 		this.page.setPassword("hunter2");
 		this.page.loginClick();
@@ -83,6 +107,12 @@ public class FMLoginTest {
 	
 	@Test
 	public void testLoginWrongPass() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		this.page.setUsername("pl");
 		this.page.setPassword("passwor123d");
 		this.page.loginClick();

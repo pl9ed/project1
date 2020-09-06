@@ -229,16 +229,9 @@ async function processReimb(bool) {
         body: JSON.stringify(app)
     });
 
-    response = await response.json();
-
-    console.log("process response: " + response);
-    console.log(typeof (response));
-
-    if (response) {
-        console.log(true);
-    } else {
-        console.log(false);
-    }
+    if (!response) {
+        alert("There was an error processing that reimbursement!");
+    } 
 }
 
 $("#reimb_modal").on('hidden.bs.modal', function () {

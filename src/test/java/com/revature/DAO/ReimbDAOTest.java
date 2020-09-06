@@ -52,6 +52,11 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testCreateUser() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
 		assertTrue(dao.createUser(td.employee));
 		assertFalse(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
@@ -59,6 +64,11 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testDeleteUser() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createUser(td.employee));
 		
@@ -70,6 +80,11 @@ public class ReimbDAOTest {
 
 	@Test
 	public void testCreateReimbursement() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -80,6 +95,11 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testCreateReimbursementResolved() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r2));
@@ -90,6 +110,11 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testDeleteReimbursement() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createReimbursement(td.r1));
 		
@@ -100,6 +125,12 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testGetReimbursement() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createReimbursement(td.r1));
 		Reimbursement r = dao.getReimbursement(td.r1);
@@ -108,11 +139,23 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testGetReimbursementFail() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.getReimbursement(td.r1) == null);
 	}
 	
 	@Test
 	public void testGetUser() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(td.employee.equals(dao.getUser(td.employee)));
 		assertFalse(td.fm.equals(dao.getUser(td.employee)));
@@ -120,11 +163,23 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testGetUserFail() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.getUser(-1) == null);
 	}
 	
 	@Test
 	public void testGetUserByUsername() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.getUser("employee") == null);
 		
 		assertTrue(dao.createUser(td.employee));
@@ -133,6 +188,12 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testGetAllUsers() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.getAllUsers().size() == 0);
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
@@ -144,6 +205,12 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testGetAllReimbursements() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.getAllReimbursements().size() == 0);
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
@@ -158,6 +225,12 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testGetAllReimbursementsNoReceipt() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.getAllReimbursementsNoReceipt().size() == 0);
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
@@ -173,6 +246,12 @@ public class ReimbDAOTest {
 
 	@Test
 	public void testUpdateUser() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		User u = td.employee;
 		u.setFIRST_NAME("JOE");
@@ -182,16 +261,34 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testUpdateUserNoUser() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertFalse(dao.updateUser(td.employee));
 	}
 	
 	@Test
 	public void testUpdateUserNull() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertFalse(dao.updateUser(null));
 	}
 	
 	@Test
 	public void testUpdateReimbursement() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		Reimbursement r = td.r1;
@@ -203,22 +300,46 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testUpdateReimbursementNone() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertFalse(dao.updateReimbursement(td.r1));
 	}
 	
 	@Test
 	public void testUpdateReimbursementNull() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertFalse(dao.updateReimbursement(null));
 	}
 	
 	@Test
 	public void testUpdateReimbursementInvalid() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		td.r1.setAMOUNT(-1000);
 		assertFalse(dao.updateReimbursement(td.r1));
 	}
 	
 	@Test
 	public void testprocessReimbursementApprove() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -230,6 +351,12 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testprocessReimbursementDeny() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -243,6 +370,12 @@ public class ReimbDAOTest {
 	
 	@Test
 	public void testFilterExactString() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -257,11 +390,23 @@ public class ReimbDAOTest {
 	
 	@Test(expected=SQLSecurityException.class)
 	public void testFilterExactStringInjection() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		dao.filterByExactStringField("; DROP TABLES public.ERS_USERS CASCADE;", "");
 	}
 	
 	@Test
 	public void testFilterString() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -282,11 +427,23 @@ public class ReimbDAOTest {
 	
 	@Test(expected = SQLSecurityException.class) 
 	public void testFilterStringInj() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		dao.filterByExactStringField("; DROP TABLES public.ERS_USERS CASCADE;", "");
 	}
 	
 	@Test
 	public void testFilterInt() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -310,11 +467,23 @@ public class ReimbDAOTest {
 	
 	@Test(expected = SQLSecurityException.class)
 	public void testFilterIntInj() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		dao.filterByIntField("; DROP TABLES public.ERS_USERS CASCADE;", 0);
 	}
 
 	@Test
 	public void testFilterExactDouble() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -329,11 +498,23 @@ public class ReimbDAOTest {
 	
 	@Test(expected = SQLSecurityException.class)
 	public void testFilterExactDoubleInj() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		dao.filterByExactDoubleField("; DROP TABLES public.ERS_USERS CASCADE;", 0);
 	}
 	
 	@Test
 	public void testFilterGreaterThanDouble() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -349,12 +530,24 @@ public class ReimbDAOTest {
 	
 	@Test(expected = SQLSecurityException.class)
 	public void testFilterGreaterThanDoubleInj() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		dao.filterByGreaterThanDoubleField("; DROP TABLES public.ERS_USERS CASCADE;", 0);
 	}
 	
 	
 	@Test
 	public void testFilterLessThanDouble() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.employee));
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
@@ -370,6 +563,12 @@ public class ReimbDAOTest {
 	
 	@Test(expected = SQLSecurityException.class)
 	public void testFilterLessThanDoubleInj() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		dao.filterByLessThanDoubleField("; DROP TABLES public.ERS_USERS CASCADE;", 0);
 	}
 }

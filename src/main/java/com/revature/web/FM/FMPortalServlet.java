@@ -64,9 +64,6 @@ public class FMPortalServlet extends HttpServlet {
 			pw.println("SUCCESS");
 		} else {
 			pw.print("");
-		}
-		
-//		request.getRequestDispatcher("/FMPortal").forward(request, response);
-		
+		}		
 	}
 }

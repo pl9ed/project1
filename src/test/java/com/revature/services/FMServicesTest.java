@@ -58,12 +58,24 @@ public class FMServicesTest {
 
 	@Test
 	public void testApprove() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(fm.approveReimb(1));
 		assertTrue(dao.getReimbursement(1).getSTATUS_ID() == 1);
 	}
 	
 	@Test
 	public void testApproveNotPending() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		TestData.resetDB();
 
 		dao = new ReimbDAO("public", "TEST IP");
@@ -80,16 +92,34 @@ public class FMServicesTest {
 	
 	@Test
 	public void testDeny() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(fm.denyReimb(1));
 	}
 	
 	@Test
 	public void testDenyNotPending() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(!fm.denyReimb(2));
 	}
 	
 	@Test
 	public void testFilterByStatus() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		r = fm.findByStatus(0);
 		assertTrue(r.size() == 1);
 		r = fm.findByStatus(1);
@@ -99,12 +129,24 @@ public class FMServicesTest {
 	
 	@Test
 	public void testFilterByStatusNotExist() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		TestData.resetDB();
 		assertTrue(fm.findByStatus(0).size() == 0);
 	}
 	
 	@Test
 	public void testGetAllReimbursements() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		r = fm.getAllReimbursements();
 		assertTrue(r.size() == 2);
 		assertTrue(r.contains(td.r1));
@@ -113,12 +155,24 @@ public class FMServicesTest {
 	
 	@Test
 	public void testGetAllReimbursementsEmpty() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		TestData.resetDB();
 		assertTrue(fm.getAllReimbursements().size() == 0);
 	}
 
 	@Test
 	public void testAmountGreaterThan() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		r= fm.amountGreaterThan(20);
 		assertTrue(r.size() == 1);
 		assertTrue(r.contains(td.r2));
@@ -126,6 +180,12 @@ public class FMServicesTest {
 	
 	@Test
 	public void testAmountLessThan() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		r= fm.amountLessThan(20);
 		assertTrue(r.size() == 1);
 		assertTrue(r.contains(td.r1));
@@ -133,6 +193,12 @@ public class FMServicesTest {
 	
 	@Test
 	public void testAmountExactly() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		r = fm.amountExactly(100.99);
 		assertTrue(r.size() == 1);
 		assertTrue(r.iterator().next().equals(td.r2));
@@ -140,6 +206,12 @@ public class FMServicesTest {
 	
 	@Test
 	public void testFindByUser() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		r = fm.findByUser(1);
 		assertTrue(r.size() == 2);
 		
@@ -152,6 +224,12 @@ public class FMServicesTest {
 	
 	@Test
 	public void testFindByFirstName() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		r = fm.findByFirstName("JOHN");
 		assertTrue(r.size() == 2);
 		r = fm.findByFirstName("JOE");
@@ -164,6 +242,12 @@ public class FMServicesTest {
 	
 	@Test
 	public void testFindByLastName() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		r = fm.findByLastName("DOE");
 		assertTrue(r.size() == 2);
 		r = fm.findByLastName("SMITH");

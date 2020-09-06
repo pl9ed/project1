@@ -46,11 +46,23 @@ public class ELoginTest {
 	
 	@Test
 	public void testPage() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertEquals("ERS Portal",driver.getTitle());
 	}
 	
 	@Test
 	public void testLoginSucess() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		this.page.setUsername("employee");
 		this.page.setPassword("hunter2");
 		this.page.loginClick();
@@ -60,6 +72,12 @@ public class ELoginTest {
 	
 	@Test
 	public void testLoginFail() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		this.page.setUsername("employee");
 		this.page.setPassword("hunterasdasdasd2");
 		this.page.loginClick();

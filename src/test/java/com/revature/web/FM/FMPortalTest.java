@@ -58,11 +58,23 @@ public class FMPortalTest {
 
 	@Test
 	public void testPage() throws InterruptedException {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertEquals("FM Portal",driver.getTitle());
 	}
 	
 	@Test
 	public void testNoReimbursements() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
 		
 		// 1 header row
@@ -71,6 +83,12 @@ public class FMPortalTest {
 	
 	@Test
 	public void testPendingCount() throws InterruptedException {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		page.getCheckPending().click();
 		Thread.sleep(500);
 		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
@@ -79,6 +97,12 @@ public class FMPortalTest {
 	
 	@Test
 	public void testApprovedCount() throws InterruptedException {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		page.getCheckApproved().click();
 		Thread.sleep(500);
 		
@@ -88,6 +112,12 @@ public class FMPortalTest {
 	
 	@Test
 	public void testDeniedCount() throws InterruptedException {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		page.getCheckDenied().click();
 		Thread.sleep(500);
 		
@@ -97,6 +127,12 @@ public class FMPortalTest {
 	
 	@Test
 	public void testAllCount() throws InterruptedException {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		page.getCheckApproved().click();
 		page.getCheckDenied().click();
 		page.getCheckPending().click();

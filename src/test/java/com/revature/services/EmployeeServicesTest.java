@@ -48,11 +48,23 @@ public class EmployeeServicesTest {
 
 	@Test
 	public void testSubmitReimb() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(es.submitReimb(td.r1));
 	}
 
 	@Test
 	public void testSubmitReimbRepeat() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(es.submitReimb(td.r1));
 		assertTrue(es.submitReimb(td.r3));
 		// no longer applicable after SERIAL id
@@ -61,11 +73,23 @@ public class EmployeeServicesTest {
 	
 	@Test
 	public void testSubmitReimbNull() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertFalse(es.submitReimb(null));
 	}
 	
 	@Test
 	public void testSubmitReimbInvalid() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		Reimbursement invalid = new Reimbursement();
 		invalid.setAMOUNT(-100);
 		assertFalse(es.submitReimb(invalid));
@@ -73,6 +97,12 @@ public class EmployeeServicesTest {
 	
 	@Test
 	public void testMyReimb() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertTrue(dao.createUser(td.fm));
 		assertTrue(dao.createReimbursement(td.r1));
 		assertTrue(dao.createReimbursement(td.r2));
@@ -85,13 +115,25 @@ public class EmployeeServicesTest {
 	}
 	
 	@Test
-	public void testMyReimbNoReimb() {		
+	public void testMyReimbNoReimb() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		Set<Reimbursement> r = es.myReimbursements();
 		assertTrue(r.size() == 0);
 	}
 	
 	@Test
 	public void testMyReimbNoUser() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		User u = new User();
 		u.setUSER_ID(10);
 		
@@ -99,7 +141,6 @@ public class EmployeeServicesTest {
 		Set<Reimbursement> r = es.myReimbursements();
 		
 		assertTrue(r.size() == 0);
-		
 	}
 	
 

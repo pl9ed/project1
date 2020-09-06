@@ -45,12 +45,24 @@ public class LoginServiceTest {
 
 	@Test
 	public void testSuccessfulLogin() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		System.out.println(ls.login(username,password));
 		assertTrue(ls.login(username,password) == 1);
 	}
 	
 	@Test
 	public void testWrongPassword() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		username = "employee";
 		password = "hunter";
 		assertTrue(ls.login(username, password) == 0);
@@ -59,6 +71,12 @@ public class LoginServiceTest {
 	
 	@Test
 	public void testNoUsername() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		username = "nosuchusername";
 		password = "";
 		

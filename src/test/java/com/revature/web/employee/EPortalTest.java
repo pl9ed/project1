@@ -48,11 +48,23 @@ public class EPortalTest {
 	
 	@Test
 	public void testNav() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		assertEquals(page.getTitle(), driver.getTitle());
 	}
 
 	@Test
 	public void testLogout() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		// wait for time, since the table is dynamically populated?
 		try {
 			Thread.sleep(500);
@@ -66,6 +78,12 @@ public class EPortalTest {
 	
 	@Test
 	public void testApplyBtn() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
