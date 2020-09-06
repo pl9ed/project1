@@ -59,12 +59,17 @@ async function getAllReimb(id) {
 
 // ---------------------- Filter Methods -----------------------------------
 
-function getBySearch(list, searchBy, searchTerm) {
-    ret = list.filter(function (item) {
-        return JSON.parse(item)[searchBy] == searchTerm;
-    });
+function searchByTerm() {
+    let searchBy = document.getElementById("dropdown_selection").value;
+    let searchTerm = document.getElementById("search_term").value;
+    console.log(searchBy);
+    console.log(searchTerm);
 
-    return ret;
+    list = list.filter(function(item) {
+        return JSON.parse(item)[searchBy].test(searchTerm);
+    })
+
+    console.log(list);
 }
 
 // -------------------    Logout Button     ------------------------------
@@ -75,8 +80,10 @@ function goHomeFM() {
 }
 
 // -------------------   View Methods  ----------------------------------
-async function generateTable() {
-    let list = JSON.parse(sessionStorage.getItem("allReimb"));
+async function generateTable(list) {
+    if (list == null) {
+        list = JSON.parse(sessionStorage.getItem("allReimb"));
+    } 
 
     let pending = document.getElementById("check_pending").checked;
     let approved = document.getElementById("check_approved").checked;

@@ -12,12 +12,12 @@ public class FMPortal {
 	private WebElement checkPending;
 	private WebElement checkApproved;
 	private WebElement checkDenied;
-	private WebElement searchBtn;
+	private WebElement dropdown_btn;
 	private WebElement table;
 	
 	private WebElement viewModal;
-	private WebElement modalApprove;
-	private WebElement modalDeny;
+//	private WebElement modalApprove;
+//	private WebElement modalDeny;
 	
 	public FMPortal(WebDriver d) {
 		driver = d;
@@ -30,12 +30,12 @@ public class FMPortal {
 		this.checkApproved = driver.findElement(By.id("check_approved"));
 		this.checkDenied = driver.findElement(By.id("check_denied"));
 		
-		this.searchBtn = driver.findElement(By.id("search_btn"));
+		this.dropdown_btn = driver.findElement(By.id("dropdown_btn"));
 		this.table = driver.findElement(By.id("reimb_table"));
 		
 		this.viewModal = driver.findElement(By.id("reimb_modal"));
-		this.modalApprove = driver.findElement(By.id("approve_btn"));
-		this.modalDeny = driver.findElement(By.id("deny_btn"));
+		//this.modalApprove = driver.findElement(By.id("approve_btn"));
+		//this.modalDeny = driver.findElement(By.id("deny_btn"));
 		
 	}
 	
@@ -69,8 +69,8 @@ public class FMPortal {
 		return checkDenied;
 	}
 
-	public WebElement getSearchBtn() {
-		return searchBtn;
+	public WebElement getDropdownBtn() {
+		return dropdown_btn;
 	}
 
 	public WebElement getTable() {
@@ -81,14 +81,17 @@ public class FMPortal {
 		return viewModal;
 	}
 
-	public WebElement getModalApprove() {
-		return modalApprove;
-	}
-
-	public WebElement getModalDeny() {
-		return modalDeny;
-	}
+//	public WebElement getModalApprove() {
+//		return modalApprove;
+//	}
+//
+//	public WebElement getModalDeny() {
+//		return modalDeny;
+//	}
 	
+	public boolean modalVisible() {
+		return false;
+	}
 	
 	
 }

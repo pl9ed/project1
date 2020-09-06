@@ -42,7 +42,10 @@ public class FMPortalServlet extends HttpServlet {
 						+ "\"REIMB_ID\":" + r.getREIMB_ID()
 						+ ", \"AMOUNT\":" + r.getAMOUNT()
 						+ ", \"SUBMITTED\":\"" + r.getSUBMITTED() + "\""
-						+ ", \"STATUS\":\"" + r.getStatus() + "\"}@@@";
+						+ ", \"STATUS\":\"" + r.getStatus() + "\""
+						+ ", \"AUTHOR\":\"" + r.getAUTHOR() + "\""
+						+ ", \"RESOLVER\":\"" + r.getRESOLVER() + "\""
+						+ ", \"DESCRIPTION\":\"" + r.getDESCRIPTION() + "\"}@@@";
 			}
 			
 			pw.print(json);
