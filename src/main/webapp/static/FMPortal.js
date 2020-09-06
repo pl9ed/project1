@@ -65,11 +65,18 @@ function searchByTerm() {
     console.log(searchBy);
     console.log(searchTerm);
 
+    let list = JSON.parse(sessionStorage.getItem("allReimb"));
+    
     list = list.filter(function(item) {
-        return JSON.parse(item)[searchBy].test(searchTerm);
+        let temp = JSON.parse(item)[searchBy].toString();
+        temp = temp.toLowerCase();
+        searchTerm = searchTerm.toLowerCase();
+        
+        return temp.includes(searchTerm);
     })
 
     console.log(list);
+    generateTable(list);
 }
 
 // -------------------    Logout Button     ------------------------------

@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.TreeSet;
 import java.util.Set;
 
@@ -538,12 +539,13 @@ public class ReimbDAO implements ReimbDAOI {
 	@Override
 	public boolean processReimbursement(int id, int resolver, int decision) {
 		try (Connection conn = DAOUtilities.getConnection()) {
-			String sql = "UPDATE " + schema + ".ERS_REIMBURSEMENT SET STATUS_ID=?, RESOLVER=? WHERE REIMB_ID=?";
+			String sql = "UPDATE " + schema + ".ERS_REIMBURSEMENT SET STATUS_ID=?, RESOLVER=?, RESOLVED=? WHERE REIMB_ID=?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
 			stmt.setInt(1, decision);
 			stmt.setInt(2, resolver);
-			stmt.setInt(3, id);
+			stmt.setDate(3, new Date(System.currentTimeMillis()));
+			stmt.setInt(4, id);
 
 			devlog.info("[" + ip + "] Query: " + stmt);
 
