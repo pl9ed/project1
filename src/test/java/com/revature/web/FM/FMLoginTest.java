@@ -36,6 +36,7 @@ public class FMLoginTest {
 	@Before
 	public void setUp() throws Exception {
 		this.page = new FMLoginPage(driver);
+		Thread.sleep(1000);
 
 		// this.page.navigateTo();
 	}
@@ -43,6 +44,7 @@ public class FMLoginTest {
 	@After
 	public void tearDown() throws Exception {
 		this.page = null;
+		Thread.sleep(500);
 	}
 	
 	@Test
@@ -57,7 +59,7 @@ public class FMLoginTest {
 	}
 	
 	@Test
-	public void testLoginSucess() {
+	public void testLoginSucess(){
 		String methodName = new Object() {}
 	      .getClass()
 	      .getEnclosingMethod()
@@ -87,11 +89,10 @@ public class FMLoginTest {
 			e.printStackTrace();
 		}
 		assertEquals("FM Portal", driver.getTitle());
-
 	}
 	
 	@Test
-	public void testLogitNoAuth() {
+	public void testLogitNoAuth() throws InterruptedException {
 		String methodName = new Object() {}
 	      .getClass()
 	      .getEnclosingMethod()
@@ -101,6 +102,7 @@ public class FMLoginTest {
 		this.page.setUsername("employee");
 		this.page.setPassword("hunter2");
 		this.page.loginClick();
+		Thread.sleep(500);
 		
 		assertEquals("Unauthorized Action!", driver.getTitle());
 	}

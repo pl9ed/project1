@@ -35,7 +35,7 @@ public class ELoginTest {
 	@Before
 	public void setUp() throws Exception {
 		this.page = new LoginPage(driver);
-
+		Thread.sleep(1000);
 		// this.page.navigateTo();
 	}
 	

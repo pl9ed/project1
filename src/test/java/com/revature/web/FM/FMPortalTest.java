@@ -68,15 +68,21 @@ public class FMPortalTest {
 	}
 	
 	@Test
-	public void testNoReimbursements() {
+	public void testNoReimbursements() throws InterruptedException {
 		String methodName = new Object() {}
 	      .getClass()
 	      .getEnclosingMethod()
 	      .getName();
 	    System.out.println("Running " + methodName + "...");
-	    
-		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
 		
+		page.getCheckPending().click(); // clear pending
+		
+		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
+
+//		for (WebElement r : rows) {
+//			System.out.println(r.getText());
+//		}
+//		
 		// 1 header row
 		assertTrue(rows.size() == 1);
 	}
@@ -89,7 +95,8 @@ public class FMPortalTest {
 	      .getName();
 	    System.out.println("Running " + methodName + "...");
 	    
-		page.getCheckPending().click();
+	    // default pending is checked
+		// page.getCheckPending().click();
 		Thread.sleep(500);
 		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
 		assertTrue(rows.size() == pendingCount+1);
@@ -103,6 +110,7 @@ public class FMPortalTest {
 	      .getName();
 	    System.out.println("Running " + methodName + "...");
 	    
+	    page.getCheckPending().click(); // clear pending
 		page.getCheckApproved().click();
 		Thread.sleep(500);
 		
@@ -118,6 +126,7 @@ public class FMPortalTest {
 	      .getName();
 	    System.out.println("Running " + methodName + "...");
 	    
+	    page.getCheckPending().click(); // clear pending
 		page.getCheckDenied().click();
 		Thread.sleep(500);
 		
@@ -135,7 +144,7 @@ public class FMPortalTest {
 	    
 		page.getCheckApproved().click();
 		page.getCheckDenied().click();
-		page.getCheckPending().click();
+		//page.getCheckPending().click();
 		Thread.sleep(500);
 
 		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));

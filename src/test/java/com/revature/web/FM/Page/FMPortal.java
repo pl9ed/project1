@@ -30,7 +30,7 @@ public class FMPortal {
 		this.checkApproved = driver.findElement(By.id("check_approved"));
 		this.checkDenied = driver.findElement(By.id("check_denied"));
 		
-		this.dropdown_btn = driver.findElement(By.id("dropdown_btn"));
+		this.dropdown_btn = driver.findElement(By.id("dropdown_selection"));
 		this.table = driver.findElement(By.id("reimb_table"));
 		
 		this.viewModal = driver.findElement(By.id("reimb_modal"));
