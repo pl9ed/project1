@@ -32,7 +32,8 @@ async function refreshPage() {
     let list = await getAllReimb(user.user_ID);
     sessionStorage.setItem("allReimb", JSON.stringify(list));
 
-    generateTable();
+    //generateTable();
+    searchByTerm();
 }
 
 async function getAllReimb(id) {
@@ -246,8 +247,8 @@ async function processReimb(bool) {
 }
 
 $("#reimb_modal").on('hidden.bs.modal', function () {
-    refreshPage();
     clearModal();
+    refreshPage();
 });
 
 function clearModal() {
