@@ -252,7 +252,7 @@ function clearModal() {
     v_resolver.innerHTML = "";
     v_resolved.innerHTML = "";
     v_d.innerHTML = "";
-    v_i.innerHTML = "";
+    v_i.setAttribute("src","");
 }
 
 async function applySearch() {
