@@ -129,12 +129,14 @@ async function generateTable(list) {
         let tr = table.insertRow(-1);
 
         let id_col = tr.insertCell(0);
-        let amount_col = tr.insertCell(1);
-        let submit_col = tr.insertCell(2);
-        let status_col = tr.insertCell(3);
-        let but_col = tr.insertCell(4);
+        let auth_col = tr.insertCell(1);
+        let amount_col = tr.insertCell(2);
+        let submit_col = tr.insertCell(3);
+        let status_col = tr.insertCell(4);
+        let but_col = tr.insertCell(5);
 
         let id = document.createTextNode(reimb.REIMB_ID);
+        let auth = document.createTextNode(reimb.AUTHOR);
         let amount = document.createTextNode(reimb.AMOUNT);
         let submit = document.createTextNode(reimb.SUBMITTED);
         let status = document.createTextNode(reimb.STATUS);
@@ -158,6 +160,7 @@ async function generateTable(list) {
         but.textContent = "View Details";
 
         id_col.appendChild(id);
+        auth_col.appendChild(auth);
         amount_col.appendChild(amount);
         submit_col.appendChild(submit);
         status_col.appendChild(status);
