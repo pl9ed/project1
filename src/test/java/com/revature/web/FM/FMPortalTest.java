@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -233,4 +234,40 @@ public class FMPortalTest {
 		}
 		assertTrue(count == allReimb.size());
 	}
+	
+	@Test
+	public void testIDSearch() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
+	    Set<Reimbursement> allReimb = dao.getAllReimbursementsNoReceipt();
+	    
+	    page.getCheckApproved().click();
+		page.getCheckDenied().click();
+	    
+	    for (Reimbursement r : allReimb) {
+	    	page.searchBy("ID", Integer.toString(r.getREIMB_ID()));
+	    	
+	    	try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			};
+	    	
+	    	List<WebElement> rows = page.getTable().findElements(By.tagName("tr"));
+	    	
+	    	for (int i = 1; i < rows.size(); i++) {
+		    	ArrayList<WebElement> cells = (ArrayList<WebElement>) rows.get(i).findElements(By.tagName("td"));
+		    			    			    	
+		    	assertTrue(cells.get(0).getText().contains(Integer.toString(r.getREIMB_ID())));
+	    	}
+	    	
+	    	page.getSearch_term().clear();
+	    }
+	}
+	
 }
