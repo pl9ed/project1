@@ -14,13 +14,21 @@ async function loadPage(username) {
             window.location.href = "./401";
         }
 
+        let list = await getAllReimb(user.user_ID);
+        sessionStorage.setItem("allReimb", JSON.stringify(list));
+
+        generateTable();
+
     } catch (error) {
         alert("Error getting user data!");
         console.log(error);
     }
+}
 
-    console.log("loadPage user: " + user);
-
+async function refreshPage() {
+    let user = JSON.parse(sessionStorage.getItem("user_obj"));
+    console.log(user);
+    console.log(user.user_ID);
     let list = await getAllReimb(user.user_ID);
     sessionStorage.setItem("allReimb", JSON.stringify(list));
 
@@ -58,17 +66,17 @@ function searchByTerm() {
     if (searchBy != "default") {
         console.log(searchBy);
         console.log(searchTerm);
-    
+
         let list = JSON.parse(sessionStorage.getItem("allReimb"));
-        
-        list = list.filter(function(item) {
+
+        list = list.filter(function (item) {
             let temp = JSON.parse(item)[searchBy].toString();
             temp = temp.toLowerCase();
             searchTerm = searchTerm.toLowerCase();
-            
+
             return temp.includes(searchTerm);
         })
-    
+
         console.log(list);
         generateTable(list);
     }
@@ -85,7 +93,7 @@ function goHomeFM() {
 async function generateTable(list) {
     if (list == null) {
         list = JSON.parse(sessionStorage.getItem("allReimb"));
-    } 
+    }
 
     let pending = document.getElementById("check_pending").checked;
     let approved = document.getElementById("check_approved").checked;
@@ -180,8 +188,8 @@ async function viewReimb(reimb_ID) {
     sessionStorage.setItem("currentlyViewing", reimb_ID);
 
     view.innerHTML = "Reimbursement ID: " + reimb_ID;
-    v_a.innerHTML = r.author;
-    v_amt.innerHTML = r.amount;
+    v_a.innerHTML = await r.author;
+    v_amt.innerHTML = await r.amount;
 
     let submit_date = r.submitted;
     let submit_string = submit_date.month + " " + submit_date.dayOfMonth + ", " + submit_date.year;
@@ -231,11 +239,11 @@ async function processReimb(bool) {
 
     if (!response) {
         alert("There was an error processing that reimbursement!");
-    } 
+    }
 }
 
 $("#reimb_modal").on('hidden.bs.modal', function () {
-    loadPage(username);
+    refreshPage();
     clearModal();
 });
 

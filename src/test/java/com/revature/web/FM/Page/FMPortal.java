@@ -34,6 +34,7 @@ public class FMPortal {
 		this.table = driver.findElement(By.id("reimb_table"));
 		
 		this.viewModal = driver.findElement(By.id("reimb_modal"));
+		
 		//this.modalApprove = driver.findElement(By.id("approve_btn"));
 		//this.modalDeny = driver.findElement(By.id("deny_btn"));
 		

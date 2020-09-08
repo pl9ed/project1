@@ -17,6 +17,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.revature.DAO.ReimbDAO;
 import com.revature.data.Reimbursement;
@@ -137,12 +139,14 @@ public class EPortalTest {
 	    	WebElement modal_btn = page.getReimbTable().findElement(By.id("\"" + Integer.toString(id) + "\""));
 	    	modal_btn.click();
 	    	
-	    	try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getReimbModal()));
+
+//	    	try {
+//				Thread.sleep(500);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 	    	
 	    	assertTrue(page.getReimbModal().isDisplayed());
 	    	assertEquals("Reimbursement ID: " + id, page.getReimbModal().findElement(By.id("reimb_modal_title")).getText());

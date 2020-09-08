@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -16,9 +17,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.revature.DAO.ReimbDAO;
 import com.revature.DAO.TestData;
+import com.revature.data.Reimbursement;
 import com.revature.web.FM.Page.FMPortal;
 
 public class FMPortalTest {
@@ -27,6 +32,7 @@ public class FMPortalTest {
 	private static int approvedCount;
 	private static int deniedCount;
 	private static int pendingCount;
+	private static ReimbDAO dao;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -34,7 +40,7 @@ public class FMPortalTest {
 		System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-		ReimbDAO dao = new ReimbDAO();
+		dao = new ReimbDAO();
 		approvedCount = dao.filterByIntField("STATUS_ID", 1).size();
 		deniedCount = dao.filterByIntField("STATUS_ID", -1).size();
 		pendingCount = dao.filterByIntField("STATUS_ID", 0).size();
@@ -159,6 +165,72 @@ public class FMPortalTest {
 	      .getName();
 	    System.out.println("Running " + methodName + "...");
 	    
-//	    List<WebElement> buttons = page.getTable()
+	    page.getCheckApproved().click();
+		page.getCheckDenied().click();
+		Set<Reimbursement> allReimb = dao.getAllReimbursementsNoReceipt();
+		int count = 0;
+		
+		for (Reimbursement r : allReimb) {
+		    WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
+		    
+		    view_btn.click();
+		    
+		    try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		    
+		    assertTrue(page.getViewModal().isDisplayed());
+	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
+	    	count++;
+	    	driver.findElement(By.className("close")).click();
+		}
+		assertTrue(count == allReimb.size());
+	}
+	
+	@Test
+	public void testViewBtnApproveDeny() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
+	    page.getCheckApproved().click();
+		page.getCheckDenied().click();
+		Set<Reimbursement> allReimb = dao.getAllReimbursementsNoReceipt();
+		int count = 0;
+		
+		for (Reimbursement r : allReimb) {
+		    WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
+		    
+		    view_btn.click();
+		    
+		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getViewModal()));
+
+		    assertTrue(page.getViewModal().isDisplayed());
+	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
+	    	
+	    	if (r.getRESOLVER() != 0) {
+		    	assertTrue(!driver.findElement(By.id("modal_approve")).isDisplayed());
+		    	assertTrue(!driver.findElement(By.id("modal_deny")).isDisplayed());
+	    	} else {
+	    		assertTrue(driver.findElement(By.id("modal_approve")).isDisplayed());
+		    	assertTrue(driver.findElement(By.id("modal_deny")).isDisplayed());
+	    	}
+
+	    	
+	    	count++;
+	    	driver.findElement(By.className("close")).click();
+	    	try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		assertTrue(count == allReimb.size());
 	}
 }

@@ -18,13 +18,6 @@ async function createReimbursement() {
     // null check
     else if (amount && type_id && receipt) {
 
-        // console.log(amount);
-        // console.log(type_id);
-        // console.log(description);
-        // console.log(receipt);
-
-        // setTimeout(5000);
-
         let r = {
             amount: amount,
             type_ID: type_id,
@@ -32,16 +25,7 @@ async function createReimbursement() {
             author: user_id
         };
 
-        // let wrapper = {
-        //     reimbursement: r,
-        //     image: r_file
-        // }
-
         try {
-            // Wrapper object
-            console.log(r);
-            //console.log(wrapper);
-            console.log(r_file);
             let response = await fetch("http://localhost:8006/project1/apply", {
                 method: 'PUT',
                 body: JSON.stringify(r),
