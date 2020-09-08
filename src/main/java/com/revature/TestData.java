@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import org.apache.commons.io.IOUtils;
 
 import com.revature.DAO.DAOUtilities;
-import com.revature.DAO.ReimbDAO;
 import com.revature.data.Reimbursement;
 import com.revature.data.User;
 
@@ -106,18 +105,20 @@ public class TestData {
 	}
 	
 	public static void resetDB() {
-		String sql = "CALL project1.p1_db_setup(); CALL project1.p1_db_reset();";
+		String sql = "CALL project1.p1_db_setup()";
 		
 		try (Connection conn = DAOUtilities.getConnection()) {
-			CallableStatement stmt = conn.prepareCall(sql);
-			stmt.execute();
-			stmt.close();
-			
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.executeUpdate();
+//			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-				
-		sql = "CREATE TRIGGER PENDING_TRIGGER BEFORE UPDATE OF status_id ON ERS_REIMBURSEMENT \r\n" + 
+	}
+	
+	public static void setupTrigger() {
+		String sql = "DROP TRIGGER IF EXISTS PENDING_TRIGGER ON ERS_REIMBURSEMENT; " + 
+				"CREATE TRIGGER PENDING_TRIGGER BEFORE UPDATE OF status_id ON ERS_REIMBURSEMENT \r\n" + 
 				"FOR EACH ROW WHEN (OLD.STATUS_ID != 0) EXECUTE PROCEDURE PENDING_CHECK();\r\n" + 
 				"\r\n" + 
 				"CREATE OR REPLACE FUNCTION PENDING_CHECK()\r\n" + 

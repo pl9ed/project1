@@ -177,18 +177,23 @@ public class FMPortalTest {
 		    view_btn.click();
 		    
 		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getViewModal()));
-		    try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//		    try {
+//				Thread.sleep(500);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
 		    
 		    assertTrue(page.getViewModal().isDisplayed());
 	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
 	    	count++;
 	    	driver.findElement(By.className("close")).click();
+	    	try {
+	    		Thread.sleep(500);
+	    	} catch (InterruptedException e) {
+	    		e.printStackTrace();
+	    	}
 		}
 		assertTrue(count == allReimb.size());
 	}
@@ -212,12 +217,12 @@ public class FMPortalTest {
 		    view_btn.click();
 		    
 		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getViewModal()));
-		    try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//		    try {
+//				Thread.sleep(500);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 
 		    assertTrue(page.getViewModal().isDisplayed());
 	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
