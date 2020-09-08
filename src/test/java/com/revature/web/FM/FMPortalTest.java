@@ -150,4 +150,15 @@ public class FMPortalTest {
 		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
 		assertTrue(rows.size() == pendingCount+deniedCount+approvedCount+1);
 	}
+	
+	@Test
+	public void testViewBtn() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
+//	    List<WebElement> buttons = page.getTable()
+	}
 }
