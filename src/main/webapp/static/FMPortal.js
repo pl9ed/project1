@@ -239,6 +239,7 @@ async function processReimb(bool) {
 }
 
 $("#reimb_modal").on('hidden.bs.modal', function () {
+    sessionStorage.removeItem("currentlyViewing");
     clearModal();
     refreshPage();
 });
