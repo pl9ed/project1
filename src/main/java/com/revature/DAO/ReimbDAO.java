@@ -393,12 +393,12 @@ public class ReimbDAO implements ReimbDAOI {
 			int rowcount = stmt.executeUpdate();
 
 			if (rowcount == 1) {
-				infolog.info("[" + ip + "] SUCCESS - CREATED USER WITH ID: " + u.getUSER_ID() + ", USERNAME: "
+				infolog.info("[" + ip + "] SUCCESS - CREATED USER WITH USERNAME: "
 						+ u.getUSERNAME());
 				devlog.info("[" + ip + "] SUCCESS: " + stmt);
 				return true;
 			} else {
-				infolog.info("[" + ip + "] FAILURE - COULD NOT CREATE USER WITH ID: " + u.getUSER_ID() + ", USERNAME: "
+				infolog.info("[" + ip + "] FAILURE - COULD NOT CREATE USER WITH USERNAME: "
 						+ u.getUSERNAME());
 				devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
 						+ " with 1 expected.");
