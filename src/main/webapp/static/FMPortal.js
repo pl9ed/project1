@@ -27,12 +27,9 @@ async function loadPage(username) {
 
 async function refreshPage() {
     let user = JSON.parse(sessionStorage.getItem("user_obj"));
-    console.log(user);
-    console.log(user.user_ID);
     let list = await getAllReimb(user.user_ID);
     sessionStorage.setItem("allReimb", JSON.stringify(list));
 
-    //generateTable();
     searchByTerm();
 }
 
@@ -65,9 +62,6 @@ function searchByTerm() {
     let searchTerm = document.getElementById("search_term").value;
 
     if (searchBy != "default") {
-        console.log(searchBy);
-        console.log(searchTerm);
-
         let list = JSON.parse(sessionStorage.getItem("allReimb"));
 
         list = list.filter(function (item) {
@@ -78,7 +72,6 @@ function searchByTerm() {
             return temp.includes(searchTerm);
         })
 
-        console.log(list);
         generateTable(list);
     }
 }
@@ -226,7 +219,6 @@ async function viewReimb(reimb_ID) {
 
 async function processReimb(bool) {
     let id = JSON.parse(sessionStorage.getItem("user_obj")).user_ID;
-    console.log(id);
     let reimb_id = parseInt(sessionStorage.getItem("currentlyViewing"));
     bool = parseInt(bool) ? 1 : -1;
 
