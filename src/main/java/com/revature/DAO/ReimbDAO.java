@@ -485,11 +485,11 @@ public class ReimbDAO implements ReimbDAOI {
 				int rowcount = stmt.executeUpdate();
 
 				if (rowcount == 1) {
-					infolog.info("[" + ip + "] SUCCESS - REIMBURSEMENT CREATED WITH ID: " + r.getREIMB_ID());
+					infolog.info("[" + ip + "] SUCCESS - REIMBURSEMENT CREATED FOR USER: " + r.getAUTHOR());
 					devlog.info("[" + ip + "] SUCCESS: " + stmt);
 					return true;
 				} else {
-					infolog.info("[" + ip + "] FAILURE - COULD NOT CREATE REIMBURSEMENT WITH ID: " + r.getREIMB_ID());
+					infolog.info("[" + ip + "] FAILURE - COULD NOT CREATE REIMBURSEMENT");
 					devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with query: " + stmt
 							+ " with 1 expected.");
 					return false;
@@ -518,11 +518,11 @@ public class ReimbDAO implements ReimbDAOI {
 				int rowcount = stmt.executeUpdate();
 
 				if (rowcount == 1) {
-					infolog.info("[" + ip + "] SUCCESS - REIMBURSEMENT CREATED WITH ID: " + r.getREIMB_ID());
+					infolog.info("[" + ip + "] SUCCESS - REIMBURSEMENT CREATED FOR USER: " + r.getAUTHOR());
 					devlog.info("[" + ip + "] SUCCESS: " + stmt);
 					return true;
 				} else {
-					infolog.info("[" + ip + "] FAILURE - COULD NOT CREATE REIMBURSEMENT WITH ID: " + r.getREIMB_ID());
+					infolog.info("[" + ip + "] FAILURE - COULD NOT CREATE REIMBURSEMENT");
 					devlog.info("[" + ip + "] FAILURE. " + rowcount + " rows updated with 1 expected.");
 					return false;
 				}

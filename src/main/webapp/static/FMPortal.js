@@ -256,7 +256,8 @@ function clearModal() {
     v_i.setAttribute("src","");
 }
 
-async function applySearch() {
-    // window.location.href = "http://localhost:8006/project1/apply"
-}
+// ------------------------------ Table Pagination -----------------------------------------
+$(document).ready(function() {
+    $('#reimb_table').DataTable();
+} );
 

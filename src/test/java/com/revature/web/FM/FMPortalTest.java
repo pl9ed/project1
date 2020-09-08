@@ -176,12 +176,14 @@ public class FMPortalTest {
 		    
 		    view_btn.click();
 		    
+		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getViewModal()));
 		    try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		    
 		    assertTrue(page.getViewModal().isDisplayed());
 	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
@@ -210,6 +212,12 @@ public class FMPortalTest {
 		    view_btn.click();
 		    
 		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getViewModal()));
+		    try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
 		    assertTrue(page.getViewModal().isDisplayed());
 	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
