@@ -92,11 +92,6 @@ public class FMPortalTest {
 		
 		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
 
-//		for (WebElement r : rows) {
-//			System.out.println(r.getText());
-//		}
-//		
-		// 1 header row
 		assertTrue(rows.size() == 1);
 	}
 	
@@ -109,7 +104,6 @@ public class FMPortalTest {
 	    System.out.println("Running " + methodName + "...");
 	    
 	    // default pending is checked
-		// page.getCheckPending().click();
 		Thread.sleep(500);
 		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
 		assertTrue(rows.size() == pendingCount+1);
@@ -157,7 +151,6 @@ public class FMPortalTest {
 	    
 		page.getCheckApproved().click();
 		page.getCheckDenied().click();
-		//page.getCheckPending().click();
 		Thread.sleep(500);
 
 		List<WebElement> rows = page.getTable().findElements(By.tagName(("tr")));
@@ -248,6 +241,8 @@ public class FMPortalTest {
 			
 			WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
 		    
+			new WebDriverWait(driver,2).until(ExpectedConditions.elementToBeClickable(view_btn));
+			
 		    view_btn.click();
 		    
 		    new WebDriverWait(driver, 2).until(ExpectedConditions.visibilityOf(page.getViewModal()));
@@ -267,7 +262,6 @@ public class FMPortalTest {
 	    	try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -299,7 +293,6 @@ public class FMPortalTest {
 	    	try {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			};
 	    	
@@ -307,7 +300,6 @@ public class FMPortalTest {
 	    	
 	    	for (int i = 1; i < rows.size(); i++) {
 		    	ArrayList<WebElement> cells = (ArrayList<WebElement>) rows.get(i).findElements(By.tagName("td"));
-		    			    			    	
 		    	assertTrue(cells.get(0).getText().contains(Integer.toString(r.getREIMB_ID())));
 	    	}
 	    	
@@ -355,5 +347,7 @@ public class FMPortalTest {
 		page.searchBy("Author", auth);
 		assertTrue(page.getTable().findElements(By.tagName("tr")).size()-1 == id1Reimb.size());
 	}
+	
+	
 	
 }
