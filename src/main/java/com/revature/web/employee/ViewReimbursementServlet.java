@@ -33,7 +33,7 @@ public class ViewReimbursementServlet extends HttpServlet {
 		try {
 			int reimb_ID = Integer.parseInt(request.getParameter("reimb_ID"));
 			dao = new ReimbDAO();
-			r = dao.getReimbursement(reimb_ID);
+			r = dao.getReimbursementWithName(reimb_ID);
 			
 			
 			// write to file for view in JS

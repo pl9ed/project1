@@ -104,6 +104,58 @@ public class ReimbDAO implements ReimbDAOI {
 	public Reimbursement getReimbursement(Reimbursement r) {
 		return getReimbursement(r.getREIMB_ID());
 	}
+	
+	public Reimbursement getReimbursementWithName(int id) {
+		PreparedStatement stmt;
+
+		try (Connection conn = DAOUtilities.getConnection()) {
+			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
+					+ "STATUS_ID, STATUS, FILE_NAME, FIRST_NAME, LAST_NAME, RECEIPT FROM " + schema + ".ERS_REIMBURSEMENT_FULL "
+							+ "INNER JOIN " + schema + ".ERS_USERS ON AUTHOR=USER_ID WHERE REIMB_ID=?";
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, id);
+
+			devlog.info("[" + ip + "] Query: " + stmt);
+
+			ResultSet rs = stmt.executeQuery();
+
+			if (rs.next()) {
+				Reimbursement r = new Reimbursement();
+
+				r.setREIMB_ID(rs.getInt("REIMB_ID"));
+				r.setAMOUNT(rs.getDouble("AMOUNT"));
+				r.setSUBMITTED(rs.getDate("SUBMITTED").toLocalDate());
+				r.setDESCRIPTION(rs.getString("DESCRIPTION"));
+				r.setAUTHOR(rs.getInt("AUTHOR"));
+				r.setAUTHOR_NAME(rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME"));
+				r.setTYPE_ID(rs.getInt("TYPE_ID"));
+				r.setREIMB_TYPE(rs.getString("REIMB_TYPE"));
+				r.setSTATUS_ID(rs.getInt("STATUS_ID"));
+				r.setStatus(rs.getString("STATUS"));
+				r.setFileName(rs.getString("FILE_NAME"));
+				r.setRECEIPT(rs.getBytes("RECEIPT"));
+
+				if (rs.getDate("RESOLVED") != null) {
+					r.setRESOLVED(rs.getDate("RESOLVED").toLocalDate());
+					r.setRESOLVER(rs.getInt("RESOLVER"));
+				}
+
+				devlog.info("[" + ip + "] SUCCESS - Got Reimbursement with ID: " + id);
+				
+				return r;
+			} else {
+				devlog.error("[" + ip + "] FAILURE - No Reimbursement found for ID: " + id);
+				return null;
+			}
+
+		} catch (SQLException e) {
+			devlog.trace(this, e);
+		} catch (NullPointerException e) {
+			devlog.error("Null pointer exception when getting reimbursement");
+			devlog.trace(this, e);
+		}
+		return null;
+	}
 
 	@Override
 	public User getUser(String username) {

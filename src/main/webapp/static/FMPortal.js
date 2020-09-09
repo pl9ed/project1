@@ -167,6 +167,7 @@ async function generateTable(list) {
 }
 
 let view = document.getElementById("reimb_modal_title");
+let v_ai = document.getElementById("view_author_id")
 let v_a = document.getElementById("view_author");
 let v_amt = document.getElementById("view_amount");
 let v_sub = document.getElementById("view_submitted");
@@ -185,8 +186,9 @@ async function viewReimb(reimb_ID) {
     sessionStorage.setItem("currentlyViewing", reimb_ID);
 
     view.innerHTML = "Reimbursement ID: " + reimb_ID;
-    v_a.innerHTML = await r.author;
-    v_amt.innerHTML = await r.amount;
+    v_ai.innerHTML = r.author
+    v_a.innerHTML = r.author_NAME;
+    v_amt.innerHTML = r.amount;
 
     let submit_date = r.submitted;
     let submit_string = submit_date.month + " " + submit_date.dayOfMonth + ", " + submit_date.year;
