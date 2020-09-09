@@ -86,14 +86,6 @@ public class FMPortal {
 	public WebElement getViewModal() {
 		return viewModal;
 	}
-
-//	public WebElement getModalApprove() {
-//		return modalApprove;
-//	}
-//
-//	public WebElement getModalDeny() {
-//		return modalDeny;
-//	}
 	
 	public boolean modalVisible() {
 		return false;

@@ -18,7 +18,7 @@ import com.revature.web.FM.Page.FMLoginPage;
 public class FMLoginTest {
 	private static WebDriver driver;
 	private FMLoginPage page;
-	private static final String base_url = "http://localhost:8006/project1";
+	private static final String base_url = System.getenv("SERVER_URL")+ "/project1";
 	
 	@BeforeClass
 	public static void setUpBeforeClass() {

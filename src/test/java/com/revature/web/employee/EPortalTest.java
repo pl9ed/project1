@@ -81,7 +81,6 @@ public class EPortalTest {
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		page.clickLogoutBtn();
@@ -141,13 +140,6 @@ public class EPortalTest {
 	    	
 		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getReimbModal()));
 
-//	    	try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-	    	
 	    	assertTrue(page.getReimbModal().isDisplayed());
 	    	assertEquals("Reimbursement ID: " + id, page.getReimbModal().findElement(By.id("reimb_modal_title")).getText());
 	    	

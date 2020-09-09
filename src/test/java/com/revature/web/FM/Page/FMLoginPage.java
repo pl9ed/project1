@@ -28,7 +28,7 @@ public class FMLoginPage {
 	
 	public void navigateTo() {
 		// use environment variable for this - don't hard code
-		this.driver.get("http://localhost:8006/project1/FMLogin");
+		this.driver.get(System.getenv("SERVER_URL") + "/project1/FMLogin");
 	}
 
 	public WebDriver getDriver() {

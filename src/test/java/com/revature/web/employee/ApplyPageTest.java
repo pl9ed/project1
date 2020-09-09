@@ -93,7 +93,7 @@ public class ApplyPageTest {
 	    
 	    page.getBackBtn().click();
 	    WebDriverWait wait = new WebDriverWait(driver,2);
-	    wait.until(ExpectedConditions.urlToBe("http://localhost:8006/project1/EmployeeHome"));
+	    wait.until(ExpectedConditions.urlToBe(System.getenv("SERVER_URL") + "/project1/EmployeeHome"));
 	    
 	    assertEquals("Employee Portal", driver.getTitle());
 	}
