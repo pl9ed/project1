@@ -175,19 +175,30 @@ public class FMPortalTest {
 	    page.getCheckApproved().click();
 		page.getCheckDenied().click();
 		Set<Reimbursement> allReimb = dao.getAllReimbursementsNoReceipt();
-		int count = 0;
-				
-		for (Reimbursement r : allReimb) {
-		    WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
+		ArrayList<Reimbursement> reimbArr = new ArrayList<Reimbursement>(allReimb);
+		
+		for (int i = 0; i < 5; i++) {
+			int j = new Random().nextInt(reimbArr.size()-1)+1;
+			Reimbursement r = reimbArr.get(j);
+			
+			WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
 		    WebDriverWait wait = new WebDriverWait(driver,2);
 		    wait.until(ExpectedConditions.elementToBeClickable(view_btn));
 		    
 		    view_btn.click();
 		    
 		    new WebDriverWait(driver, 2).until(ExpectedConditions.visibilityOf(page.getViewModal()));
-
 		    assertTrue(page.getViewModal().isDisplayed());
-	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
+		    
+		    try {
+		    	Thread.sleep(500);
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    }
+		    
+	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal()
+	    															.findElement(By.id("reimb_modal_title"))
+	    															.getText());
 	    	String auth_name = page.getViewModal().findElement(By.id("view_author")).getText();
 	    	String auth_id = page.getViewModal().findElement(By.id("view_author_id")).getText();
 	    	String amt = page.getViewModal().findElement(By.id("view_amount")).getText();
@@ -210,7 +221,6 @@ public class FMPortalTest {
 	    	}
 	    	assertEquals(r.getDESCRIPTION(),description);
 	    	
-	    	count++;
 	    	driver.findElement(By.className("close")).click();
 	    	try {
 	    		Thread.sleep(1000);
@@ -218,7 +228,6 @@ public class FMPortalTest {
 	    		e.printStackTrace();
 	    	}
 		}
-		assertTrue(count == allReimb.size());
 	}
 	
 	@Test
@@ -232,20 +241,16 @@ public class FMPortalTest {
 	    page.getCheckApproved().click();
 		page.getCheckDenied().click();
 		Set<Reimbursement> allReimb = dao.getAllReimbursementsNoReceipt();
-		int count = 0;
 		
-		for (Reimbursement r : allReimb) {
-		    WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
+		for (int i = 0; i < 5; i++) {
+			int id = new Random().nextInt(allReimb.size()-1) + 1;
+			Reimbursement r = dao.getReimbursement(id);
+			
+			WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
 		    
 		    view_btn.click();
 		    
-		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getViewModal()));
-//		    try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+		    new WebDriverWait(driver, 2).until(ExpectedConditions.visibilityOf(page.getViewModal()));
 
 		    assertTrue(page.getViewModal().isDisplayed());
 	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
@@ -258,8 +263,6 @@ public class FMPortalTest {
 		    	assertTrue(driver.findElement(By.id("modal_deny")).isDisplayed());
 	    	}
 
-	    	
-	    	count++;
 	    	driver.findElement(By.className("close")).click();
 	    	try {
 				Thread.sleep(1000);
@@ -268,7 +271,6 @@ public class FMPortalTest {
 				e.printStackTrace();
 			}
 		}
-		assertTrue(count == allReimb.size());
 	}
 	
 	@Test
@@ -286,9 +288,8 @@ public class FMPortalTest {
 		
 		Random rand = new Random();
 		
-		
-		// test 3 random IDs
-		for (int j = 0; j < 3; j++) {
+		// test 5 random IDs
+		for (int j = 0; j < 5; j++) {
 			int id = rand.nextInt(allReimb.size()-1)+1; // 1 to size
 			
 			Reimbursement r = dao.getReimbursement(id);
