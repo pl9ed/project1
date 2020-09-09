@@ -15,6 +15,10 @@
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
+	<build>
+		<finalName>project1</finalName>
+	</build>
+
 	<dependencies>
 
 		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
