@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -18,13 +20,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.revature.DAO.ReimbDAO;
-import com.revature.DAO.TestData;
 import com.revature.data.Reimbursement;
+import com.revature.data.User;
 import com.revature.web.FM.Page.FMPortal;
 
 public class FMPortalTest {
@@ -175,27 +176,44 @@ public class FMPortalTest {
 		page.getCheckDenied().click();
 		Set<Reimbursement> allReimb = dao.getAllReimbursementsNoReceipt();
 		int count = 0;
-		
+				
 		for (Reimbursement r : allReimb) {
 		    WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
+		    WebDriverWait wait = new WebDriverWait(driver,2);
+		    wait.until(ExpectedConditions.elementToBeClickable(view_btn));
 		    
 		    view_btn.click();
 		    
-		    new WebDriverWait(driver, 2000).until(ExpectedConditions.visibilityOf(page.getViewModal()));
-//		    try {
-//				Thread.sleep(500);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+		    new WebDriverWait(driver, 2).until(ExpectedConditions.visibilityOf(page.getViewModal()));
 
-		    
 		    assertTrue(page.getViewModal().isDisplayed());
 	    	assertEquals("Reimbursement ID: " + r.getREIMB_ID(), page.getViewModal().findElement(By.id("reimb_modal_title")).getText());
+	    	String auth_name = page.getViewModal().findElement(By.id("view_author")).getText();
+	    	String auth_id = page.getViewModal().findElement(By.id("view_author_id")).getText();
+	    	String amt = page.getViewModal().findElement(By.id("view_amount")).getText();
+	    	String submitted = page.getViewModal().findElement(By.id("view_submitted")).getText();
+	    	String status = page.getViewModal().findElement(By.id("view_status")).getText();
+	    	String resolver = page.getViewModal().findElement(By.id("view_resolver")).getText();
+	    	String resolve_date = page.getViewModal().findElement(By.id("view_resolved")).getText();
+	    	String description = page.getViewModal().findElement(By.id("view_description")).getText();
+	    	
+	    	DateTimeFormatter form = DateTimeFormatter.ofPattern("MMMM d, yyyy");
+	    	
+	    	assertEquals(r.getAUTHOR_NAME(),auth_name);
+	    	assertEquals(Integer.toString(r.getAUTHOR()),auth_id);
+	    	assertTrue(r.getAMOUNT() == Double.parseDouble(amt));
+	    	assertEquals(r.getSUBMITTED().format(form).toString().toUpperCase(),submitted);
+	    	assertEquals(r.getStatus(),status);
+	    	if (r.getRESOLVER() != 0) {
+		    	assertEquals(Integer.toString(r.getRESOLVER()),resolver);
+		    	assertEquals(r.getRESOLVED().format(form).toString().toUpperCase(), resolve_date);
+	    	}
+	    	assertEquals(r.getDESCRIPTION(),description);
+	    	
 	    	count++;
 	    	driver.findElement(By.className("close")).click();
 	    	try {
-	    		Thread.sleep(500);
+	    		Thread.sleep(1000);
 	    	} catch (InterruptedException e) {
 	    		e.printStackTrace();
 	    	}
@@ -265,9 +283,17 @@ public class FMPortalTest {
 	    
 	    page.getCheckApproved().click();
 		page.getCheckDenied().click();
-	    
-	    for (Reimbursement r : allReimb) {
-	    	page.searchBy("ID", Integer.toString(r.getREIMB_ID()));
+		
+		Random rand = new Random();
+		
+		
+		// test 3 random IDs
+		for (int j = 0; j < 3; j++) {
+			int id = rand.nextInt(allReimb.size()-1)+1; // 1 to size
+			
+			Reimbursement r = dao.getReimbursement(id);
+			
+			page.searchBy("ID", Integer.toString(r.getREIMB_ID()));
 	    	
 	    	try {
 				Thread.sleep(500);
@@ -285,7 +311,48 @@ public class FMPortalTest {
 	    	}
 	    	
 	    	page.getSearch_term().clear();
-	    }
+		}
+	}
+	
+	@Test
+	public void testAuthorIDSearch() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
+	    int id = 2;
+	    
+	    page.getCheckApproved().click();
+		page.getCheckDenied().click();
+				
+		Set<Reimbursement> userReimb = dao.filterByIntField("AUTHOR", id);
+		
+		page.searchBy("Author ID", Integer.toString(id));
+		assertTrue(page.getTable().findElements(By.tagName("tr")).size()-1 == userReimb.size());
+	}
+	
+	@Test
+	public void testAuthorNameSearch() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
+	    int n = 1;
+	    
+	    page.getCheckApproved().click();
+		page.getCheckDenied().click();
+		
+		User id1 = dao.getUser(n);
+		String auth = id1.getFIRST_NAME() + " " + id1.getLAST_NAME();
+		
+		Set<Reimbursement> id1Reimb = dao.filterByIntField("AUTHOR", n);
+		
+		page.searchBy("Author", auth);
+		assertTrue(page.getTable().findElements(By.tagName("tr")).size()-1 == id1Reimb.size());
 	}
 	
 }
