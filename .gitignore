@@ -7,8 +7,6 @@ backup/
 testing_script.sql
 scratch.txt
 
-*.jpg
-
 # Compiled class file
 .class
 
