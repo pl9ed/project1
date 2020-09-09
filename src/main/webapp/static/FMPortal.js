@@ -60,9 +60,9 @@ async function getAllReimb(id) {
 function searchByTerm() {
     let searchBy = document.getElementById("dropdown_selection").value;
     let searchTerm = document.getElementById("search_term").value;
+    let list = JSON.parse(sessionStorage.getItem("allReimb"));
 
     if (searchBy != "default") {
-        let list = JSON.parse(sessionStorage.getItem("allReimb"));
 
         list = list.filter(function (item) {
             let temp = JSON.parse(item)[searchBy].toString();
@@ -72,8 +72,8 @@ function searchByTerm() {
             return temp.includes(searchTerm);
         })
 
-        generateTable(list);
-    }
+    } 
+    generateTable(list);
 }
 
 // -------------------    Logout Button     ------------------------------
