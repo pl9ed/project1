@@ -37,5 +37,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: 
-          chmod 777 /home/runner/work/project1/project1/src/test/resources/chromedriver.exe \
+          chmod 777 /home/runner/work/project1/project1/src/test/resources/chromedriver.exe &&
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
