@@ -103,8 +103,8 @@ public class TestData {
 		
 	}
 	
-	public static void resetDB() {
-		String sql = "CALL project1.p1_db_setup()";
+	public static void resetDB(String schema) {
+		String sql = "CALL "+ schema + ".p1_db_setup()";
 		
 		try (Connection conn = DAOUtilities.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(sql);
@@ -115,12 +115,13 @@ public class TestData {
 		}
 	}
 	
-	public static void setupTrigger() {
+	public static void setupTrigger(String schema) {
 		String sql = "DROP TRIGGER IF EXISTS PENDING_TRIGGER ON ERS_REIMBURSEMENT; " + 
-				"CREATE TRIGGER PENDING_TRIGGER BEFORE UPDATE OF status_id ON ERS_REIMBURSEMENT \r\n" + 
+				"CREATE TRIGGER PENDING_TRIGGER BEFORE UPDATE OF status_id ON " + schema +
+				".ERS_REIMBURSEMENT \r\n" + 
 				"FOR EACH ROW WHEN (OLD.STATUS_ID != 0) EXECUTE PROCEDURE PENDING_CHECK();\r\n" + 
 				"\r\n" + 
-				"CREATE OR REPLACE FUNCTION PENDING_CHECK()\r\n" + 
+				"CREATE OR REPLACE FUNCTION " + schema + ".PENDING_CHECK()\r\n" + 
 				"RETURNS TRIGGER\r\n" + 
 				"AS \r\n" + 
 				"$$\r\n" + 

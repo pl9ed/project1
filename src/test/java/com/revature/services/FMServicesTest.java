@@ -1,9 +1,6 @@
 package com.revature.services;
 
-import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
 
 import java.util.Set;
 
@@ -13,15 +10,14 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
+import com.revature.TestData;
 import com.revature.DAO.ReimbDAO;
-import com.revature.DAO.TestData;
 import com.revature.data.Reimbursement;
 
 public class FMServicesTest {
 	
-	private TestData td = new TestData();
+	private static TestData td = new TestData();
 	private FMServices fm;
 	Set<Reimbursement> r;
 	
@@ -35,12 +31,14 @@ public class FMServicesTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 
 		dao = new ReimbDAO("public", "TEST IP");
 		fm = new FMServices(td.fm.getUSER_ID(), dao);
@@ -76,7 +74,8 @@ public class FMServicesTest {
 	      .getName();
 	    System.out.println("Running " + methodName + "...");
 	    
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 
 		dao = new ReimbDAO("public", "TEST IP");
 		fm = new FMServices(td.fm.getUSER_ID(), dao);
@@ -135,7 +134,8 @@ public class FMServicesTest {
 	      .getName();
 	    System.out.println("Running " + methodName + "...");
 	    
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 		assertTrue(fm.findByStatus(0).size() == 0);
 	}
 	
@@ -161,7 +161,8 @@ public class FMServicesTest {
 	      .getName();
 	    System.out.println("Running " + methodName + "...");
 	    
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 		assertTrue(fm.getAllReimbursements().size() == 0);
 	}
 

@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.revature.DAO.ReimbDAO;
-import com.revature.DAO.TestData;
+import com.revature.TestData;
 
 public class LoginServiceTest {
 	private LoginService ls;
@@ -23,13 +23,15 @@ public class LoginServiceTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 	}
 
 	@Before
 	public void setUp() throws Exception {
 		td = new TestData();
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 		
 		ReimbDAO dao = new ReimbDAO("public", "TESTIP");
 		dao.createUser(td.employee);

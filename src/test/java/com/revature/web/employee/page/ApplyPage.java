@@ -3,6 +3,8 @@ package com.revature.web.employee.page;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ApplyPage {
 	private WebDriver driver;
@@ -35,12 +37,13 @@ public class ApplyPage {
 	
 	private void navigateTo()  {
 		EPortal emp = new EPortal(driver);
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		new WebDriverWait(driver, 2).until(ExpectedConditions.elementToBeClickable(emp.getApplyBtn()));
+//		try {
+//			Thread.sleep(500);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		emp.clickApplyBtn();
 	}
 

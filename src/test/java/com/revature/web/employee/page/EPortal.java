@@ -16,6 +16,22 @@ public class EPortal {
 	private WebElement logoutBtn;
 	private WebElement applyBtn;
 	
+	public WebElement getLogoutBtn() {
+		return logoutBtn;
+	}
+
+	public void setLogoutBtn(WebElement logoutBtn) {
+		this.logoutBtn = logoutBtn;
+	}
+
+	public WebElement getApplyBtn() {
+		return applyBtn;
+	}
+
+	public void setApplyBtn(WebElement applyBtn) {
+		this.applyBtn = applyBtn;
+	}
+
 	public EPortal(WebDriver driver) {
 		this.driver = driver;
 		this.navigateTo();

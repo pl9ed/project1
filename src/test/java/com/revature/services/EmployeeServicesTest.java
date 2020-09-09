@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.revature.DAO.ReimbDAO;
-import com.revature.DAO.TestData;
+import com.revature.TestData;
 import com.revature.data.Reimbursement;
 import com.revature.data.User;
 
@@ -28,12 +28,14 @@ public class EmployeeServicesTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 
 		dao = new ReimbDAO("public", "TEST IP");
 		es = new EmployeeServices(td.employee.getUSER_ID(), dao);

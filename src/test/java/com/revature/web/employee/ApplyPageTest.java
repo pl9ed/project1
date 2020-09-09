@@ -40,18 +40,21 @@ public class ApplyPageTest {
 	}
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp()  {
 		this.page = new ApplyPage(driver);
-		Thread.sleep(1000);
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		this.page = null;
 	    try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -3,11 +3,7 @@ package com.revature.DAO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Set;
 
 import org.junit.After;
@@ -16,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.revature.TestData;
 import com.revature.data.Reimbursement;
 import com.revature.data.User;
 import com.revature.exceptions.SQLSecurityException;
@@ -23,7 +20,7 @@ import com.revature.exceptions.SQLSecurityException;
 
 public class ReimbDAOTest {
 	ReimbDAO dao;
-	TestData td;
+	public static TestData td = new TestData();
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -32,13 +29,16 @@ public class ReimbDAOTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
+
 	}
 
 	@Before
 	public void setUp() throws Exception {
 		dao = new ReimbDAO("public", "TESTIP");
-		TestData.resetDB();
+		TestData.resetDB("public");
+		TestData.setupTrigger("public");
 		td = new TestData();
 	}
 
