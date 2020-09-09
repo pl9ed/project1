@@ -55,7 +55,7 @@ public class Reimbursement implements Comparable<Reimbursement> {
 		REIMB_TYPE = rEIMB_TYPE;
 		STATUS_ID = sTATUS_ID;
 		this.status = status;
-		this.AUTHOR_NAME = AUTHOR_NAME;
+		this.setAUTHOR_NAME(AUTHOR_NAME);
 		this.RESOLVER_NAME = RESOLVER_NAME;
 	}
 
@@ -121,6 +121,14 @@ public class Reimbursement implements Comparable<Reimbursement> {
 
 	public void setAUTHOR(int aUTHOR) {
 		AUTHOR = aUTHOR;
+	}
+
+	public String getAUTHOR_NAME() {
+		return AUTHOR_NAME;
+	}
+
+	public void setAUTHOR_NAME(String aUTHOR_NAME) {
+		AUTHOR_NAME = aUTHOR_NAME;
 	}
 
 	public int getRESOLVER() {
@@ -240,6 +248,7 @@ public class Reimbursement implements Comparable<Reimbursement> {
 		+ ", \"REIMB_TYPE\": \"" + this.getREIMB_TYPE() + "\""
 		+ ", \"STATUS\":\"" + this.getStatus() + "\""
 		+ ", \"AUTHOR\":\"" + this.getAUTHOR() + "\""
+		+ ", \"AUTHOR_NAME\":\"" + this.AUTHOR_NAME + "\""
 		+ ", \"RESOLVER\":\"" + this.getRESOLVER() + "\""
 		+ ", \"RESOLVED\":\"" + this.getRESOLVED() + "\""
 		+ ", \"DESCRIPTION\":\"" + this.getDESCRIPTION() + "\"}";

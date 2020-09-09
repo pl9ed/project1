@@ -16,7 +16,9 @@ import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.revature.web.employee.page.ApplyPage;
 
@@ -46,6 +48,12 @@ public class ApplyPageTest {
 	@After
 	public void tearDown() throws Exception {
 		this.page = null;
+	    try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -81,7 +89,8 @@ public class ApplyPageTest {
 	    System.out.println("Running " + methodName + "...");
 	    
 	    page.getBackBtn().click();
-	    Thread.sleep(500);
+	    WebDriverWait wait = new WebDriverWait(driver,2);
+	    wait.until(ExpectedConditions.urlToBe("http://localhost:8006/project1/EmployeeHome"));
 	    
 	    assertEquals("Employee Portal", driver.getTitle());
 	}
@@ -96,11 +105,12 @@ public class ApplyPageTest {
 	    
 	    page.getSubmitBtn().click();
 	    try {
-		    driver.switchTo().alert();
+		    driver.switchTo().alert().dismiss();
 		    assertTrue(true);
 	    } catch(NoAlertPresentException e) {
 	    	fail("No alert");
 	    }
+
 	}
 	
 	@Test
@@ -144,6 +154,7 @@ public class ApplyPageTest {
 	    try {
 	    	String alertText = driver.switchTo().alert().getText();
 	    	assertEquals("Cannot have negative reimbursements!", alertText);
+	    	driver.switchTo().alert().dismiss();
 	    } catch (NoAlertPresentException e) {
 	    	fail("Alert not found!");
 	    }

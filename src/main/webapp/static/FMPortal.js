@@ -130,7 +130,7 @@ async function generateTable(list) {
         let but_col = tr.insertCell(5);
 
         let id = document.createTextNode(reimb.REIMB_ID);
-        let auth = document.createTextNode(reimb.AUTHOR);
+        let auth = document.createTextNode(reimb.AUTHOR_NAME);
         let amount = document.createTextNode(reimb.AMOUNT);
         let submit = document.createTextNode(reimb.SUBMITTED);
         let status = document.createTextNode(reimb.STATUS);
@@ -257,7 +257,7 @@ function clearModal() {
 }
 
 // ------------------------------ Table Pagination -----------------------------------------
-$(document).ready(function() {
-    $('#reimb_table').DataTable();
-} );
+// $(document).ready(function() {
+//     $('#reimb_table').DataTable();
+// } );
 

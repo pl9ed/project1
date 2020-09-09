@@ -36,7 +36,7 @@ public class FMPortalServlet extends HttpServlet {
 			PrintWriter pw = response.getWriter();
 			
 			String json = "";
-			// don't need entire object for the menu, only get entire object incl image when we request it
+
 			for (Reimbursement r : ret) {
 				json += r.toJSONString() + "@@@";
 			}

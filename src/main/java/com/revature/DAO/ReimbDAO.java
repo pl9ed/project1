@@ -238,7 +238,8 @@ public class ReimbDAO implements ReimbDAOI {
 
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
-					+ "STATUS_ID, STATUS, FILE_NAME FROM " + schema + ".ERS_REIMBURSEMENT_FULL";
+					+ "STATUS_ID, STATUS, FILE_NAME, FIRST_NAME, LAST_NAME FROM " + schema + ".ERS_REIMBURSEMENT_FULL "
+							+ "INNER JOIN " + schema + ".ERS_USERS ON AUTHOR=USER_ID";
 			stmt = conn.prepareStatement(sql);
 
 			devlog.info("[" + ip + "] Query: " + stmt);
@@ -247,7 +248,26 @@ public class ReimbDAO implements ReimbDAOI {
 
 			int i = 0;
 			while (rs.next()) {
-				ret.add(createReimbursementObject(rs));
+				Reimbursement r = new Reimbursement();
+
+				r.setREIMB_ID(rs.getInt("REIMB_ID"));
+				r.setAMOUNT(rs.getDouble("AMOUNT"));
+				r.setSUBMITTED(rs.getDate("SUBMITTED").toLocalDate());
+				r.setDESCRIPTION(rs.getString("DESCRIPTION"));
+				r.setAUTHOR(rs.getInt("AUTHOR"));
+				r.setAUTHOR_NAME(rs.getString("FIRST_NAME") + " " + rs.getString("LAST_NAME"));
+				r.setTYPE_ID(rs.getInt("TYPE_ID"));
+				r.setREIMB_TYPE(rs.getString("REIMB_TYPE"));
+				r.setSTATUS_ID(rs.getInt("STATUS_ID"));
+				r.setStatus(rs.getString("STATUS"));
+				r.setFileName(rs.getString("FILE_NAME"));
+
+				if (rs.getDate("RESOLVED") != null) {
+					r.setRESOLVED(rs.getDate("RESOLVED").toLocalDate());
+					r.setRESOLVER(rs.getInt("RESOLVER"));
+				}
+
+				ret.add(r);
 				i++;
 			}
 

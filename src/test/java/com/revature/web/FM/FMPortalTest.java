@@ -61,6 +61,11 @@ public class FMPortalTest {
 	@After
 	public void tearDown() throws Exception {
 		this.page = null;
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Test
