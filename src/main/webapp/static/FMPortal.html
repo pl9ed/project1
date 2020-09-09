@@ -31,15 +31,15 @@
                     </select>
                     <input id="search_term" type="text" onkeyup="searchByTerm()">
                     <div class="form-check form-check-inline" style="margin-left:10px">
-                        <input class="form-check-input" type="checkbox" id="check_pending" onClick="generateTable()" checked>
+                        <input class="form-check-input" type="checkbox" id="check_pending" onClick="searchByTerm()" checked>
                         <label class="form-check-label" for="check_pending">Pending</label>
                     </div>
                     <div class="form-check form-check-inline" style="margin-left:10px">
-                        <input class="form-check-input" type="checkbox" id="check_approved" onClick="generateTable()">
+                        <input class="form-check-input" type="checkbox" id="check_approved" onClick="searchByTerm()">
                         <label class="form-check-label" for="check_approved">Approved</label>
                     </div>
                     <div class="form-check form-check-inline" style="margin-left:10px">
-                        <input class="form-check-input" type="checkbox" id="check_denied" onClick="generateTable()">
+                        <input class="form-check-input" type="checkbox" id="check_denied" onClick="searchByTerm()">
                         <label class="form-check-label" for="check_denied">Denied</label>
                     </div>
                 </div>
