@@ -56,7 +56,7 @@ public class Reimbursement implements Comparable<Reimbursement> {
 		STATUS_ID = sTATUS_ID;
 		this.status = status;
 		this.setAUTHOR_NAME(AUTHOR_NAME);
-		this.RESOLVER_NAME = RESOLVER_NAME;
+		this.setRESOLVER_NAME(RESOLVER_NAME);
 	}
 
 	public int getREIMB_ID() {
@@ -137,6 +137,14 @@ public class Reimbursement implements Comparable<Reimbursement> {
 
 	public void setRESOLVER(int rESOLVER) {
 		RESOLVER = rESOLVER;
+	}
+
+	public String getRESOLVER_NAME() {
+		return RESOLVER_NAME;
+	}
+
+	public void setRESOLVER_NAME(String rESOLVER_NAME) {
+		RESOLVER_NAME = rESOLVER_NAME;
 	}
 
 	public int getTYPE_ID() {
