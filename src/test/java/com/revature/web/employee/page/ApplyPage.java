@@ -39,11 +39,11 @@ public class ApplyPage {
 		EPortal emp = new EPortal(driver);
 		
 		new WebDriverWait(driver, 2).until(ExpectedConditions.elementToBeClickable(emp.getApplyBtn()));
-//		try {
-//			Thread.sleep(500);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		emp.clickApplyBtn();
 	}
 

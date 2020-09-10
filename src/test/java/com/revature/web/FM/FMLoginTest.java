@@ -13,6 +13,7 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import com.revature.web.OSChecker;
 import com.revature.web.FM.Page.FMLoginPage;
 
 public class FMLoginTest {
@@ -22,8 +23,13 @@ public class FMLoginTest {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() {
-		File f = new File("src/test/resources/chromedriver.exe");
-		System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
+		if (OSChecker.isWindows()) {
+			File f = new File("src/test/resources/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
+		} else {
+			File f = new File("src/test/resources/chromedriver");
+			System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
+		}
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 	}

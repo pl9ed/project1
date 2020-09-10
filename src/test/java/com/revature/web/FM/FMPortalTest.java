@@ -26,6 +26,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.revature.DAO.ReimbDAO;
 import com.revature.data.Reimbursement;
 import com.revature.data.User;
+import com.revature.web.OSChecker;
 import com.revature.web.FM.Page.FMPortal;
 
 public class FMPortalTest {
@@ -38,8 +39,13 @@ public class FMPortalTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		File f = new File("src/test/resources/chromedriver.exe");
-		System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
+		if (OSChecker.isWindows()) {
+			File f = new File("src/test/resources/chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
+		} else {
+			File f = new File("src/test/resources/chromedriver");
+			System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
+		}
 		driver = new ChromeDriver();
 		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 		dao = new ReimbDAO();
