@@ -28,7 +28,9 @@ public class LoginPage {
 	
 	public void navigateTo() {
 		// use environment variable for this - don't hard code
-		this.driver.get(System.getenv("SERVER_URL") + "/project1/index");
+		String url = System.getenv("SERVER_URL") + "/project1/index";
+		System.out.println(url);
+		this.driver.get(url);
 	}
 
 	public WebDriver getDriver() {

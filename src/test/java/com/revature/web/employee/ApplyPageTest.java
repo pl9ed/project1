@@ -32,6 +32,7 @@ public class ApplyPageTest {
 		if (OSChecker.isWindows()) {
 			File f = new File("src/test/resources/chromedriver.exe");
 			System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());
+			System.out.println("Using Windows Driver");
 		} else {
 			File f = new File("src/test/resources/chromedriver");
 			System.setProperty("webdriver.chrome.driver", f.getAbsolutePath());

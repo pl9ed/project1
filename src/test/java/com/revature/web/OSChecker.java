@@ -7,7 +7,7 @@ public class OSChecker {
 	}
 	
 	public static boolean isWindows() {
-		return OS.indexOf("win") >= 0;
+		return OS.contains("win");
 	}
 	
 }

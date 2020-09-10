@@ -181,8 +181,13 @@ public class FMPortalTest {
 			Reimbursement r = reimbArr.get(j);
 			
 			WebElement view_btn = page.getTable().findElement(By.id("\"" + r.getREIMB_ID() + "\""));
-		    WebDriverWait wait = new WebDriverWait(driver,2);
+		    WebDriverWait wait = new WebDriverWait(driver,3);
 		    wait.until(ExpectedConditions.elementToBeClickable(view_btn));
+		    try {
+		    	Thread.sleep(500);
+		    } catch (InterruptedException e) {
+		    	e.printStackTrace();
+		    }
 		    
 		    view_btn.click();
 		    
