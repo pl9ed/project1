@@ -782,7 +782,7 @@ public class ReimbDAO implements ReimbDAOI {
 		try (Connection conn = DAOUtilities.getConnection()) {
 			String sql = "SELECT REIMB_ID, AMOUNT, SUBMITTED, RESOLVED, DESCRIPTION, AUTHOR, RESOLVER, TYPE_ID, REIMB_TYPE, "
 					+ "STATUS_ID, STATUS, FILE_NAME FROM (" + schema + ".ERS_REIMBURSEMENT_FULL " + "INNER JOIN " + schema
-					+ ".ERS_USERS_FULL ON AUTHOR=USER_ID" + ") WHERE " + col_name + " LIKE ?";
+					+ ".ERS_USERS_FULL ON AUTHOR=USER_ID" + ") WHERE " + col_name + " ILIKE ?";
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(1, "%" + s + "%");
 

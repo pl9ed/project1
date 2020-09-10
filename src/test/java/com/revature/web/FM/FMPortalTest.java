@@ -359,6 +359,62 @@ public class FMPortalTest {
 		assertTrue(page.getTable().findElements(By.tagName("tr")).size()-1 == id1Reimb.size());
 	}
 	
+	@Test
+	public void testResolverSearch() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
+	    page.getCheckApproved().click();
+		page.getCheckDenied().click();
+		
+		for (int i = 2; i < 4; i++) {
+			page.searchBy("Resolver ID", Integer.toString(i));
+			Set<Reimbursement> resolverSet = dao.filterByIntField("RESOLVER", i);
+			
+			try {
+				Thread.sleep(500);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			assertEquals(page.getTable().findElements(By.tagName("tr")).size()-1, resolverSet.size());
+			
+			page.getSearch_term().clear();
+		}
+	}
 	
+	@Test
+	public void testDescriptionSearch() {
+		String methodName = new Object() {}
+	      .getClass()
+	      .getEnclosingMethod()
+	      .getName();
+	    System.out.println("Running " + methodName + "...");
+	    
+	    page.getCheckApproved().click();
+		page.getCheckDenied().click();
+		
+		String[] testTerms = {"", "DESCRIPTION", "description", "test", "a", "&G&GYB$UGIY"};
+		
+		for (String term : testTerms) {
+			page.searchBy("Description", term);
+			Set<Reimbursement> daoSet = dao.filterByStringField("Description", term);
+			
+			try {
+				Thread.sleep(500);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println("Search term: " + term);
+			assertEquals(page.getTable().findElements(By.tagName("tr")).size()-1, daoSet.size());
+			
+			page.getSearch_term().clear();
+			
+		}
+	}
 	
 }

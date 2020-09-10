@@ -3,6 +3,9 @@ bin/
 logs/
 requirements/
 backup/
+src/main/java/com/revature/util/
+
+hibernate.cfg.xml
 
 testing_script.sql
 scratch.txt

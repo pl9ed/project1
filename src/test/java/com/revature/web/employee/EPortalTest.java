@@ -29,7 +29,6 @@ import com.revature.web.employee.page.EPortal;
 public class EPortalTest {
 	private static WebDriver driver;
 	private EPortal page;
-	private ReimbDAO dao;
 	private EmployeeServices es;
 
 	@BeforeClass
@@ -53,7 +52,6 @@ public class EPortalTest {
 
 	@Before
 	public void setUp() throws Exception {
-		dao = new ReimbDAO();
 		es = new EmployeeServices(1);
 		this.page = new EPortal(driver);
 		Thread.sleep(1000);
