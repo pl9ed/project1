@@ -29,6 +29,11 @@ public class FMLoginPage {
 	public void navigateTo() {
 		// use environment variable for this - don't hard code
 		this.driver.get(System.getenv("SERVER_URL") + "/project1/FMLogin");
+		try {
+			Thread.sleep(500);
+		} catch(InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public WebDriver getDriver() {

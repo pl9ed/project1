@@ -14,6 +14,7 @@ public class FMServices {
 	private int user;
 	private ReimbDAO dao;
 	private static Logger devlog = Logger.getLogger(FMServices.class);
+	private static Logger infolog = Logger.getLogger("infoLog");
 
 	public FMServices(int user) {
 		this.user = user;
@@ -26,6 +27,7 @@ public class FMServices {
 	}
 
 	public boolean approveReimb(int id) {
+		infolog.info("FM " + user + "approved reimbursement " + id);
 		return dao.processReimbursement(id, user, 1);
 	}
 

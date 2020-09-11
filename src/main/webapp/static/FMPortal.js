@@ -1,10 +1,11 @@
 // run on page load -> default to 
 
 let username = sessionStorage.getItem("username");
-loadPage(username);
+loadPage();
 
-async function loadPage(username) {
+async function loadPage() {
     var user;
+    let username = sessionStorage.getItem("username");
     try {
         let response = await fetch("http://localhost:8006/project1/login?username=" + username);
         user = await response.json();

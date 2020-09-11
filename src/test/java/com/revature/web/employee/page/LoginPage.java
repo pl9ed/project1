@@ -29,7 +29,6 @@ public class LoginPage {
 	public void navigateTo() {
 		// use environment variable for this - don't hard code
 		String url = System.getenv("SERVER_URL") + "/project1/index";
-		System.out.println(url);
 		this.driver.get(url);
 	}
 

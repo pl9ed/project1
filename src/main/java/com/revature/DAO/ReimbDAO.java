@@ -619,7 +619,7 @@ public class ReimbDAO implements ReimbDAOI {
 			stmt.setInt(4, id);
 
 			devlog.info("[" + ip + "] Query: " + stmt);
-
+			
 			int rowcount = stmt.executeUpdate();
 
 			if (rowcount == 1) {
