@@ -7,7 +7,7 @@ async function loadPage() {
     var user;
     let username = sessionStorage.getItem("username");
     try {
-        let response = await fetch("http://localhost:8006/project1/login?username=" + username);
+        let response = await fetch(process.env.SERVER_URL + "project1/login?username=" + username);
         user = await response.json();
         sessionStorage.setItem("user_obj", JSON.stringify(user));
 
@@ -36,7 +36,7 @@ async function refreshPage() {
 
 async function getAllReimb(id) {
     try {
-        let response = await fetch("http://localhost:8006/project1/FMPortal?id=" + id, {
+        let response = await fetch(process.env.SERVER_URL + "project1/FMPortal?id=" + id, {
             withCredentials: true
         });
         let list = await response.text();
@@ -81,7 +81,7 @@ function searchByTerm() {
 
 function goHomeFM() {
     sessionStorage.clear();
-    window.location.href = "http://localhost:8006/project1/FMLogin";
+    window.location.href = process.env.SERVER_URL + "project1/FMLogin";
 }
 
 // -------------------   View Methods  ----------------------------------
@@ -180,7 +180,7 @@ let v_d = document.getElementById("view_description");
 let v_i = document.getElementById("view_receipt");
 
 async function viewReimb(reimb_ID) {
-    let response = await fetch("http://localhost:8006/project1/view?reimb_ID=" + reimb_ID, {
+    let response = await fetch(process.env.SERVER_URL + "project1/view?reimb_ID=" + reimb_ID, {
         withCredentials: true
     });
     let r = await response.json();
@@ -231,7 +231,7 @@ async function processReimb(bool) {
         resolver: id
     }
 
-    let response = await fetch("http://localhost:8006/project1/FMPortal", {
+    let response = await fetch(process.env.SERVER_URL + "project1/FMPortal", {
         method: 'PUT',
         body: JSON.stringify(app)
     });

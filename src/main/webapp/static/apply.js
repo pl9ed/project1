@@ -26,20 +26,20 @@ async function createReimbursement() {
         };
 
         try {
-            let response = await fetch("http://localhost:8006/project1/apply", {
+            let response = await fetch(process.env.SERVER_URL + "project1/apply", {
                 method: 'PUT',
                 body: JSON.stringify(r),
                 withCredentials: true
             });
 
             // Image
-            response = await fetch("http://localhost:8006/project1/apply", {
+            response = await fetch(process.env.SERVER_URL + "project1/apply", {
                 method: 'POST',
                 body: r_file,
                 withCredentials: true
             });
 
-            window.location.href = "http://localhost:8006/project1/EmployeeHome";
+            window.location.href = process.env.SERVER_URL + "project1/EmployeeHome";
 
         } catch (error) {
             alert("Error submitting your reimbursement. Please try again.")
@@ -53,9 +53,9 @@ async function createReimbursement() {
 
 async function goHome() {
     sessionStorage.clear();
-    window.location.href = "http://localhost:8006/project1/index";
+    window.location.href = process.env.SERVER_URL + "project1/index";
 }
 
 async function goBack() {
-    window.location.href = "http://localhost:8006/project1/EmployeeHome";
+    window.location.href = process.env.SERVER_URL + "project1/EmployeeHome";
 }

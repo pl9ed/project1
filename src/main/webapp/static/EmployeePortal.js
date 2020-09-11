@@ -4,7 +4,7 @@ getUser(username);
 async function getUser(username) {
     let bool = true;
     try {
-        let response = await fetch("http://localhost:8006/project1/login?username=" + username);
+        let response = await fetch(process.env.SERVER_URL + "project1/login?username=" + username);
         user = await response.json();
         sessionStorage.setItem("user_obj", JSON.stringify(user));
 
@@ -28,13 +28,13 @@ user = sessionStorage.getItem("user_obj");
 
 async function goHome() {
     sessionStorage.clear();
-    window.location.href = "http://localhost:8006/project1/index";
+    window.location.href = process.env.SERVER_URL + "project1/index";
 }
 
 async function getAllReimbFor(id) {
     try {
         console.log("id: " + id)
-        let response = await fetch("http://localhost:8006/project1/EmployeePortal?id=" + id, {
+        let response = await fetch(process.env.SERVER_URL + "project1/EmployeePortal?id=" + id, {
             withCredentials: true
         });
         let list = await response.text();
@@ -99,7 +99,7 @@ async function getAllReimbFor(id) {
 }
 
 async function viewReimb(reimb_ID) {
-    let response = await fetch("http://localhost:8006/project1/view?reimb_ID=" + reimb_ID, {
+    let response = await fetch(process.env.SERVER_URL + "project1/view?reimb_ID=" + reimb_ID, {
         withCredentials: true
     });
     let r = await response.json();
@@ -150,5 +150,5 @@ async function viewReimb(reimb_ID) {
 }
 
 async function newReimb() {
-    window.location.href = "http://localhost:8006/project1/apply"
+    window.location.href = process.env.SERVER_URL + "project1/apply"
 }
