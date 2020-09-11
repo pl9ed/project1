@@ -26,12 +26,14 @@ public class DAOUtilities {
 				log.fatal("Could not register driver in DAOUtilities.");
 				e.printStackTrace();
 			}
+			log.info("URL: " + URL + "| USERNAME: " + CONNECTION_USERNAME + "| PW: " + CONNECTION_PASSWORD);
 			connection = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
 		}
 		
 		//If connection was closed then retrieve a new connection
 		if (connection.isClosed()){
 			// log.info("Opening new connection to " + URL + " with account " + CONNECTION_USERNAME);
+			log.info("URL: " + URL + "| USERNAME: " + CONNECTION_USERNAME + "| PW: " + CONNECTION_PASSWORD);
 			connection = DriverManager.getConnection(URL, CONNECTION_USERNAME, CONNECTION_PASSWORD);
 		}
 		return connection;
